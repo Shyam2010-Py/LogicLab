@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Binary Arithmetic — LogicLab</title>
+  <meta name="description" content="Binary addition, subtraction, multiplication, and division with step-by-step carry/borrow visualization.">
+  <meta name="theme-color" content="#2563EB">
+  <link rel="manifest" href="manifest.json">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="LogicLab">
+  <meta name="application-name" content="LogicLab">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="msapplication-TileColor" content="#2563EB">
+  <meta name="msapplication-config" content="none">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%232563EB'/%3E%3Ctext x='50' y='62' font-size='42' font-weight='800' fill='white' text-anchor='middle' font-family='sans-serif'%3ELL%3C/text%3E%3C/svg%3E">
+  <link rel="apple-touch-icon" href="assets/icon-192.png">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="stylesheet" href="css/extra.css">
+</head>
+<body>
+  <div id="sidebar-mount"></div>
+  <div id="topbar-mount"></div>
+  <div id="overlay-mount"></div>
+
+  <div class="app-container">
+    <div class="main-content">
+      <div class="page-content">
+        <div class="page-header">
+          <div class="breadcrumb"><a href="index.html">Home</a> <span>›</span> <span>Binary Arithmetic</span></div>
+          <h1 class="page-title">➕ Binary Arithmetic</h1>
+          <p class="page-subtitle">Practice binary addition, subtraction, multiplication, and division with carry &amp; borrow visualization.</p>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs">
+          <div class="tab active" data-tab="add">Addition</div>
+          <div class="tab" data-tab="sub">Subtraction</div>
+          <div class="tab" data-tab="mul">Multiplication</div>
+          <div class="tab" data-tab="div">Division</div>
+        </div>
+
+        <!-- Addition -->
+        <div class="tab-panel active" id="panel-add">
+          <div class="card mb-3">
+            <h3 style="margin-bottom:0.75rem;">Binary Addition</h3>
+            <p>Add two binary numbers. Each bit is added with carry propagation from right (LSB) to left (MSB).</p>
+            <div id="addError" class="alert alert-danger" style="display:none;"></div>
+            <div class="grid-2 mt-3">
+              <div class="form-group">
+                <label class="form-label">First number (A)</label>
+                <input type="text" id="addA" class="form-input text-mono" placeholder="e.g., 1011" value="1011">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Second number (B)</label>
+                <input type="text" id="addB" class="form-input text-mono" placeholder="e.g., 1101" value="1101">
+              </div>
+            </div>
+            <button id="addBtn" class="btn btn-primary mb-3">➕ Add</button>
+            <div class="result-box mb-2">
+              <span id="addResult" class="result-value">—</span>
+              <button class="btn btn-sm btn-outline copy-btn">📋 Copy</button>
+            </div>
+            <div id="addResultDec" style="font-size:0.85rem;color:var(--text-secondary);"></div>
+          </div>
+
+          <div class="card mb-3">
+            <h3 style="margin-bottom:0.75rem;">Step-by-Step</h3>
+            <div id="addSteps" class="text-mono" style="font-size:0.9rem;">
+              <div style="color:var(--text-tertiary);">Enter values and click Add.</div>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3 style="margin-bottom:0.5rem;">⚡ Try Examples</h3>
+            <div class="flex gap-1" style="flex-wrap:wrap;">
+              <button class="btn btn-sm btn-outline" data-arith-example data-op="add" data-a="1011" data-b="1101">1011 + 1101</button>
+              <button class="btn btn-sm btn-outline" data-arith-example data-op="add" data-a="1111" data-b="1">1111 + 1</button>
+              <button class="btn btn-sm btn-outline" data-arith-example data-op="add" data-a="10101010" data-b="01010101">10101010 + 01010101</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Subtraction -->
+        <div class="tab-panel" id="panel-sub">
+          <div class="card mb-3">
+            <h3 style="margin-bottom:0.75rem;">Binary Subtraction</h3>
+            <p>Subtract using borrow method: when 0 − 1, borrow 1 from the next higher bit (making it effectively 2 − 1).</p>
+            <div id="subError" class="alert alert-danger" style="display:none;"></div>
+            <div class="grid-2 mt-3">
+              <div class="form-group">
+                <label class="form-label">Minuend (A)</label>
+                <input type="text" id="subA" class="form-input text-mono" placeholder="e.g., 1100" value="1100">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Subtrahend (B)</label>
+                <input type="text" id="subB" class="form-input text-mono" placeholder="e.g., 101" value="0101">
+              </div>
+            </div>
+            <button id="subBtn" class="btn btn-primary mb-3">➖ Subtract</button>
+            <div class="result-box mb-2">
+              <span id="subResult" class="result-value">—</span>
+              <button class="btn btn-sm btn-outline copy-btn">📋 Copy</button>
+            </div>
+            <div id="subResultDec" style="font-size:0.85rem;color:var(--text-secondary);"></div>
+          </div>
+
+          <div class="card mb-3">
+            <h3 style="margin-bottom:0.75rem;">Step-by-Step</h3>
+            <div id="subSteps">
+              <div style="color:var(--text-tertiary);">Enter values and click Subtract.</div>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3 style="margin-bottom:0.5rem;">⚡ Try Examples</h3>
+            <div class="flex gap-1" style="flex-wrap:wrap;">
+              <button class="btn btn-sm btn-outline" data-arith-example data-op="sub" data-a="1100" data-b="0101">1100 − 0101</button>
+              <button class="btn btn-sm btn-outline" data-arith-example data-op="sub" data-a="10000" data-b="1">10000 − 1</button>
+              <button class="btn btn-sm btn-outline" data-arith-example data-op="sub" data-a="1111" data-b="1111">1111 − 1111</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Multiplication -->
+        <div class="tab-panel" id="panel-mul">
+          <div class="card mb-3">
+            <h3 style="margin-bottom:0.75rem;">Binary Multiplication</h3>
+            <p>Multiplication is repeated shift-and-add. For each 1-bit in the multiplier, add a shifted copy of the multiplicand.</p>
+            <div id="mulError" class="alert alert-danger" style="display:none;"></div>
+            <div class="grid-2 mt-3">
+              <div class="form-group">
+                <label class="form-label">Multiplicand (A)</label>
+                <input type="text" id="mulA" class="form-input text-mono" placeholder="e.g., 101" value="101">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Multiplier (B)</label>
+                <input type="text" id="mulB" class="form-input text-mono" placeholder="e.g., 11" value="11">
+              </div>
+            </div>
+            <button id="mulBtn" class="btn btn-primary mb-3">✖️ Multiply</button>
+            <div class="result-box mb-2">
+              <span id="mulResult" class="result-value">—</span>
+              <button class="btn btn-sm btn-outline copy-btn">📋 Copy</button>
+            </div>
+            <div id="mulResultDec" style="font-size:0.85rem;color:var(--text-secondary);"></div>
+          </div>
+
+          <div class="card mb-3">
+            <h3 style="margin-bottom:0.75rem;">Step-by-Step</h3>
+            <div id="mulSteps">
+              <div style="color:var(--text-tertiary);">Enter values and click Multiply.</div>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3 style="margin-bottom:0.5rem;">⚡ Try Examples</h3>
+            <div class="flex gap-1" style="flex-wrap:wrap;">
+              <button class="btn btn-sm btn-outline" data-arith-example data-op="mul" data-a="101" data-b="11">101 × 11</button>
+              <button class="btn btn-sm btn-outline" data-arith-example data-op="mul" data-a="1101" data-b="101">1101 × 101</button>
+              <button class="btn btn-sm btn-outline" data-arith-example data-op="mul" data-a="1111" data-b="1111">1111 × 1111</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Division -->
+        <div class="tab-panel" id="panel-div">
+          <div class="card mb-3">
+            <h3 style="margin-bottom:0.75rem;">Binary Division</h3>
+            <p>Long division in binary is simpler than decimal — at each step, either the divisor fits (subtract, bring down 1) or it doesn't (subtract 0).</p>
+            <div id="divError" class="alert alert-danger" style="display:none;"></div>
+            <div class="grid-2 mt-3">
+              <div class="form-group">
+                <label class="form-label">Dividend (A)</label>
+                <input type="text" id="divA" class="form-input text-mono" placeholder="e.g., 1100" value="1100">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Divisor (B)</label>
+                <input type="text" id="divB" class="form-input text-mono" placeholder="e.g., 11" value="11">
+              </div>
+            </div>
+            <button id="divBtn" class="btn btn-primary mb-3">➗ Divide</button>
+            <div class="grid-2">
+              <div class="result-box">
+                <span style="font-size:0.85rem;color:var(--text-secondary);">Quotient</span>
+                <span id="divResult" class="result-value">—</span>
+              </div>
+              <div class="result-box">
+                <span style="font-size:0.85rem;color:var(--text-secondary);">Remainder</span>
+                <span id="divResultRem" class="result-value">—</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card mb-3">
+            <h3 style="margin-bottom:0.75rem;">Step-by-Step</h3>
+            <div id="divSteps">
+              <div style="color:var(--text-tertiary);">Enter values and click Divide.</div>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3 style="margin-bottom:0.5rem;">⚡ Try Examples</h3>
+            <div class="flex gap-1" style="flex-wrap:wrap;">
+              <button class="btn btn-sm btn-outline" data-arith-example data-op="div" data-a="1100" data-b="11">1100 ÷ 11</button>
+              <button class="btn btn-sm btn-outline" data-arith-example data-op="div" data-a="10110" data-b="101">10110 ÷ 101</button>
+              <button class="btn btn-sm btn-outline" data-arith-example data-op="div" data-a="1111" data-b="10">1111 ÷ 10</button>
+            </div>
+          </div>
+        </div>
+
+        <div id="footer-mount"></div>
+      </div>
+      <div id="bottomnav-mount"></div>
+    </div>
+  </div>
+
+  <div id="scrolltop-mount"></div>
+
+  <script src="js/components.js"></script>
+<script src="js/pwa.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/arithmetic.js"></script>
+  <script>
+  (function() {
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        const t = tab.dataset.tab;
+        document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
+        document.querySelectorAll('.tab-panel').forEach(x => x.classList.remove('active'));
+        tab.classList.add('active');
+        document.getElementById('panel-' + t).classList.add('active');
+      });
+    });
+
+    document.querySelectorAll('.copy-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const val = btn.parentElement.querySelector('.result-value')?.textContent;
+        if (val && val !== '—') window.copyToClipboard(val, btn);
+      });
+    });
+  })();
+  </script>
+</body>
+</html>

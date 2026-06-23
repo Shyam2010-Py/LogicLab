@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Half Adder — LogicLab</title>
+  <meta name="description" content="Half adder circuit with truth table, working principle, and interactive simulator.">
+  <meta name="theme-color" content="#2563EB">
+  <link rel="manifest" href="manifest.json">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="LogicLab">
+  <meta name="application-name" content="LogicLab">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="msapplication-TileColor" content="#2563EB">
+  <meta name="msapplication-config" content="none">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%232563EB'/%3E%3Ctext x='50' y='62' font-size='42' font-weight='800' fill='white' text-anchor='middle' font-family='sans-serif'%3ELL%3C/text%3E%3C/svg%3E">
+  <link rel="apple-touch-icon" href="assets/icon-192.png">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="stylesheet" href="css/extra.css">
+</head>
+<body>
+  <div id="sidebar-mount"></div>
+  <div id="topbar-mount"></div>
+  <div id="overlay-mount"></div>
+
+  <div class="app-container">
+    <div class="main-content">
+      <div class="page-content">
+        <div class="page-header">
+          <div class="breadcrumb"><a href="index.html">Home</a> <span>›</span> <span>Half Adder</span></div>
+          <h1 class="page-title">➗ Half Adder Circuit</h1>
+          <p class="page-subtitle">The fundamental 1-bit adder with Sum and Carry outputs.</p>
+        </div>
+
+        <div class="grid-2 mb-3">
+          <div class="card">
+            <h3 style="margin-bottom:0.5rem;">📖 Theory</h3>
+            <p>A <strong>Half Adder</strong> is a combinational circuit that adds two single binary bits. It produces two outputs:</p>
+            <ul>
+              <li><strong>Sum (S):</strong> A ⊕ B (XOR)</li>
+              <li><strong>Carry (C):</strong> A · B (AND)</li>
+            </ul>
+            <p>It is called "half" because it does not handle a carry input from a previous stage (full adders do).</p>
+          </div>
+          <div class="card">
+            <h3 style="margin-bottom:0.5rem;">⚙️ Boolean Expressions</h3>
+            <div class="result-box" style="font-size:1rem;margin-bottom:0.5rem;">
+              <span style="color:var(--text-secondary);">Sum:</span>
+              <span class="result-value">S = A ⊕ B</span>
+            </div>
+            <div class="result-box" style="font-size:1rem;">
+              <span style="color:var(--text-secondary);">Carry:</span>
+              <span class="result-value">C = A · B</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Interactive Simulator -->
+        <div class="card mb-3">
+          <h3 style="margin-bottom:1rem;">🎮 Interactive Simulator</h3>
+          <div class="grid-2">
+            <div>
+              <div class="gate-control">
+                <label>Input A</label>
+                <label class="toggle-switch">
+                  <input type="checkbox" id="ha-A">
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+              <div class="gate-control">
+                <label>Input B</label>
+                <label class="toggle-switch">
+                  <input type="checkbox" id="ha-B">
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+              <div class="gate-control">
+                <label>Sum (S)</label>
+                <span id="ha-sumLed" class="led off"></span>
+                <span id="ha-sum" style="font-weight:700;font-family:var(--font-mono);">0</span>
+              </div>
+              <div class="gate-control">
+                <label>Carry (C)</label>
+                <span id="ha-carLed" class="led off"></span>
+                <span id="ha-car" style="font-weight:700;font-family:var(--font-mono);">0</span>
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:center;">
+              <svg viewBox="0 0 320 200" style="width:100%;max-width:340px;height:auto;">
+                <!-- Inputs -->
+                <line x1="0" y1="60" x2="60" y2="60" stroke="currentColor" stroke-width="2"/>
+                <line x1="0" y1="140" x2="60" y2="140" stroke="currentColor" stroke-width="2"/>
+                <text x="10" y="50" font-size="13" font-weight="700">A</text>
+                <text x="10" y="160" font-size="13" font-weight="700">B</text>
+
+                <!-- XOR gate (Sum) -->
+                <path d="M 60 30 Q 90 100 60 170 Q 90 100 130 60 A 60 60 0 0 1 130 140 Q 90 100 60 170 Z" fill="var(--bg-card)" stroke="currentColor" stroke-width="2"/>
+                <path d="M 50 30 Q 80 100 50 170" fill="none" stroke="currentColor" stroke-width="2"/>
+                <text x="85" y="105" font-size="14" font-weight="700">=</text>
+                <text x="86" y="80" font-size="9">1</text>
+                <line x1="130" y1="100" x2="220" y2="100" stroke="currentColor" stroke-width="2"/>
+
+                <!-- AND gate (Carry) -->
+                <path d="M 60 110 L 90 110 A 30 30 0 0 1 90 170 L 60 170 Z" fill="var(--bg-card)" stroke="currentColor" stroke-width="2"/>
+                <text x="70" y="145" font-size="14" font-weight="700">&amp;</text>
+                <line x1="120" y1="140" x2="220" y2="140" stroke="currentColor" stroke-width="2"/>
+
+                <!-- Outputs -->
+                <text x="230" y="105" font-size="13" font-weight="700">S</text>
+                <circle cx="220" cy="100" r="6" id="ha-sumDot" fill="#EF4444"/>
+                <text x="230" y="145" font-size="13" font-weight="700">C</text>
+                <circle cx="220" cy="140" r="6" id="ha-carDot" fill="#EF4444"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- Truth Table -->
+        <div class="card mb-3">
+          <h3 style="margin-bottom:0.75rem;">📋 Truth Table</h3>
+          <div class="table-wrapper">
+            <table class="table">
+              <thead>
+                <tr><th>A</th><th>B</th><th>Sum (S) = A ⊕ B</th><th>Carry (C) = A · B</th></tr>
+              </thead>
+              <tbody>
+                <tr><td class="tt-off">0</td><td class="tt-off">0</td><td class="tt-off">0</td><td class="tt-off">0</td></tr>
+                <tr><td class="tt-off">0</td><td class="tt-on">1</td><td class="tt-on">1</td><td class="tt-off">0</td></tr>
+                <tr><td class="tt-on">1</td><td class="tt-off">0</td><td class="tt-on">1</td><td class="tt-off">0</td></tr>
+                <tr><td class="tt-on">1</td><td class="tt-on">1</td><td class="tt-off">0</td><td class="tt-on">1</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Circuit Description -->
+        <div class="card mb-3">
+          <h3 style="margin-bottom:0.75rem;">🔧 Circuit Implementation</h3>
+          <p>The half adder uses <strong>two logic gates</strong>:</p>
+          <ul>
+            <li><strong>1 × XOR gate:</strong> Computes the Sum output (S = A ⊕ B)</li>
+            <li><strong>1 × AND gate:</strong> Computes the Carry output (C = A · B)</li>
+          </ul>
+          <h4 style="margin-top:1rem;">Logic Diagram</h4>
+          <pre class="text-mono" style="background:var(--bg-secondary);padding:1rem;border-radius:var(--radius);font-size:0.85rem;line-height:1.8;overflow-x:auto;">
+    A ─────┬──────────────┐
+           │              │
+           │   ┌──────┐   │
+           └───┤ XOR  ├───┴─── S = A ⊕ B
+               └──────┘
+           │   ┌──────┐
+           └───┤ AND  ├─────── C = A · B
+               └──────┘
+    B ─────┴──────────────┘
+          </pre>
+        </div>
+
+        <!-- Examples -->
+        <div class="card mb-3">
+          <h3 style="margin-bottom:0.75rem;">💡 Examples</h3>
+          <ul>
+            <li><strong>0 + 0:</strong> Sum = 0, Carry = 0 (no addition needed)</li>
+            <li><strong>0 + 1:</strong> Sum = 1, Carry = 0 (result fits in 1 bit)</li>
+            <li><strong>1 + 0:</strong> Sum = 1, Carry = 0 (same as above)</li>
+            <li><strong>1 + 1:</strong> Sum = 0, Carry = 1 (result is 10 in binary)</li>
+          </ul>
+          <h4 style="margin-top:1rem;">Limitations</h4>
+          <p>A half adder cannot add a carry-in bit from a previous stage. For multi-bit addition, use a <strong>Full Adder</strong> instead, which accepts three inputs (A, B, Cin).</p>
+        </div>
+
+        <div id="footer-mount"></div>
+      </div>
+      <div id="bottomnav-mount"></div>
+    </div>
+  </div>
+
+  <div id="scrolltop-mount"></div>
+
+  <script src="js/components.js"></script>
+<script src="js/pwa.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+  (function() {
+    function update() {
+      const A = document.getElementById('ha-A').checked ? 1 : 0;
+      const B = document.getElementById('ha-B').checked ? 1 : 0;
+      const S = A ^ B;
+      const C = A & B;
+      document.getElementById('ha-sum').textContent = S;
+      document.getElementById('ha-car').textContent = C;
+      const sumLed = document.getElementById('ha-sumLed');
+      const carLed = document.getElementById('ha-carLed');
+      sumLed.className = `led ${S ? 'on' : 'off'}`;
+      carLed.className = `led ${C ? 'on' : 'off'}`;
+      document.getElementById('ha-sumDot').setAttribute('fill', S ? '#22C55E' : '#EF4444');
+      document.getElementById('ha-carDot').setAttribute('fill', C ? '#22C55E' : '#EF4444');
+    }
+    document.getElementById('ha-A').addEventListener('change', update);
+    document.getElementById('ha-B').addEventListener('change', update);
+    update();
+  })();
+  </script>
+</body>
+</html>

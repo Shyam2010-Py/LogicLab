@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Decoder — LogicLab</title>
+  <meta name="description" content="Decoder circuits — 2-to-4 and 3-to-8 with truth tables and applications.">
+  <meta name="theme-color" content="#2563EB">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%232563EB'/%3E%3Ctext x='50' y='62' font-size='42' font-weight='800' fill='white' text-anchor='middle' font-family='sans-serif'%3ELL%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="stylesheet" href="css/extra.css">
+</head>
+<body>
+  <div id="sidebar-mount"></div>
+  <div id="topbar-mount"></div>
+  <div id="overlay-mount"></div>
+
+  <div class="app-container">
+    <div class="main-content">
+      <div class="page-content">
+        <div class="page-header">
+          <div class="breadcrumb"><a href="index.html">Home</a> <span>›</span> <span>Decoder</span></div>
+          <h1 class="page-title">📥 Decoder</h1>
+          <p class="page-subtitle">Converts binary information from N input lines to a maximum of 2<sup>N</sup> unique output lines.</p>
+        </div>
+
+        <div class="card mb-3">
+          <h3 style="margin-bottom:0.5rem;">📖 Definition</h3>
+          <p>A <strong>Decoder</strong> is a combinational circuit that converts binary information from N coded inputs to a maximum of 2<sup>N</sup> unique outputs. Only one output is active at a time, corresponding to the binary value of the inputs.</p>
+          <p><strong>Active level:</strong> Outputs can be <strong>active-HIGH</strong> (selected output = 1) or <strong>active-LOW</strong> (selected output = 0).</p>
+        </div>
+
+        <div class="tabs">
+          <div class="tab active" data-tab="dec24">2-to-4 Decoder</div>
+          <div class="tab" data-tab="dec38">3-to-8 Decoder</div>
+          <div class="tab" data-tab="bcd">BCD-to-7-Segment</div>
+        </div>
+
+        <!-- 2-to-4 Decoder -->
+        <div class="tab-panel active" id="panel-dec24">
+          <div class="card mb-3">
+            <h3>2-to-4 Line Decoder</h3>
+            <p>Decodes 2 input lines into 4 unique outputs.</p>
+
+            <h4 style="margin-top:1rem;">Boolean Expressions</h4>
+            <div class="grid-2">
+              <div class="result-box"><span class="result-value">Y₀ = A'·B'</span></div>
+              <div class="result-box"><span class="result-value">Y₁ = A'·B</span></div>
+              <div class="result-box"><span class="result-value">Y₂ = A·B'</span></div>
+              <div class="result-box"><span class="result-value">Y₃ = A·B</span></div>
+            </div>
+
+            <h4 style="margin-top:1rem;">Truth Table</h4>
+            <div class="table-wrapper">
+              <table class="table">
+                <thead><tr><th>A</th><th>B</th><th>Y₀</th><th>Y₁</th><th>Y₂</th><th>Y₃</th></tr></thead>
+                <tbody>
+                  <tr><td class="tt-off">0</td><td class="tt-off">0</td><td class="tt-on">1</td><td class="tt-off">0</td><td class="tt-off">0</td><td class="tt-off">0</td></tr>
+                  <tr><td class="tt-off">0</td><td class="tt-on">1</td><td class="tt-off">0</td><td class="tt-on">1</td><td class="tt-off">0</td><td class="tt-off">0</td></tr>
+                  <tr><td class="tt-on">1</td><td class="tt-off">0</td><td class="tt-off">0</td><td class="tt-off">0</td><td class="tt-on">1</td><td class="tt-off">0</td></tr>
+                  <tr><td class="tt-on">1</td><td class="tt-on">1</td><td class="tt-off">0</td><td class="tt-off">0</td><td class="tt-off">0</td><td class="tt-on">1</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>🎮 Interactive 2-to-4 Decoder</h3>
+            <div class="grid-2 mt-2">
+              <div>
+                <div class="gate-control">
+                  <label>A (MSB)</label>
+                  <label class="toggle-switch"><input type="checkbox" id="dec24-A"><span class="toggle-slider"></span></label>
+                </div>
+                <div class="gate-control">
+                  <label>B (LSB)</label>
+                  <label class="toggle-switch"><input type="checkbox" id="dec24-B"><span class="toggle-slider"></span></label>
+                </div>
+                <div class="gate-control">
+                  <label>Y₀</label>
+                  <span id="dec24-Y0Led" class="led off"></span>
+                  <span id="dec24-Y0" style="font-weight:700;font-family:var(--font-mono);">0</span>
+                </div>
+                <div class="gate-control">
+                  <label>Y₁</label>
+                  <span id="dec24-Y1Led" class="led off"></span>
+                  <span id="dec24-Y1" style="font-weight:700;font-family:var(--font-mono);">0</span>
+                </div>
+                <div class="gate-control">
+                  <label>Y₂</label>
+                  <span id="dec24-Y2Led" class="led off"></span>
+                  <span id="dec24-Y2" style="font-weight:700;font-family:var(--font-mono);">0</span>
+                </div>
+                <div class="gate-control">
+                  <label>Y₃</label>
+                  <span id="dec24-Y3Led" class="led off"></span>
+                  <span id="dec24-Y3" style="font-weight:700;font-family:var(--font-mono);">0</span>
+                </div>
+              </div>
+              <div>
+                <h4>Active Output</h4>
+                <div class="result-box" style="font-size:1.2rem;margin-bottom:0.5rem;">
+                  <span style="color:var(--text-secondary);font-size:0.85rem;">Selected:</span>
+                  <span id="dec24-out" class="result-value">Y₀</span>
+                </div>
+                <div style="font-size:0.85rem;color:var(--text-secondary);">Inputs AB = <strong id="dec24-ab">00</strong></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3-to-8 Decoder -->
+        <div class="tab-panel" id="panel-dec38">
+          <div class="card mb-3">
+            <h3>3-to-8 Line Decoder</h3>
+            <p>Decodes 3 input lines into 8 unique outputs.</p>
+
+            <h4 style="margin-top:1rem;">Boolean Expressions</h4>
+            <div class="result-box" style="margin-bottom:0.4rem;"><span class="result-value">Yᵢ = mᵢ (corresponding minterm)</span></div>
+            <p style="font-size:0.85rem;">Example: Y₅ = A·B'·C (when ABC = 101, Y₅ = 1)</p>
+
+            <h4 style="margin-top:1rem;">Truth Table</h4>
+            <div class="table-wrapper">
+              <table class="table">
+                <thead><tr><th>A</th><th>B</th><th>C</th><th>Active Output</th></tr></thead>
+                <tbody>
+                  <tr><td>0</td><td>0</td><td>0</td><td>Y₀</td></tr>
+                  <tr><td>0</td><td>0</td><td>1</td><td>Y₁</td></tr>
+                  <tr><td>0</td><td>1</td><td>0</td><td>Y₂</td></tr>
+                  <tr><td>0</td><td>1</td><td>1</td><td>Y₃</td></tr>
+                  <tr><td>1</td><td>0</td><td>0</td><td>Y₄</td></tr>
+                  <tr><td>1</td><td>0</td><td>1</td><td>Y₅</td></tr>
+                  <tr><td>1</td><td>1</td><td>0</td><td>Y₆</td></tr>
+                  <tr><td>1</td><td>1</td><td>1</td><td>Y₇</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>🎮 Interactive 3-to-8 Decoder</h3>
+            <div class="grid-2 mt-2">
+              <div>
+                <div class="gate-control">
+                  <label>A (MSB)</label>
+                  <label class="toggle-switch"><input type="checkbox" id="dec38-A"><span class="toggle-slider"></span></label>
+                </div>
+                <div class="gate-control">
+                  <label>B</label>
+                  <label class="toggle-switch"><input type="checkbox" id="dec38-B"><span class="toggle-slider"></span></label>
+                </div>
+                <div class="gate-control">
+                  <label>C (LSB)</label>
+                  <label class="toggle-switch"><input type="checkbox" id="dec38-C"><span class="toggle-slider"></span></label>
+                </div>
+                <div style="margin-top:1rem;font-family:var(--font-mono);font-size:0.8rem;">
+                  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:0.4rem;">
+                    <span class="led" id="dec38-Y0Led"></span>
+                    <span class="led" id="dec38-Y1Led"></span>
+                    <span class="led" id="dec38-Y2Led"></span>
+                    <span class="led" id="dec38-Y3Led"></span>
+                    <span class="led" id="dec38-Y4Led"></span>
+                    <span class="led" id="dec38-Y5Led"></span>
+                    <span class="led" id="dec38-Y6Led"></span>
+                    <span class="led" id="dec38-Y7Led"></span>
+                  </div>
+                  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:0.4rem;text-align:center;margin-top:0.3rem;">
+                    <span>Y₀</span><span>Y₁</span><span>Y₂</span><span>Y₃</span>
+                    <span>Y₄</span><span>Y₅</span><span>Y₆</span><span>Y₇</span>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <h4>Active Output</h4>
+                <div class="result-box" style="font-size:1.2rem;margin-bottom:0.5rem;">
+                  <span style="color:var(--text-secondary);font-size:0.85rem;">ABC =</span>
+                  <span id="dec38-ab" class="result-value">000</span>
+                </div>
+                <div class="result-box" style="font-size:1.2rem;">
+                  <span style="color:var(--text-secondary);font-size:0.85rem;">Active:</span>
+                  <span id="dec38-out" class="result-value">Y₀</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- BCD to 7-Segment -->
+        <div class="tab-panel" id="panel-bcd">
+          <div class="card mb-3">
+            <h3>BCD-to-7-Segment Decoder</h3>
+            <p>Decodes a 4-bit BCD input (0–9) to drive a 7-segment display showing the corresponding decimal digit.</p>
+
+            <h4 style="margin-top:1rem;">7-Segment Layout</h4>
+            <pre class="text-mono" style="background:var(--bg-secondary);padding:1rem;border-radius:var(--radius);text-align:center;font-size:1.1rem;line-height:1.4;">
+       ___a___
+      |       |
+     f|       |b
+      |___g___|
+      |       |
+     e|       |c
+      |___d___|
+            </pre>
+
+            <h4 style="margin-top:1rem;">Truth Table (selected digits)</h4>
+            <div class="table-wrapper">
+              <table class="table">
+                <thead><tr><th>D</th><th>C</th><th>B</th><th>A</th><th>a</th><th>b</th><th>c</th><th>d</th><th>e</th><th>f</th><th>g</th><th>Display</th></tr></thead>
+                <tbody>
+                  <tr><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>0</td><td><strong>0</strong></td></tr>
+                  <tr><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>1</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td><strong>1</strong></td></tr>
+                  <tr><td>0</td><td>0</td><td>1</td><td>0</td><td>1</td><td>1</td><td>0</td><td>1</td><td>1</td><td>0</td><td>1</td><td><strong>2</strong></td></tr>
+                  <tr><td>0</td><td>0</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>0</td><td>0</td><td>1</td><td><strong>3</strong></td></tr>
+                  <tr><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td><td>1</td><td>1</td><td>0</td><td>0</td><td>1</td><td>1</td><td><strong>4</strong></td></tr>
+                  <tr><td>0</td><td>1</td><td>0</td><td>1</td><td>1</td><td>0</td><td>1</td><td>1</td><td>0</td><td>1</td><td>1</td><td><strong>5</strong></td></tr>
+                  <tr><td>0</td><td>1</td><td>1</td><td>0</td><td>1</td><td>0</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td><strong>6</strong></td></tr>
+                  <tr><td>0</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td><strong>7</strong></td></tr>
+                  <tr><td>1</td><td>0</td><td>0</td><td>0</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td><strong>8</strong></td></tr>
+                  <tr><td>1</td><td>0</td><td>0</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>0</td><td>1</td><td>1</td><td><strong>9</strong></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>🎮 BCD-to-7-Segment Display Simulator</h3>
+            <p style="font-size:0.875rem;">Set the BCD input to display the corresponding digit (0–9):</p>
+            <div class="grid-2 mt-2">
+              <div>
+                <div class="gate-control">
+                  <label>D (8s)</label>
+                  <label class="toggle-switch"><input type="checkbox" id="bcd-D"><span class="toggle-slider"></span></label>
+                </div>
+                <div class="gate-control">
+                  <label>C (4s)</label>
+                  <label class="toggle-switch"><input type="checkbox" id="bcd-C"><span class="toggle-slider"></span></label>
+                </div>
+                <div class="gate-control">
+                  <label>B (2s)</label>
+                  <label class="toggle-switch"><input type="checkbox" id="bcd-B"><span class="toggle-slider"></span></label>
+                </div>
+                <div class="gate-control">
+                  <label>A (1s)</label>
+                  <label class="toggle-switch"><input type="checkbox" id="bcd-A"><span class="toggle-slider"></span></label>
+                </div>
+                <div style="margin-top:1rem;font-size:0.85rem;color:var(--text-secondary);">BCD Input: <strong id="bcd-bcd">0000</strong></div>
+              </div>
+              <div>
+                <div style="background:var(--bg-secondary);padding:2rem;border-radius:var(--radius);text-align:center;">
+                  <svg viewBox="0 0 100 140" style="width:120px;height:auto;">
+                    <rect x="20" y="5" width="60" height="6" rx="2" id="bcd-seg-a" fill="#444"/>
+                    <rect x="85" y="10" width="6" height="55" rx="2" id="bcd-seg-b" fill="#444"/>
+                    <rect x="85" y="75" width="6" height="55" rx="2" id="bcd-seg-c" fill="#444"/>
+                    <rect x="20" y="129" width="60" height="6" rx="2" id="bcd-seg-d" fill="#444"/>
+                    <rect x="9" y="75" width="6" height="55" rx="2" id="bcd-seg-e" fill="#444"/>
+                    <rect x="9" y="10" width="6" height="55" rx="2" id="bcd-seg-f" fill="#444"/>
+                    <rect x="20" y="67" width="60" height="6" rx="2" id="bcd-seg-g" fill="#444"/>
+                  </svg>
+                </div>
+                <div style="text-align:center;margin-top:1rem;font-size:1.5rem;font-weight:700;color:var(--primary);" id="bcd-digit">0</div>
+                <div id="bcd-invalid" style="text-align:center;font-size:0.75rem;color:var(--warning);margin-top:0.25rem;display:none;">⚠ Invalid BCD (&gt;9)</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3 style="margin-bottom:0.75rem;">💡 Applications</h3>
+          <ul>
+            <li><strong>Memory Decoding:</strong> Selecting specific memory chips/addresses</li>
+            <li><strong>Display Drivers:</strong> 7-segment displays, LCDs</li>
+            <li><strong>Instruction Decoding:</strong> CPUs decode opcodes into control signals</li>
+            <li><strong>Address Demultiplexing:</strong> Routing address lines to devices</li>
+            <li><strong>Demultiplexer Implementation:</strong> Decoder + enable acts as DEMUX</li>
+            <li><strong>Boolean Function Implementation:</strong> Any function via OR-gate of minterms</li>
+          </ul>
+          <h4 style="margin-top:1rem;">Common ICs</h4>
+          <ul>
+            <li><strong>74138:</strong> 3-to-8 Decoder</li>
+            <li><strong>74139:</strong> Dual 2-to-4 Decoder</li>
+            <li><strong>74154:</strong> 4-to-16 Decoder</li>
+            <li><strong>7447 / 7448:</strong> BCD-to-7-Segment Decoder</li>
+          </ul>
+        </div>
+
+        <div id="footer-mount"></div>
+      </div>
+      <div id="bottomnav-mount"></div>
+    </div>
+  </div>
+
+  <div id="scrolltop-mount"></div>
+
+  <script src="js/components.js"></script>
+<script src="js/pwa.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+  (function() {
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        const t = tab.dataset.tab;
+        document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
+        document.querySelectorAll('.tab-panel').forEach(x => x.classList.remove('active'));
+        tab.classList.add('active');
+        document.getElementById('panel-' + t).classList.add('active');
+      });
+    });
+
+    // 2-to-4 decoder
+    ['dec24-A','dec24-B'].forEach(id => document.getElementById(id).addEventListener('change', update24));
+    function update24() {
+      const A = document.getElementById('dec24-A').checked ? 1 : 0;
+      const B = document.getElementById('dec24-B').checked ? 1 : 0;
+      const Y = [0,0,0,0];
+      Y[(A << 1) | B] = 1;
+      [0,1,2,3].forEach(i => {
+        document.getElementById(`dec24-Y${i}`).textContent = Y[i];
+        document.getElementById(`dec24-Y${i}Led`).className = `led ${Y[i] ? 'on' : 'off'}`;
+      });
+      document.getElementById('dec24-ab').textContent = `${A}${B}`;
+      document.getElementById('dec24-out').textContent = `Y${(A<<1)|B}`;
+    }
+    update24();
+
+    // 3-to-8 decoder
+    ['dec38-A','dec38-B','dec38-C'].forEach(id => document.getElementById(id).addEventListener('change', update38));
+    function update38() {
+      const A = document.getElementById('dec38-A').checked ? 1 : 0;
+      const B = document.getElementById('dec38-B').checked ? 1 : 0;
+      const C = document.getElementById('dec38-C').checked ? 1 : 0;
+      const idx = (A << 2) | (B << 1) | C;
+      [0,1,2,3,4,5,6,7].forEach(i => {
+        const on = i === idx;
+        document.getElementById(`dec38-Y${i}Led`).className = `led ${on ? 'on' : 'off'}`;
+      });
+      document.getElementById('dec38-ab').textContent = `${A}${B}${C}`;
+      document.getElementById('dec38-out').textContent = `Y${idx}`;
+    }
+    update38();
+
+    // BCD to 7-seg
+    ['bcd-D','bcd-C','bcd-B','bcd-A'].forEach(id => document.getElementById(id).addEventListener('change', updateBCD));
+    const SEGMENTS = [
+      [1,1,1,1,1,1,0], // 0
+      [0,1,1,0,0,0,0], // 1
+      [1,1,0,1,1,0,1], // 2
+      [1,1,1,1,0,0,1], // 3
+      [0,1,1,0,0,1,1], // 4
+      [1,0,1,1,0,1,1], // 5
+      [1,0,1,1,1,1,1], // 6
+      [1,1,1,0,0,0,0], // 7
+      [1,1,1,1,1,1,1], // 8
+      [1,1,1,1,0,1,1]  // 9
+    ];
+    const SEG_NAMES = ['a','b','c','d','e','f','g'];
+    function updateBCD() {
+      const D = document.getElementById('bcd-D').checked ? 1 : 0;
+      const C = document.getElementById('bcd-C').checked ? 1 : 0;
+      const B = document.getElementById('bcd-B').checked ? 1 : 0;
+      const A = document.getElementById('bcd-A').checked ? 1 : 0;
+      const val = (D<<3)|(C<<2)|(B<<1)|A;
+      document.getElementById('bcd-bcd').textContent = `${D}${C}${B}${A}`;
+      const invalidEl = document.getElementById('bcd-invalid');
+      if (val > 9) {
+        invalidEl.style.display = 'block';
+        document.getElementById('bcd-digit').textContent = '—';
+        SEG_NAMES.forEach(s => {
+          document.getElementById(`bcd-seg-${s}`).setAttribute('fill', '#444');
+        });
+      } else {
+        invalidEl.style.display = 'none';
+        document.getElementById('bcd-digit').textContent = val;
+        SEG_NAMES.forEach((s, i) => {
+          document.getElementById(`bcd-seg-${s}`).setAttribute('fill', SEGMENTS[val][i] ? 'var(--primary)' : '#444');
+        });
+      }
+    }
+    updateBCD();
+  })();
+  </script>
+</body>
+</html>

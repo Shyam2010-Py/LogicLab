@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Full Adder — LogicLab</title>
+  <meta name="description" content="Full adder circuit with truth table, working principle, and interactive simulator.">
+  <meta name="theme-color" content="#2563EB">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%232563EB'/%3E%3Ctext x='50' y='62' font-size='42' font-weight='800' fill='white' text-anchor='middle' font-family='sans-serif'%3ELL%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="stylesheet" href="css/extra.css">
+</head>
+<body>
+  <div id="sidebar-mount"></div>
+  <div id="topbar-mount"></div>
+  <div id="overlay-mount"></div>
+
+  <div class="app-container">
+    <div class="main-content">
+      <div class="page-content">
+        <div class="page-header">
+          <div class="breadcrumb"><a href="index.html">Home</a> <span>›</span> <span>Full Adder</span></div>
+          <h1 class="page-title">➕ Full Adder Circuit</h1>
+          <p class="page-subtitle">A 3-input adder handling carry-in, producing Sum and Carry-out.</p>
+        </div>
+
+        <div class="grid-2 mb-3">
+          <div class="card">
+            <h3 style="margin-bottom:0.5rem;">📖 Theory</h3>
+            <p>A <strong>Full Adder</strong> adds three 1-bit inputs (A, B, Cin) and produces two outputs:</p>
+            <ul>
+              <li><strong>Sum (S):</strong> A ⊕ B ⊕ Cin</li>
+              <li><strong>Carry (Cout):</strong> majority function</li>
+            </ul>
+            <p>Unlike a half adder, a full adder accepts a carry-in, making it suitable for chaining in multi-bit addition.</p>
+          </div>
+          <div class="card">
+            <h3 style="margin-bottom:0.5rem;">⚙️ Boolean Expressions</h3>
+            <div class="result-box" style="font-size:0.95rem;margin-bottom:0.5rem;">
+              <span style="color:var(--text-secondary);">Sum:</span>
+              <span class="result-value">S = A ⊕ B ⊕ Cin</span>
+            </div>
+            <div class="result-box" style="font-size:0.95rem;">
+              <span style="color:var(--text-secondary);">Carry:</span>
+              <span class="result-value">Cout = AB + BCin + ACin</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Interactive Simulator -->
+        <div class="card mb-3">
+          <h3 style="margin-bottom:1rem;">🎮 Interactive Simulator</h3>
+          <div class="grid-2">
+            <div>
+              <div class="gate-control">
+                <label>Input A</label>
+                <label class="toggle-switch">
+                  <input type="checkbox" id="fa-A">
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+              <div class="gate-control">
+                <label>Input B</label>
+                <label class="toggle-switch">
+                  <input type="checkbox" id="fa-B">
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+              <div class="gate-control">
+                <label>Carry-in</label>
+                <label class="toggle-switch">
+                  <input type="checkbox" id="fa-Cin">
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+              <div class="gate-control">
+                <label>Sum (S)</label>
+                <span id="fa-sumLed" class="led off"></span>
+                <span id="fa-sum" style="font-weight:700;font-family:var(--font-mono);">0</span>
+              </div>
+              <div class="gate-control">
+                <label>Carry-out</label>
+                <span id="fa-carLed" class="led off"></span>
+                <span id="fa-car" style="font-weight:700;font-family:var(--font-mono);">0</span>
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:center;">
+              <svg viewBox="0 0 340 220" style="width:100%;max-width:360px;height:auto;">
+                <text x="5" y="40" font-size="12" font-weight="700">A</text>
+                <text x="5" y="110" font-size="12" font-weight="700">B</text>
+                <text x="5" y="180" font-size="12" font-weight="700">Cin</text>
+
+                <!-- XOR1 -->
+                <path d="M 50 25 Q 75 70 50 115 Q 75 70 110 35 A 40 40 0 0 1 110 105 Q 75 70 50 115 Z" fill="var(--bg-card)" stroke="currentColor" stroke-width="2"/>
+                <path d="M 42 25 Q 67 70 42 115" fill="none" stroke="currentColor" stroke-width="2"/>
+                <text x="80" y="73" font-size="12" font-weight="700">⊕</text>
+                <line x1="0" y1="30" x2="50" y2="50" stroke="currentColor" stroke-width="2"/>
+                <line x1="0" y1="105" x2="50" y2="90" stroke="currentColor" stroke-width="2"/>
+
+                <!-- XOR2 -->
+                <path d="M 130 60 Q 155 105 130 150 Q 155 105 190 70 A 40 40 0 0 1 190 140 Q 155 105 130 150 Z" fill="var(--bg-card)" stroke="currentColor" stroke-width="2"/>
+                <path d="M 122 60 Q 147 105 122 150" fill="none" stroke="currentColor" stroke-width="2"/>
+                <text x="160" y="108" font-size="12" font-weight="700">⊕</text>
+                <line x1="110" y1="70" x2="130" y2="85" stroke="currentColor" stroke-width="2"/>
+                <line x1="0" y1="175" x2="130" y2="125" stroke="currentColor" stroke-width="2"/>
+                <line x1="190" y1="105" x2="290" y2="105" stroke="currentColor" stroke-width="2"/>
+                <text x="270" y="100" font-size="13" font-weight="700">S</text>
+                <circle cx="290" cy="105" r="6" id="fa-sumDot" fill="#EF4444"/>
+
+                <!-- AND/OR for carry -->
+                <line x1="110" y1="115" x2="110" y2="180" stroke="currentColor" stroke-width="2"/>
+                <path d="M 95 175 L 125 175 A 22 22 0 0 1 125 219 L 95 219 Z" fill="var(--bg-card)" stroke="currentColor" stroke-width="2"/>
+                <text x="105" y="200" font-size="11" font-weight="700">&amp;</text>
+
+                <line x1="0" y1="175" x2="95" y2="195" stroke="currentColor" stroke-width="2"/>
+                <line x1="190" y1="125" x2="190" y2="180" stroke="currentColor" stroke-width="2"/>
+                <path d="M 175 195 L 205 195 A 22 22 0 0 1 205 219 L 175 219 Z" fill="var(--bg-card)" stroke="currentColor" stroke-width="2"/>
+                <text x="186" y="215" font-size="11" font-weight="700">&amp;</text>
+                <line x1="127" y1="195" x2="175" y2="200" stroke="currentColor" stroke-width="2"/>
+
+                <!-- OR gate -->
+                <path d="M 215 180 Q 240 200 215 240 Q 240 200 280 175" fill="var(--bg-card)" stroke="currentColor" stroke-width="2"/>
+                <text x="248" y="200" font-size="12" font-weight="700">≥1</text>
+                <line x1="125" y1="195" x2="215" y2="200" stroke="currentColor" stroke-width="2"/>
+                <line x1="205" y1="200" x2="215" y2="210" stroke="currentColor" stroke-width="2"/>
+                <line x1="280" y1="200" x2="320" y2="200" stroke="currentColor" stroke-width="2"/>
+                <text x="295" y="195" font-size="13" font-weight="700">Cout</text>
+                <circle cx="320" cy="200" r="6" id="fa-carDot" fill="#EF4444"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- Truth Table -->
+        <div class="card mb-3">
+          <h3 style="margin-bottom:0.75rem;">📋 Truth Table</h3>
+          <div class="table-wrapper">
+            <table class="table">
+              <thead>
+                <tr><th>A</th><th>B</th><th>Cin</th><th>Sum</th><th>Carry-out</th></tr>
+              </thead>
+              <tbody>
+                <tr><td class="tt-off">0</td><td class="tt-off">0</td><td class="tt-off">0</td><td class="tt-off">0</td><td class="tt-off">0</td></tr>
+                <tr><td class="tt-off">0</td><td class="tt-off">0</td><td class="tt-on">1</td><td class="tt-on">1</td><td class="tt-off">0</td></tr>
+                <tr><td class="tt-off">0</td><td class="tt-on">1</td><td class="tt-off">0</td><td class="tt-on">1</td><td class="tt-off">0</td></tr>
+                <tr><td class="tt-off">0</td><td class="tt-on">1</td><td class="tt-on">1</td><td class="tt-off">0</td><td class="tt-on">1</td></tr>
+                <tr><td class="tt-on">1</td><td class="tt-off">0</td><td class="tt-off">0</td><td class="tt-on">1</td><td class="tt-off">0</td></tr>
+                <tr><td class="tt-on">1</td><td class="tt-off">0</td><td class="tt-on">1</td><td class="tt-off">0</td><td class="tt-on">1</td></tr>
+                <tr><td class="tt-on">1</td><td class="tt-on">1</td><td class="tt-off">0</td><td class="tt-off">0</td><td class="tt-on">1</td></tr>
+                <tr><td class="tt-on">1</td><td class="tt-on">1</td><td class="tt-on">1</td><td class="tt-on">1</td><td class="tt-on">1</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Circuit Description -->
+        <div class="card mb-3">
+          <h3 style="margin-bottom:0.75rem;">🔧 Implementation Options</h3>
+          <p>A full adder can be built from various gate combinations:</p>
+          <h4 style="margin-top:0.75rem;">Option 1: Two Half Adders + OR Gate</h4>
+          <pre class="text-mono" style="background:var(--bg-secondary);padding:1rem;border-radius:var(--radius);font-size:0.85rem;overflow-x:auto;">
+       A ──────┐
+              ┌──┴──┐
+       B ────┤ HA1 ├──┬──┐
+              └─────┘  │  │
+                       │ ┌──────┐
+                       └─┤ HA2  ├──── S
+              ┌─────┐  ┌─┤      │
+       Cin ──┤     ├──┘ └──────┘
+              │ OR  ├──┐
+       C1 ───┤     ├──┴────── Cout
+              └─────┘
+          </pre>
+          <h4 style="margin-top:1rem;">Option 2: Direct Gate Implementation</h4>
+          <ul>
+            <li><strong>2 × XOR</strong> for Sum (S = A ⊕ B ⊕ Cin)</li>
+            <li><strong>2 × AND</strong> + <strong>1 × OR</strong> for Carry (Cout = AB + (A⊕B)·Cin)</li>
+          </ul>
+          <p style="margin-top:1rem;"><strong>Total gates:</strong> 5 (2 XOR, 2 AND, 1 OR). Using only NAND gates: 9 NAND gates.</p>
+        </div>
+
+        <div class="card mb-3">
+          <h3 style="margin-bottom:0.75rem;">💡 Applications</h3>
+          <ul>
+            <li><strong>Ripple Carry Adder:</strong> Chain N full adders to add N-bit numbers</li>
+            <li><strong>Carry Look-Ahead Adders:</strong> Use full adders with extra logic for faster addition</li>
+            <li><strong>Binary Subtraction:</strong> Add 2's complement of subtrahend using full adders</li>
+            <li><strong>ALU (Arithmetic Logic Unit):</strong> Core component of CPUs</li>
+          </ul>
+        </div>
+
+        <div id="footer-mount"></div>
+      </div>
+      <div id="bottomnav-mount"></div>
+    </div>
+  </div>
+
+  <div id="scrolltop-mount"></div>
+
+  <script src="js/components.js"></script>
+<script src="js/pwa.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+  (function() {
+    function update() {
+      const A = document.getElementById('fa-A').checked ? 1 : 0;
+      const B = document.getElementById('fa-B').checked ? 1 : 0;
+      const Cin = document.getElementById('fa-Cin').checked ? 1 : 0;
+      const S = A ^ B ^ Cin;
+      const Cout = (A & B) | (B & Cin) | (A & Cin);
+      document.getElementById('fa-sum').textContent = S;
+      document.getElementById('fa-car').textContent = Cout;
+      document.getElementById('fa-sumLed').className = `led ${S ? 'on' : 'off'}`;
+      document.getElementById('fa-carLed').className = `led ${Cout ? 'on' : 'off'}`;
+      document.getElementById('fa-sumDot').setAttribute('fill', S ? '#22C55E' : '#EF4444');
+      document.getElementById('fa-carDot').setAttribute('fill', Cout ? '#22C55E' : '#EF4444');
+    }
+    ['fa-A','fa-B','fa-Cin'].forEach(id => document.getElementById(id).addEventListener('change', update));
+    update();
+  })();
+  </script>
+</body>
+</html>

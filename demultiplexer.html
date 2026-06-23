@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Demultiplexer — LogicLab</title>
+  <meta name="description" content="Demultiplexer (DEMUX) circuits — 1:2 and 1:4 with truth tables and applications.">
+  <meta name="theme-color" content="#2563EB">
+  <link rel="manifest" href="manifest.json">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="LogicLab">
+  <meta name="application-name" content="LogicLab">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="msapplication-TileColor" content="#2563EB">
+  <meta name="msapplication-config" content="none">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%232563EB'/%3E%3Ctext x='50' y='62' font-size='42' font-weight='800' fill='white' text-anchor='middle' font-family='sans-serif'%3ELL%3C/text%3E%3C/svg%3E">
+  <link rel="apple-touch-icon" href="assets/icon-192.png">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="stylesheet" href="css/extra.css">
+</head>
+<body>
+  <div id="sidebar-mount"></div>
+  <div id="topbar-mount"></div>
+  <div id="overlay-mount"></div>
+
+  <div class="app-container">
+    <div class="main-content">
+      <div class="page-content">
+        <div class="page-header">
+          <div class="breadcrumb"><a href="index.html">Home</a> <span>›</span> <span>Demultiplexer</span></div>
+          <h1 class="page-title">🔀 Demultiplexer (DEMUX)</h1>
+          <p class="page-subtitle">Routes a single input to one of many outputs based on select lines.</p>
+        </div>
+
+        <div class="grid-2 mb-3">
+          <div class="card">
+            <h3 style="margin-bottom:0.5rem;">📖 Definition</h3>
+            <p>A <strong>Demultiplexer (DEMUX)</strong> performs the reverse operation of a multiplexer. It takes a single input and routes it to one of many outputs, determined by <strong>select lines</strong>.</p>
+            <p>A 1-to-N DEMUX has <strong>1 input</strong>, <strong>N outputs</strong>, and <strong>log₂(N) select lines</strong>.</p>
+          </div>
+          <div class="card">
+            <h3 style="margin-bottom:0.5rem;">⚙️ Working Principle</h3>
+            <p style="font-size:0.875rem;">Only one output line is <strong>active</strong> at a time. The selected output receives the input value; all others are 0.</p>
+          </div>
+        </div>
+
+        <div class="tabs">
+          <div class="tab active" data-tab="dem12">1:2 DEMUX</div>
+          <div class="tab" data-tab="dem14">1:4 DEMUX</div>
+        </div>
+
+        <!-- 1:2 DEMUX -->
+        <div class="tab-panel active" id="panel-dem12">
+          <div class="card mb-3">
+            <h3>1-to-2 Demultiplexer</h3>
+            <p>Routes a single input to one of 2 outputs using 1 select line.</p>
+
+            <h4 style="margin-top:1rem;">Circuit Symbol</h4>
+            <svg viewBox="0 0 240 140" style="width:100%;max-width:280px;height:auto;display:block;margin:1rem auto;">
+              <polygon points="60,20 60,120 200,70" fill="var(--bg-card)" stroke="currentColor" stroke-width="2"/>
+              <line x1="60" y1="70" x2="240" y2="70" stroke="currentColor" stroke-width="2"/>
+              <text x="68" y="62" font-size="13" font-weight="700">IN</text>
+              <line x1="0" y1="40" x2="60" y2="40" stroke="currentColor" stroke-width="2" stroke-dasharray="3,2"/>
+              <text x="15" y="32" font-size="11" font-weight="700" fill="var(--accent)">S</text>
+              <line x1="200" y1="40" x2="240" y2="40" stroke="currentColor" stroke-width="2"/>
+              <text x="210" y="32" font-size="13" font-weight="700">Y₀</text>
+              <line x1="200" y1="100" x2="240" y2="100" stroke="currentColor" stroke-width="2"/>
+              <text x="210" y="120" font-size="13" font-weight="700">Y₁</text>
+            </svg>
+
+            <h4 style="margin-top:1rem;">Boolean Expressions</h4>
+            <div class="result-box" style="margin-bottom:0.5rem;"><span class="result-value">Y₀ = S' · IN</span></div>
+            <div class="result-box"><span class="result-value">Y₁ = S · IN</span></div>
+
+            <h4 style="margin-top:1rem;">Truth Table</h4>
+            <div class="table-wrapper">
+              <table class="table">
+                <thead><tr><th>Select (S)</th><th>Y₀</th><th>Y₁</th></tr></thead>
+                <tbody>
+                  <tr><td class="tt-off">0</td><td>IN</td><td class="tt-off">0</td></tr>
+                  <tr><td class="tt-on">1</td><td class="tt-off">0</td><td>IN</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>🎮 Interactive 1:2 DEMUX Simulator</h3>
+            <div class="grid-2 mt-2">
+              <div>
+                <div class="gate-control">
+                  <label>Input</label>
+                  <label class="toggle-switch"><input type="checkbox" id="dem12-IN"><span class="toggle-slider"></span></label>
+                </div>
+                <div class="gate-control">
+                  <label>Select (S)</label>
+                  <label class="toggle-switch"><input type="checkbox" id="dem12-S"><span class="toggle-slider"></span></label>
+                </div>
+                <div class="gate-control">
+                  <label>Y₀</label>
+                  <span id="dem12-Y0Led" class="led off"></span>
+                  <span id="dem12-Y0" style="font-weight:700;font-family:var(--font-mono);">0</span>
+                </div>
+                <div class="gate-control">
+                  <label>Y₁</label>
+                  <span id="dem12-Y1Led" class="led off"></span>
+                  <span id="dem12-Y1" style="font-weight:700;font-family:var(--font-mono);">0</span>
+                </div>
+              </div>
+              <div>
+                <p style="font-size:0.875rem;">The input flows to the output selected by S.</p>
+                <div style="padding:1rem;background:var(--bg-secondary);border-radius:var(--radius);font-family:var(--font-mono);font-size:0.85rem;margin-top:0.5rem;">
+                  <div>Input = <strong id="dem12-INv">0</strong></div>
+                  <div>Selected = <strong id="dem12-sel" style="color:var(--primary);">Y₀</strong></div>
+                  <div>Y₀ = <strong id="dem12-Y0v">0</strong></div>
+                  <div>Y₁ = <strong id="dem12-Y1v">0</strong></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 1:4 DEMUX -->
+        <div class="tab-panel" id="panel-dem14">
+          <div class="card mb-3">
+            <h3>1-to-4 Demultiplexer</h3>
+            <p>Routes a single input to one of 4 outputs using 2 select lines.</p>
+
+            <h4 style="margin-top:1rem;">Boolean Expressions</h4>
+            <div class="grid-2">
+              <div class="result-box"><span class="result-value">Y₀ = S₁'S₀' · IN</span></div>
+              <div class="result-box"><span class="result-value">Y₁ = S₁'S₀ · IN</span></div>
+              <div class="result-box"><span class="result-value">Y₂ = S₁S₀' · IN</span></div>
+              <div class="result-box"><span class="result-value">Y₃ = S₁S₀ · IN</span></div>
+            </div>
+
+            <h4 style="margin-top:1rem;">Truth Table</h4>
+            <div class="table-wrapper">
+              <table class="table">
+                <thead><tr><th>S₁</th><th>S₀</th><th>Y₀</th><th>Y₁</th><th>Y₂</th><th>Y₃</th></tr></thead>
+                <tbody>
+                  <tr><td class="tt-off">0</td><td class="tt-off">0</td><td>IN</td><td class="tt-off">0</td><td class="tt-off">0</td><td class="tt-off">0</td></tr>
+                  <tr><td class="tt-off">0</td><td class="tt-on">1</td><td class="tt-off">0</td><td>IN</td><td class="tt-off">0</td><td class="tt-off">0</td></tr>
+                  <tr><td class="tt-on">1</td><td class="tt-off">0</td><td class="tt-off">0</td><td class="tt-off">0</td><td>IN</td><td class="tt-off">0</td></tr>
+                  <tr><td class="tt-on">1</td><td class="tt-on">1</td><td class="tt-off">0</td><td class="tt-off">0</td><td class="tt-off">0</td><td>IN</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>🎮 Interactive 1:4 DEMUX Simulator</h3>
+            <div class="grid-2 mt-2">
+              <div>
+                <div class="gate-control">
+                  <label>Input</label>
+                  <label class="toggle-switch"><input type="checkbox" id="dem14-IN"><span class="toggle-slider"></span></label>
+                </div>
+                <div class="gate-control">
+                  <label>S₁</label>
+                  <label class="toggle-switch"><input type="checkbox" id="dem14-S1"><span class="toggle-slider"></span></label>
+                </div>
+                <div class="gate-control">
+                  <label>S₀</label>
+                  <label class="toggle-switch"><input type="checkbox" id="dem14-S0"><span class="toggle-slider"></span></label>
+                </div>
+                <div class="gate-control">
+                  <label>Y₀</label>
+                  <span id="dem14-Y0Led" class="led off"></span>
+                  <span id="dem14-Y0" style="font-weight:700;font-family:var(--font-mono);">0</span>
+                </div>
+                <div class="gate-control">
+                  <label>Y₁</label>
+                  <span id="dem14-Y1Led" class="led off"></span>
+                  <span id="dem14-Y1" style="font-weight:700;font-family:var(--font-mono);">0</span>
+                </div>
+                <div class="gate-control">
+                  <label>Y₂</label>
+                  <span id="dem14-Y2Led" class="led off"></span>
+                  <span id="dem14-Y2" style="font-weight:700;font-family:var(--font-mono);">0</span>
+                </div>
+                <div class="gate-control">
+                  <label>Y₃</label>
+                  <span id="dem14-Y3Led" class="led off"></span>
+                  <span id="dem14-Y3" style="font-weight:700;font-family:var(--font-mono);">0</span>
+                </div>
+              </div>
+              <div>
+                <p style="font-size:0.875rem;">The input is routed to the selected output only.</p>
+                <div style="padding:1rem;background:var(--bg-secondary);border-radius:var(--radius);font-family:var(--font-mono);font-size:0.85rem;margin-top:0.5rem;">
+                  <div>Input = <strong id="dem14-INv">0</strong></div>
+                  <div>Selected: <strong id="dem14-sel" style="color:var(--primary);">Y₀</strong></div>
+                  <div>Y₀ = <strong id="dem14-Y0v">0</strong></div>
+                  <div>Y₁ = <strong id="dem14-Y1v">0</strong></div>
+                  <div>Y₂ = <strong id="dem14-Y2v">0</strong></div>
+                  <div>Y₃ = <strong id="dem14-Y3v">0</strong></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3 style="margin-bottom:0.75rem;">💡 Applications</h3>
+          <ul>
+            <li><strong>Communication Systems:</strong> TDM demultiplexing — separating combined signals</li>
+            <li><strong>Memory Decoding:</strong> Selecting specific memory chips or registers</li>
+            <li><strong>Serial-to-Parallel Conversion:</strong> Distributing serial data to parallel outputs</li>
+            <li><strong>Display Drivers:</strong> Routing data to specific display segments</li>
+            <li><strong>Waveform Generators:</strong> Controlling signal routing</li>
+          </ul>
+          <h4 style="margin-top:1rem;">Common ICs</h4>
+          <ul>
+            <li><strong>74155:</strong> Dual 1-to-4 DEMUX</li>
+            <li><strong>74138:</strong> 1-to-8 DEMUX / 3-to-8 Decoder</li>
+            <li><strong>74139:</strong> Dual 1-to-4 DEMUX</li>
+          </ul>
+        </div>
+
+        <div id="footer-mount"></div>
+      </div>
+      <div id="bottomnav-mount"></div>
+    </div>
+  </div>
+
+  <div id="scrolltop-mount"></div>
+
+  <script src="js/components.js"></script>
+<script src="js/pwa.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+  (function() {
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        const t = tab.dataset.tab;
+        document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
+        document.querySelectorAll('.tab-panel').forEach(x => x.classList.remove('active'));
+        tab.classList.add('active');
+        document.getElementById('panel-' + t).classList.add('active');
+      });
+    });
+
+    function bind12() {
+      ['dem12-IN', 'dem12-S'].forEach(id => document.getElementById(id).addEventListener('change', update));
+      function update() {
+        const IN = document.getElementById('dem12-IN').checked ? 1 : 0;
+        const S = document.getElementById('dem12-S').checked ? 1 : 0;
+        const Y0 = S ? 0 : IN;
+        const Y1 = S ? IN : 0;
+        document.getElementById('dem12-Y0').textContent = Y0;
+        document.getElementById('dem12-Y1').textContent = Y1;
+        document.getElementById('dem12-Y0Led').className = `led ${Y0 ? 'on' : 'off'}`;
+        document.getElementById('dem12-Y1Led').className = `led ${Y1 ? 'on' : 'off'}`;
+        document.getElementById('dem12-INv').textContent = IN;
+        document.getElementById('dem12-sel').textContent = S ? 'Y₁' : 'Y₀';
+        document.getElementById('dem12-Y0v').textContent = Y0;
+        document.getElementById('dem12-Y1v').textContent = Y1;
+      }
+      update();
+    }
+
+    function bind14() {
+      ['dem14-IN', 'dem14-S0', 'dem14-S1'].forEach(id => document.getElementById(id).addEventListener('change', update));
+      function update() {
+        const IN = document.getElementById('dem14-IN').checked ? 1 : 0;
+        const S0 = document.getElementById('dem14-S0').checked ? 1 : 0;
+        const S1 = document.getElementById('dem14-S1').checked ? 1 : 0;
+        const idx = S1 * 2 + S0;
+        const Y = [0, 0, 0, 0]; Y[idx] = IN;
+        [0,1,2,3].forEach(i => {
+          document.getElementById(`dem14-Y${i}`).textContent = Y[i];
+          document.getElementById(`dem14-Y${i}Led`).className = `led ${Y[i] ? 'on' : 'off'}`;
+          document.getElementById(`dem14-Y${i}v`).textContent = Y[i];
+        });
+        document.getElementById('dem14-INv').textContent = IN;
+        document.getElementById('dem14-sel').textContent = `Y${idx}`;
+      }
+      update();
+    }
+
+    bind12();
+    bind14();
+  })();
+  </script>
+</body>
+</html>

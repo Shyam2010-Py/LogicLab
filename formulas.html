@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formula Sheet — LogicLab</title>
+  <meta name="description" content="Quick reference for all Digital Electronics formulas, theorems, and exam shortcuts.">
+  <meta name="theme-color" content="#2563EB">
+  <link rel="manifest" href="manifest.json">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="LogicLab">
+  <meta name="application-name" content="LogicLab">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="msapplication-TileColor" content="#2563EB">
+  <meta name="msapplication-config" content="none">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%232563EB'/%3E%3Ctext x='50' y='62' font-size='42' font-weight='800' fill='white' text-anchor='middle' font-family='sans-serif'%3ELL%3C/text%3E%3C/svg%3E">
+  <link rel="apple-touch-icon" href="assets/icon-192.png">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="stylesheet" href="css/extra.css">
+</head>
+<body>
+  <div id="sidebar-mount"></div>
+  <div id="topbar-mount"></div>
+  <div id="overlay-mount"></div>
+
+  <div class="app-container">
+    <div class="main-content">
+      <div class="page-content">
+        <div class="page-header">
+          <div class="breadcrumb"><a href="index.html">Home</a> <span>›</span> <span>Formula Sheet</span></div>
+          <h1 class="page-title">📐 Formula Sheet</h1>
+          <p class="page-subtitle">Quick reference for Digital Electronics formulas, theorems, and exam shortcuts.</p>
+        </div>
+
+        <!-- Number System -->
+        <div class="card mb-3">
+          <h3 style="margin-bottom:0.75rem;">1. Number System Conversions</h3>
+          <div class="table-wrapper">
+            <table class="table">
+              <thead><tr><th>Conversion</th><th>Formula / Method</th></tr></thead>
+              <tbody>
+                <tr><td>Decimal → Binary</td><td>Repeated division by 2; read remainders bottom-up</td></tr>
+                <tr><td>Decimal → Octal</td><td>Repeated division by 8</td></tr>
+                <tr><td>Decimal → Hex</td><td>Repeated division by 16</td></tr>
+                <tr><td>Binary → Decimal</td><td>Σ bit × 2<sup>position</sup></td></tr>
+                <tr><td>Binary → Octal</td><td>Group bits in 3s from right, convert each group</td></tr>
+                <tr><td>Binary → Hex</td><td>Group bits in 4s from right, convert each group</td></tr>
+                <tr><td>Octal → Binary</td><td>Replace each octal digit with 3 bits</td></tr>
+                <tr><td>Hex → Binary</td><td>Replace each hex digit with 4 bits</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p style="font-size:0.875rem;margin-top:0.75rem;"><strong>Decimal Value (positional):</strong> (d<sub>n-1</sub> × b<sup>n-1</sup>) + ... + (d<sub>1</sub> × b<sup>1</sup>) + (d<sub>0</sub> × b<sup>0</sup>)</p>
+        </div>
+
+        <!-- Boolean Algebra Laws -->
+        <div class="card mb-3">
+          <h3 style="margin-bottom:0.75rem;">2. Boolean Algebra Laws</h3>
+          <div class="table-wrapper">
+            <table class="table">
+              <thead><tr><th>Law</th><th>AND form</th><th>OR form</th></tr></thead>
+              <tbody>
+                <tr><td><strong>Identity</strong></td><td>A · 1 = A</td><td>A + 0 = A</td></tr>
+                <tr><td><strong>Null / Dominance</strong></td><td>A · 0 = 0</td><td>A + 1 = 1</td></tr>
+                <tr><td><strong>Idempotent</strong></td><td>A · A = A</td><td>A + A = A</td></tr>
+                <tr><td><strong>Complement</strong></td><td>A · A' = 0</td><td>A + A' = 1</td></tr>
+                <tr><td><strong>Double Negation</strong></td><td colspan="2" style="text-align:center;">(A')' = A</td></tr>
+                <tr><td><strong>Commutative</strong></td><td>A·B = B·A</td><td>A+B = B+A</td></tr>
+                <tr><td><strong>Associative</strong></td><td>(A·B)·C = A·(B·C)</td><td>(A+B)+C = A+(B+C)</td></tr>
+                <tr><td><strong>Distributive</strong></td><td>A·(B+C) = A·B + A·C</td><td>A+(B·C) = (A+B)·(A+C)</td></tr>
+                <tr><td><strong>Absorption</strong></td><td>A + A·B = A</td><td>A·(A+B) = A</td></tr>
+                <tr><td><strong>De Morgan's</strong></td><td>(A·B)' = A' + B'</td><td>(A+B)' = A'·B'</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Karnaugh Map -->
+        <div class="card mb-3">
+          <h3 style="margin-bottom:0.75rem;">3. Karnaugh Map Rules</h3>
+          <ul>
+            <li>Group only adjacent 1s (or 0s for POS) — groups must be powers of 2 (1, 2, 4, 8, 16)</li>
+            <li>Groups can wrap around edges</li>
+            <li>Make groups as large as possible</li>
+            <li>Every 1 must be covered by at least one group</li>
+            <li>2 variables → 2×2 map · 3 variables → 2×4 map · 4 variables → 4×4 map</li>
+            <li>n variables → map has 2<sup>n</sup> cells</li>
+          </ul>
+          <h4 style="margin-top:0.75rem;">Common Groupings</h4>
+          <ul>
+            <li>Single 1 → minterm (3 variables for 4-cell map)</li>
+            <li>Pair of 1s → eliminates 1 variable (2 variables)</li>
+            <li>Quad → eliminates 2 variables (1 variable)</li>
+            <li>Octet → eliminates 3 variables (constant 1)</li>
+          </ul>
+        </div>
+
+        <!-- Flip-Flop Equations -->
+        <div class="card mb-3">
+          <h3 style="margin-bottom:0.75rem;">4. Flip-Flop Characteristic Equations</h3>
+          <div class="table-wrapper">
+            <table class="table">
+              <thead><tr><th>Flip-Flop</th><th>Characteristic Equation</th><th>Truth Table Summary</th></tr></thead>
+              <tbody>
+                <tr><td><strong>SR</strong></td><td>Q<sub>t+1</sub> = S + R'·Q<sub>t</sub><br>(with S·R = 0)</td><td>S=1→Set, R=1→Reset</td></tr>
+                <tr><td><strong>JK</strong></td><td>Q<sub>t+1</sub> = J·Q'<sub>t</sub> + K'·Q<sub>t</sub></td><td>J=K=1 → Toggle</td></tr>
+                <tr><td><strong>D</strong></td><td>Q<sub>t+1</sub> = D</td><td>Always follows input</td></tr>
+                <tr><td><strong>T</strong></td><td>Q<sub>t+1</sub> = T ⊕ Q<sub>t</sub></td><td>T=1 → Toggle, T=0 → Hold</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Adder Equations -->
+        <div class="card mb-3">
+          <h3 style="margin-bottom:0.75rem;">5. Adder / Subtractor Equations</h3>
+          <div class="table-wrapper">
+            <table class="table">
+              <thead><tr><th>Circuit</th><th>Equations</th></tr></thead>
+              <tbody>
+                <tr><td><strong>Half Adder</strong></td><td>Sum = A ⊕ B<br>Carry = A · B</td></tr>
+                <tr><td><strong>Full Adder</strong></td><td>Sum = A ⊕ B ⊕ Cin<br>Cout = AB + BCin + ACin</td></tr>
+                <tr><td><strong>Half Subtractor</strong></td><td>Diff = A ⊕ B<br>Borrow = A' · B</td></tr>
+                <tr><td><strong>Full Subtractor</strong></td><td>Diff = A ⊕ B ⊕ Bin<br>Bout = A'B + A'Bin + BBin</td></tr>
+                <tr><td><strong>4-bit Ripple Adder Delay</strong></td><td>T = 4 × (XOR + AND delay)</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- MUX/DEMUX -->
+        <div class="card mb-3">
+          <h3 style="margin-bottom:0.75rem;">6. MUX / DEMUX / Encoder / Decoder</h3>
+          <div class="table-wrapper">
+            <table class="table">
+              <thead><tr><th>Component</th><th>Formula</th></tr></thead>
+              <tbody>
+                <tr><td>N-to-1 MUX</td><td>Y = Σ<sub>i=0</sub><sup>N-1</sup> m<sub>i</sub> · D<sub>i</sub></td></tr>
+                <tr><td>2:1 MUX</td><td>Y = S'D<sub>0</sub> + S·D<sub>1</sub></td></tr>
+                <tr><td>4:1 MUX</td><td>Y = S<sub>1</sub>'S<sub>0</sub>'D<sub>0</sub> + S<sub>1</sub>'S<sub>0</sub>D<sub>1</sub> + S<sub>1</sub>S<sub>0</sub>'D<sub>2</sub> + S<sub>1</sub>S<sub>0</sub>D<sub>3</sub></td></tr>
+                <tr><td>n-to-2<sup>n</sup> Decoder</td><td>Y<sub>i</sub> = m<sub>i</sub> (corresponding minterm)</td></tr>
+                <tr><td>n-bit Encoder</td><td>2<sup>n</sup> inputs → n outputs</td></tr>
+                <tr><td>BCD to Decimal</td><td>4 inputs → 10 outputs</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Common Conversions -->
+        <div class="card mb-3">
+          <h3 style="margin-bottom:0.75rem;">7. Common Conversions</h3>
+          <div class="table-wrapper">
+            <table class="table">
+              <thead><tr><th>Decimal</th><th>Binary</th><th>Octal</th><th>Hex</th><th>BCD</th></tr></thead>
+              <tbody>
+                <tr><td>0</td><td>0000</td><td>0</td><td>0</td><td>0000</td></tr>
+                <tr><td>1</td><td>0001</td><td>1</td><td>1</td><td>0001</td></tr>
+                <tr><td>2</td><td>0010</td><td>2</td><td>2</td><td>0010</td></tr>
+                <tr><td>3</td><td>0011</td><td>3</td><td>3</td><td>0011</td></tr>
+                <tr><td>4</td><td>0100</td><td>4</td><td>4</td><td>0100</td></tr>
+                <tr><td>5</td><td>0101</td><td>5</td><td>5</td><td>0101</td></tr>
+                <tr><td>6</td><td>0110</td><td>6</td><td>6</td><td>0110</td></tr>
+                <tr><td>7</td><td>0111</td><td>7</td><td>7</td><td>0111</td></tr>
+                <tr><td>8</td><td>1000</td><td>10</td><td>8</td><td>1000</td></tr>
+                <tr><td>9</td><td>1001</td><td>11</td><td>9</td><td>1001</td></tr>
+                <tr><td>10</td><td>1010</td><td>12</td><td>A</td><td>0001 0000</td></tr>
+                <tr><td>11</td><td>1011</td><td>13</td><td>B</td><td>0001 0001</td></tr>
+                <tr><td>12</td><td>1100</td><td>14</td><td>C</td><td>0001 0010</td></tr>
+                <tr><td>13</td><td>1101</td><td>15</td><td>D</td><td>0001 0011</td></tr>
+                <tr><td>14</td><td>1110</td><td>16</td><td>E</td><td>0001 0100</td></tr>
+                <tr><td>15</td><td>1111</td><td>17</td><td>F</td><td>0001 0101</td></tr>
+                <tr><td>16</td><td>1 0000</td><td>20</td><td>10</td><td>0001 0110</td></tr>
+                <tr><td>32</td><td>10 0000</td><td>40</td><td>20</td><td>0011 0010</td></tr>
+                <tr><td>64</td><td>100 0000</td><td>100</td><td>40</td><td>0110 0100</td></tr>
+                <tr><td>128</td><td>1000 0000</td><td>200</td><td>80</td><td>0001 0010 1000</td></tr>
+                <tr><td>255</td><td>1111 1111</td><td>377</td><td>FF</td><td>0010 0101 0101</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Common Shortcuts -->
+        <div class="card mb-3">
+          <h3 style="margin-bottom:0.75rem;">8. Quick Exam Shortcuts</h3>
+          <ul>
+            <li><strong>2<sup>n</sup> values:</strong> 2¹=2, 2²=4, 2³=8, 2⁴=16, 2⁵=32, 2⁶=64, 2⁷=128, 2⁸=256, 2¹⁰=1024</li>
+            <li><strong>2's complement range:</strong> For n-bit signed number: -2<sup>n-1</sup> to +(2<sup>n-1</sup> − 1)</li>
+            <li><strong>2's complement = 1's complement + 1</strong></li>
+            <li><strong>Negative number in 2's comp:</strong> Invert all bits and add 1</li>
+            <li><strong>Excess-2<sup>n-1</sup> (Bias):</strong> Used in floating point. E' = E + 2<sup>n-1</sup></li>
+            <li><strong>Gray code:</strong> Each successive value differs by only 1 bit</li>
+            <li><strong>Parity bit:</strong> Adds bit to make total 1s even (even parity) or odd (odd parity)</li>
+            <li><strong>Hamming distance:</strong> Number of bit positions where two codes differ</li>
+          </ul>
+        </div>
+
+        <!-- Universal Gates -->
+        <div class="card mb-3">
+          <h3 style="margin-bottom:0.75rem;">9. Universal Gates</h3>
+          <p>Any Boolean function can be implemented using only NAND or only NOR gates.</p>
+          <div class="table-wrapper">
+            <table class="table">
+              <thead><tr><th>Gate</th><th>NAND Implementation</th><th>NOR Implementation</th></tr></thead>
+              <tbody>
+                <tr><td>NOT</td><td>A tied together</td><td>A tied together</td></tr>
+                <tr><td>AND</td><td>NAND + NOT</td><td>NOR + NOT + NOT</td></tr>
+                <tr><td>OR</td><td>NAND + NOT + NOT</td><td>NOR + NOT</td></tr>
+                <tr><td>XOR</td><td>4 NAND gates</td><td>5 NOR gates</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Definitions -->
+        <div class="card mb-3">
+          <h3 style="margin-bottom:0.75rem;">10. Important Definitions</h3>
+          <ul class="def-list">
+            <li><span class="def-term">Combinational Circuit</span><span class="def-desc">Output depends only on current inputs (no memory).</span></li>
+            <li><span class="def-term">Sequential Circuit</span><span class="def-desc">Output depends on current inputs AND previous state.</span></li>
+            <li><span class="def-term">Flip-Flop</span><span class="def-desc">1-bit memory element; edge-triggered bistable circuit.</span></li>
+            <li><span class="def-term">Latch</span><span class="def-desc">Level-sensitive 1-bit memory (transparent when enabled).</span></li>
+            <li><span class="def-term">Propagation Delay</span><span class="def-desc">Time for a signal change to propagate from input to output.</span></li>
+            <li><span class="def-term">Setup Time</span><span class="def-desc">Minimum time data must be stable BEFORE clock edge.</span></li>
+            <li><span class="def-term">Hold Time</span><span class="def-desc">Minimum time data must remain stable AFTER clock edge.</span></li>
+            <li><span class="def-term">Race Condition</span><span class="def-desc">Output depends on unpredictable order of signal changes.</span></li>
+            <li><span class="def-term">Fan-Out</span><span class="def-desc">Maximum number of inputs a gate output can drive.</span></li>
+            <li><span class="def-term">Fan-In</span><span class="def-desc">Number of inputs a gate has.</span></li>
+            <li><span class="def-term">Min/Maxterm</span><span class="def-desc">Minterm = product (AND) of all variables. Maxterm = sum (OR) of all variables.</span></li>
+            <li><span class="def-term">SOP / POS</span><span class="def-desc">Sum of Products / Product of Sums — standard forms.</span></li>
+          </ul>
+        </div>
+
+        <div id="footer-mount"></div>
+      </div>
+      <div id="bottomnav-mount"></div>
+    </div>
+  </div>
+
+  <div id="scrolltop-mount"></div>
+
+  <script src="js/components.js"></script>
+<script src="js/pwa.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

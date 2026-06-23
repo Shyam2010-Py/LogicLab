@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Changelog — LogicLab</title>
+  <meta name="description" content="LogicLab version history and changelog.">
+  <meta name="theme-color" content="#2563EB">
+  <link rel="manifest" href="manifest.json">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="LogicLab">
+  <meta name="application-name" content="LogicLab">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="msapplication-TileColor" content="#2563EB">
+  <meta name="msapplication-config" content="none">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%232563EB'/%3E%3Ctext x='50' y='62' font-size='42' font-weight='800' fill='white' text-anchor='middle' font-family='sans-serif'%3ELL%3C/text%3E%3C/svg%3E">
+  <link rel="apple-touch-icon" href="assets/icon-192.png">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="stylesheet" href="css/extra.css">
+</head>
+<body>
+  <div id="sidebar-mount"></div>
+  <div id="topbar-mount"></div>
+  <div id="overlay-mount"></div>
+
+  <div class="app-container">
+    <div class="main-content">
+      <div class="page-content">
+        <div class="page-header">
+          <div class="breadcrumb"><a href="index.html">Home</a> <span>›</span> <span>Changelog</span></div>
+          <h1 class="page-title">📜 Changelog</h1>
+          <p class="page-subtitle">Release history and updates for the LogicLab platform.</p>
+        </div>
+
+        <!-- Version 1.0.0 -->
+        <div class="card mb-3 fade-in">
+          <div class="flex justify-between items-center mb-2" style="flex-wrap:wrap;gap:0.5rem;">
+            <div>
+              <h3 style="margin-bottom:0.25rem;">Version 1.0.0</h3>
+              <div style="font-size:0.85rem;color:var(--text-secondary);">Initial Release · June 2026</div>
+            </div>
+            <span class="badge badge-success">Current</span>
+          </div>
+          <h4 style="margin-top:1rem;margin-bottom:0.5rem;font-size:1rem;">🎉 Initial Release</h4>
+          <p>The very first public release of LogicLab — a complete Digital Electronics learning platform.</p>
+
+          <h4 style="margin-top:1rem;margin-bottom:0.5rem;font-size:1rem;">📚 Features Added</h4>
+          <div class="grid-2">
+            <div>
+              <ul>
+                <li><strong>Number System Converter</strong> — Binary, Octal, Decimal, Hex conversions with step-by-step explanations</li>
+                <li><strong>Logic Gates Simulator</strong> — Interactive AND, OR, NOT, NAND, NOR, XOR, XNOR gates with SVG circuit visualization</li>
+                <li><strong>Truth Table Generator</strong> — Generate and export truth tables as CSV</li>
+                <li><strong>Binary Arithmetic</strong> — Addition, Subtraction, Multiplication, Division with carry/borrow visualization</li>
+                <li><strong>Complement Calculator</strong> — 1's and 2's complement with detailed steps</li>
+                <li><strong>Half Adder</strong> — Interactive simulator with truth table and circuit diagram</li>
+                <li><strong>Full Adder</strong> — Interactive simulator with full implementation details</li>
+                <li><strong>Flip-Flops</strong> — SR, JK, D, T flip-flops with live state log</li>
+                <li><strong>Multiplexer</strong> — 2:1 and 4:1 MUX simulators</li>
+                <li><strong>Demultiplexer</strong> — 1:2 and 1:4 DEMUX simulators</li>
+                <li><strong>Encoder</strong> — 4-to-2 standard and 8-to-3 priority encoder</li>
+                <li><strong>Decoder</strong> — 2-to-4, 3-to-8, and BCD-to-7-segment decoders</li>
+                <li><strong>Formula Sheet</strong> — Comprehensive formula reference</li>
+                <li><strong>Notes</strong> — Concise study notes with search</li>
+                <li><strong>Quiz System</strong> — 110+ questions across 8 categories</li>
+              </ul>
+            </div>
+            <div>
+              <ul>
+                <li><strong>About Page</strong> — Project info and learning objectives</li>
+                <li><strong>Changelog</strong> — You're looking at it!</li>
+              </ul>
+              <h4 style="margin-top:1rem;margin-bottom:0.5rem;font-size:1rem;">⚙️ Platform Features</h4>
+              <ul>
+                <li>Dark/Light theme toggle (saved to localStorage)</li>
+                <li>Global search across all topics</li>
+                <li>Mobile-first responsive design</li>
+                <li>Bottom navigation on mobile</li>
+                <li>Sidebar navigation on desktop</li>
+                <li>Scroll-to-top button</li>
+                <li>Smooth animations and transitions</li>
+                <li>Toast notifications</li>
+                <li>Keyboard accessibility</li>
+                <li>Touch-friendly interactive controls</li>
+                <li>Conversion history (saved to localStorage)</li>
+                <li>Quiz progress tracking</li>
+                <li>Performance statistics</li>
+                <li>Print-friendly styles</li>
+                <li>Reduced-motion support</li>
+              </ul>
+            </div>
+          </div>
+
+          <h4 style="margin-top:1rem;margin-bottom:0.5rem;font-size:1rem;">🎨 Design System</h4>
+          <ul>
+            <li>Primary: #2563EB (blue)</li>
+            <li>Secondary: #0F172A (slate dark)</li>
+            <li>Accent: #06B6D4 (cyan)</li>
+            <li>Success: #22C55E (green)</li>
+            <li>Warning: #F59E0B (amber)</li>
+          </ul>
+
+          <h4 style="margin-top:1rem;margin-bottom:0.5rem;font-size:1rem;">💻 Technical Details</h4>
+          <ul>
+            <li>Pure HTML5, CSS3, and Vanilla JavaScript</li>
+            <li>No frameworks or external dependencies</li>
+            <li>Works fully offline after first load</li>
+            <li>GitHub Pages compatible</li>
+            <li>Total size: ~150 KB</li>
+          </ul>
+        </div>
+
+        <div class="card" style="background:var(--bg-secondary);text-align:center;">
+          <p style="margin:0;color:var(--text-secondary);font-size:0.9rem;">
+            Want to suggest a feature or report an issue? Your feedback helps make LogicLab better.
+          </p>
+        </div>
+
+        <div id="footer-mount"></div>
+      </div>
+      <div id="bottomnav-mount"></div>
+    </div>
+  </div>
+
+  <div id="scrolltop-mount"></div>
+
+  <script src="js/components.js"></script>
+<script src="js/pwa.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flip-Flops — LogicLab</title>
+  <meta name="description" content="Comprehensive guide to SR, JK, D, and T flip-flops with truth tables, characteristic tables, and applications.">
+  <meta name="theme-color" content="#2563EB">
+  <link rel="manifest" href="manifest.json">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="LogicLab">
+  <meta name="application-name" content="LogicLab">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="msapplication-TileColor" content="#2563EB">
+  <meta name="msapplication-config" content="none">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%232563EB'/%3E%3Ctext x='50' y='62' font-size='42' font-weight='800' fill='white' text-anchor='middle' font-family='sans-serif'%3ELL%3C/text%3E%3C/svg%3E">
+  <link rel="apple-touch-icon" href="assets/icon-192.png">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="stylesheet" href="css/extra.css">
+</head>
+<body>
+  <div id="sidebar-mount"></div>
+  <div id="topbar-mount"></div>
+  <div id="overlay-mount"></div>
+
+  <div class="app-container">
+    <div class="main-content">
+      <div class="page-content">
+        <div class="page-header">
+          <div class="breadcrumb"><a href="index.html">Home</a> <span>›</span> <span>Flip-Flops</span></div>
+          <h1 class="page-title">🔁 Flip-Flops</h1>
+          <p class="page-subtitle">Sequential memory elements that store 1 bit of data — SR, JK, D, and T flip-flops.</p>
+        </div>
+
+        <div class="card mb-3">
+          <div class="alert alert-warning">
+            <strong>💡 Key Concept:</strong> A flip-flop is a bistable circuit that stores one bit. Unlike combinational logic, its output depends on both current inputs AND previous state (memory).
+          </div>
+          <p>The notation Q<sub>t</sub> refers to the <em>current</em> state, and Q<sub>t+1</sub> refers to the <em>next</em> state (after clock edge).</p>
+        </div>
+
+        <div class="tabs">
+          <div class="tab active" data-tab="sr">SR Flip-Flop</div>
+          <div class="tab" data-tab="jk">JK Flip-Flop</div>
+          <div class="tab" data-tab="d">D Flip-Flop</div>
+          <div class="tab" data-tab="t">T Flip-Flop</div>
+        </div>
+
+        <!-- SR Flip-Flop -->
+        <div class="tab-panel active" id="panel-sr">
+          <div class="card mb-3">
+            <h3>SR (Set-Reset) Flip-Flop</h3>
+            <p><strong>Definition:</strong> The most basic flip-flop with two inputs — Set (S) and Reset (R). Setting S=1 stores 1; resetting R=1 stores 0. Both S=R=1 is invalid/forbidden.</p>
+
+            <h4 style="margin-top:1rem;">Symbol</h4>
+            <svg viewBox="0 0 200 140" style="width:100%;max-width:240px;height:auto;display:block;margin:1rem auto;">
+              <rect x="60" y="20" width="80" height="100" fill="var(--bg-card)" stroke="currentColor" stroke-width="2"/>
+              <text x="100" y="75" font-size="22" font-weight="700" text-anchor="middle">SR</text>
+              <line x1="0" y1="50" x2="60" y2="50" stroke="currentColor" stroke-width="2"/>
+              <text x="20" y="42" font-size="13" font-weight="700">S</text>
+              <line x1="0" y1="90" x2="60" y2="90" stroke="currentColor" stroke-width="2"/>
+              <text x="20" y="82" font-size="13" font-weight="700">R</text>
+              <line x1="0" y1="115" x2="60" y2="115" stroke="currentColor" stroke-width="2"/>
+              <text x="14" y="130" font-size="13" font-weight="700">CLK</text>
+              <line x1="140" y1="50" x2="200" y2="50" stroke="currentColor" stroke-width="2"/>
+              <text x="170" y="42" font-size="13" font-weight="700">Q</text>
+              <line x1="140" y1="90" x2="200" y2="90" stroke="currentColor" stroke-width="2"/>
+              <text x="160" y="82" font-size="13" font-weight="700">Q'</text>
+            </svg>
+
+            <h4 style="margin-top:1rem;">Truth Table</h4>
+            <div class="table-wrapper">
+              <table class="table">
+                <thead><tr><th>Clock</th><th>S</th><th>R</th><th>Q<sub>t+1</sub></th><th>Action</th></tr></thead>
+                <tbody>
+                  <tr><td>↑</td><td class="tt-off">0</td><td class="tt-off">0</td><td>Q<sub>t</sub></td><td>No change</td></tr>
+                  <tr><td>↑</td><td class="tt-off">0</td><td class="tt-on">1</td><td class="tt-off">0</td><td>Reset</td></tr>
+                  <tr><td>↑</td><td class="tt-on">1</td><td class="tt-off">0</td><td class="tt-on">1</td><td>Set</td></tr>
+                  <tr><td>↑</td><td class="tt-on">1</td><td class="tt-on">1</td><td style="color:var(--warning);">X</td><td>Forbidden / Invalid</td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <h4 style="margin-top:1rem;">Characteristic Equation</h4>
+            <div class="result-box"><span class="result-value">Q<sub>t+1</sub> = S + R'·Q<sub>t</sub> &nbsp; (with S·R = 0)</span></div>
+
+            <h4 style="margin-top:1rem;">Advantages</h4>
+            <ul>
+              <li>Simplest flip-flop — easy to understand and build</li>
+              <li>Direct set/reset capability</li>
+              <li>Used as a basic 1-bit memory cell</li>
+            </ul>
+
+            <h4 style="margin-top:1rem;">Disadvantages</h4>
+            <ul>
+              <li>Invalid state when S = R = 1</li>
+              <li>Race-around condition in level-triggered SR latch</li>
+            </ul>
+
+            <h4 style="margin-top:1rem;">Applications</h4>
+            <ul>
+              <li>Basic memory storage in registers</li>
+              <li>Switch debouncing circuits</li>
+              <li>Control logic and latching circuits</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <h3>🎮 Interactive SR Flip-Flop Simulator</h3>
+            <p style="font-size:0.875rem;">Toggle inputs and clock to see the SR flip-flop behavior.</p>
+            <div class="grid-2 mt-2">
+              <div>
+                <div class="gate-control">
+                  <label>S (Set)</label>
+                  <label class="toggle-switch">
+                    <input type="checkbox" id="sr-S">
+                    <span class="toggle-slider"></span>
+                  </label>
+                </div>
+                <div class="gate-control">
+                  <label>R (Reset)</label>
+                  <label class="toggle-switch">
+                    <input type="checkbox" id="sr-R">
+                    <span class="toggle-slider"></span>
+                  </label>
+                </div>
+                <div class="gate-control">
+                  <label>Output Q</label>
+                  <span id="sr-QLed" class="led off"></span>
+                  <span id="sr-Q" style="font-weight:700;font-family:var(--font-mono);">0</span>
+                </div>
+                <div class="gate-control">
+                  <label>Q'</label>
+                  <span id="sr-QpLed" class="led on"></span>
+                  <span id="sr-Qp" style="font-weight:700;font-family:var(--font-mono);">1</span>
+                </div>
+                <button id="sr-clock" class="btn btn-primary btn-block mt-2">🔔 Apply Clock Edge</button>
+                <button id="sr-reset" class="btn btn-secondary btn-block mt-2">↻ Reset</button>
+              </div>
+              <div>
+                <h4 style="margin-bottom:0.5rem;">State Log</h4>
+                <div id="sr-log" style="font-family:var(--font-mono);font-size:0.8rem;background:var(--bg-secondary);padding:0.75rem;border-radius:var(--radius);min-height:120px;max-height:200px;overflow-y:auto;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- JK Flip-Flop -->
+        <div class="tab-panel" id="panel-jk">
+          <div class="card mb-3">
+            <h3>JK Flip-Flop</h3>
+            <p><strong>Definition:</strong> An improved version of SR. When J=K=1, instead of invalid state, the output <strong>toggles</strong> (flips to its complement).</p>
+
+            <h4 style="margin-top:1rem;">Symbol</h4>
+            <svg viewBox="0 0 200 140" style="width:100%;max-width:240px;height:auto;display:block;margin:1rem auto;">
+              <rect x="60" y="20" width="80" height="100" fill="var(--bg-card)" stroke="currentColor" stroke-width="2"/>
+              <text x="100" y="75" font-size="22" font-weight="700" text-anchor="middle">JK</text>
+              <line x1="0" y1="50" x2="60" y2="50" stroke="currentColor" stroke-width="2"/>
+              <text x="20" y="42" font-size="13" font-weight="700">J</text>
+              <line x1="0" y1="90" x2="60" y2="90" stroke="currentColor" stroke-width="2"/>
+              <text x="20" y="82" font-size="13" font-weight="700">K</text>
+              <line x1="0" y1="115" x2="60" y2="115" stroke="currentColor" stroke-width="2"/>
+              <text x="14" y="130" font-size="13" font-weight="700">CLK</text>
+              <line x1="140" y1="50" x2="200" y2="50" stroke="currentColor" stroke-width="2"/>
+              <text x="170" y="42" font-size="13" font-weight="700">Q</text>
+              <line x1="140" y1="90" x2="200" y2="90" stroke="currentColor" stroke-width="2"/>
+              <text x="160" y="82" font-size="13" font-weight="700">Q'</text>
+            </svg>
+
+            <h4 style="margin-top:1rem;">Truth Table</h4>
+            <div class="table-wrapper">
+              <table class="table">
+                <thead><tr><th>Clock</th><th>J</th><th>K</th><th>Q<sub>t+1</sub></th><th>Action</th></tr></thead>
+                <tbody>
+                  <tr><td>↑</td><td class="tt-off">0</td><td class="tt-off">0</td><td>Q<sub>t</sub></td><td>No change</td></tr>
+                  <tr><td>↑</td><td class="tt-off">0</td><td class="tt-on">1</td><td class="tt-off">0</td><td>Reset</td></tr>
+                  <tr><td>↑</td><td class="tt-on">1</td><td class="tt-off">0</td><td class="tt-on">1</td><td>Set</td></tr>
+                  <tr><td>↑</td><td class="tt-on">1</td><td class="tt-on">1</td><td>Q'<sub>t</sub></td><td>Toggle</td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <h4 style="margin-top:1rem;">Characteristic Equation</h4>
+            <div class="result-box"><span class="result-value">Q<sub>t+1</sub> = J·Q'<sub>t</sub> + K'·Q<sub>t</sub></span></div>
+
+            <h4 style="margin-top:1rem;">Advantages</h4>
+            <ul>
+              <li>No invalid state — toggles when J=K=1</li>
+              <li>Versatile — can function as SR, D, or T flip-flop</li>
+              <li>Race-around condition can be eliminated with master-slave or edge-triggered design</li>
+            </ul>
+
+            <h4 style="margin-top:1rem;">Disadvantages</h4>
+            <ul>
+              <li>More complex internal circuitry than SR</li>
+              <li>Requires careful clock timing</li>
+            </ul>
+
+            <h4 style="margin-top:1rem;">Applications</h4>
+            <ul>
+              <li>Counters (binary, ripple, synchronous)</li>
+              <li>Shift registers</li>
+              <li>Frequency dividers</li>
+              <li>Memory registers</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <h3>🎮 Interactive JK Flip-Flop Simulator</h3>
+            <div class="grid-2 mt-2">
+              <div>
+                <div class="gate-control">
+                  <label>J</label>
+                  <label class="toggle-switch">
+                    <input type="checkbox" id="jk-J">
+                    <span class="toggle-slider"></span>
+                  </label>
+                </div>
+                <div class="gate-control">
+                  <label>K</label>
+                  <label class="toggle-switch">
+                    <input type="checkbox" id="jk-K">
+                    <span class="toggle-slider"></span>
+                  </label>
+                </div>
+                <div class="gate-control">
+                  <label>Q</label>
+                  <span id="jk-QLed" class="led off"></span>
+                  <span id="jk-Q" style="font-weight:700;font-family:var(--font-mono);">0</span>
+                </div>
+                <button id="jk-clock" class="btn btn-primary btn-block mt-2">🔔 Apply Clock Edge</button>
+                <button id="jk-reset" class="btn btn-secondary btn-block mt-2">↻ Reset</button>
+              </div>
+              <div>
+                <h4 style="margin-bottom:0.5rem;">State Log</h4>
+                <div id="jk-log" style="font-family:var(--font-mono);font-size:0.8rem;background:var(--bg-secondary);padding:0.75rem;border-radius:var(--radius);min-height:120px;max-height:200px;overflow-y:auto;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- D Flip-Flop -->
+        <div class="tab-panel" id="panel-d">
+          <div class="card mb-3">
+            <h3>D (Data / Delay) Flip-Flop</h3>
+            <p><strong>Definition:</strong> Has a single data input (D). On clock edge, the output takes the value of D — it's a 1-bit memory that captures the data.</p>
+
+            <h4 style="margin-top:1rem;">Symbol</h4>
+            <svg viewBox="0 0 200 140" style="width:100%;max-width:240px;height:auto;display:block;margin:1rem auto;">
+              <rect x="60" y="20" width="80" height="100" fill="var(--bg-card)" stroke="currentColor" stroke-width="2"/>
+              <text x="100" y="75" font-size="22" font-weight="700" text-anchor="middle">D</text>
+              <line x1="0" y1="60" x2="60" y2="60" stroke="currentColor" stroke-width="2"/>
+              <text x="20" y="52" font-size="13" font-weight="700">D</text>
+              <line x1="0" y1="115" x2="60" y2="115" stroke="currentColor" stroke-width="2"/>
+              <text x="14" y="130" font-size="13" font-weight="700">CLK</text>
+              <line x1="140" y1="60" x2="200" y2="60" stroke="currentColor" stroke-width="2"/>
+              <text x="170" y="52" font-size="13" font-weight="700">Q</text>
+              <line x1="140" y1="100" x2="200" y2="100" stroke="currentColor" stroke-width="2"/>
+              <text x="160" y="92" font-size="13" font-weight="700">Q'</text>
+            </svg>
+
+            <h4 style="margin-top:1rem;">Truth Table</h4>
+            <div class="table-wrapper">
+              <table class="table">
+                <thead><tr><th>Clock</th><th>D</th><th>Q<sub>t+1</sub></th></tr></thead>
+                <tbody>
+                  <tr><td>↑</td><td class="tt-off">0</td><td class="tt-off">0</td></tr>
+                  <tr><td>↑</td><td class="tt-on">1</td><td class="tt-on">1</td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <h4 style="margin-top:1rem;">Characteristic Equation</h4>
+            <div class="result-box"><span class="result-value">Q<sub>t+1</sub> = D</span></div>
+
+            <h4 style="margin-top:1rem;">Advantages</h4>
+            <ul>
+              <li>Single input — simpler than JK</li>
+              <li>No invalid states</li>
+              <li>Perfect for data storage / registers</li>
+            </ul>
+
+            <h4 style="margin-top:1rem;">Disadvantages</h4>
+            <ul>
+              <li>Cannot toggle without external logic</li>
+              <li>Doesn't support all flip-flop functions natively</li>
+            </ul>
+
+            <h4 style="margin-top:1rem;">Applications</h4>
+            <ul>
+              <li>Shift registers</li>
+              <li>Data storage registers</li>
+              <li>Memory cells in RAM</li>
+              <li>Input synchronization in digital systems</li>
+              <li>Pipelining in processors</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <h3>🎮 Interactive D Flip-Flop Simulator</h3>
+            <div class="grid-2 mt-2">
+              <div>
+                <div class="gate-control">
+                  <label>D (Data)</label>
+                  <label class="toggle-switch">
+                    <input type="checkbox" id="dff-D">
+                    <span class="toggle-slider"></span>
+                  </label>
+                </div>
+                <div class="gate-control">
+                  <label>Q</label>
+                  <span id="dff-QLed" class="led off"></span>
+                  <span id="dff-Q" style="font-weight:700;font-family:var(--font-mono);">0</span>
+                </div>
+                <button id="dff-clock" class="btn btn-primary btn-block mt-2">🔔 Apply Clock Edge</button>
+                <button id="dff-reset" class="btn btn-secondary btn-block mt-2">↻ Reset</button>
+              </div>
+              <div>
+                <h4 style="margin-bottom:0.5rem;">State Log</h4>
+                <div id="dff-log" style="font-family:var(--font-mono);font-size:0.8rem;background:var(--bg-secondary);padding:0.75rem;border-radius:var(--radius);min-height:120px;max-height:200px;overflow-y:auto;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- T Flip-Flop -->
+        <div class="tab-panel" id="panel-t">
+          <div class="card mb-3">
+            <h3>T (Toggle) Flip-Flop</h3>
+            <p><strong>Definition:</strong> Single-input flip-flop. When T=1, output toggles on each clock edge; when T=0, output remains unchanged.</p>
+
+            <h4 style="margin-top:1rem;">Symbol</h4>
+            <svg viewBox="0 0 200 140" style="width:100%;max-width:240px;height:auto;display:block;margin:1rem auto;">
+              <rect x="60" y="20" width="80" height="100" fill="var(--bg-card)" stroke="currentColor" stroke-width="2"/>
+              <text x="100" y="75" font-size="22" font-weight="700" text-anchor="middle">T</text>
+              <line x1="0" y1="60" x2="60" y2="60" stroke="currentColor" stroke-width="2"/>
+              <text x="20" y="52" font-size="13" font-weight="700">T</text>
+              <line x1="0" y1="115" x2="60" y2="115" stroke="currentColor" stroke-width="2"/>
+              <text x="14" y="130" font-size="13" font-weight="700">CLK</text>
+              <line x1="140" y1="60" x2="200" y2="60" stroke="currentColor" stroke-width="2"/>
+              <text x="170" y="52" font-size="13" font-weight="700">Q</text>
+              <line x1="140" y1="100" x2="200" y2="100" stroke="currentColor" stroke-width="2"/>
+              <text x="160" y="92" font-size="13" font-weight="700">Q'</text>
+            </svg>
+
+            <h4 style="margin-top:1rem;">Truth Table</h4>
+            <div class="table-wrapper">
+              <table class="table">
+                <thead><tr><th>Clock</th><th>T</th><th>Q<sub>t+1</sub></th><th>Action</th></tr></thead>
+                <tbody>
+                  <tr><td>↑</td><td class="tt-off">0</td><td>Q<sub>t</sub></td><td>No change</td></tr>
+                  <tr><td>↑</td><td class="tt-on">1</td><td>Q'<sub>t</sub></td><td>Toggle</td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <h4 style="margin-top:1rem;">Characteristic Equation</h4>
+            <div class="result-box"><span class="result-value">Q<sub>t+1</sub> = T ⊕ Q<sub>t</sub> = T·Q'<sub>t</sub> + T'·Q<sub>t</sub></span></div>
+
+            <h4 style="margin-top:1rem;">Advantages</h4>
+            <ul>
+              <li>Simple toggle behavior — perfect for counters</li>
+              <li>Single input simplifies design</li>
+              <li>Can be derived from JK by tying J = K = T</li>
+            </ul>
+
+            <h4 style="margin-top:1rem;">Disadvantages</h4>
+            <ul>
+              <li>Limited functionality (only hold or toggle)</li>
+              <li>Cannot directly store arbitrary values without external control</li>
+            </ul>
+
+            <h4 style="margin-top:1rem;">Applications</h4>
+            <ul>
+              <li>Binary counters (each T flip-flop divides frequency by 2)</li>
+              <li>Frequency dividers</li>
+              <li>Toggle switches in control circuits</li>
+              <li>Modulo-N counters (with reset logic)</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <h3>🎮 Interactive T Flip-Flop Simulator</h3>
+            <div class="grid-2 mt-2">
+              <div>
+                <div class="gate-control">
+                  <label>T</label>
+                  <label class="toggle-switch">
+                    <input type="checkbox" id="tff-T">
+                    <span class="toggle-slider"></span>
+                  </label>
+                </div>
+                <div class="gate-control">
+                  <label>Q</label>
+                  <span id="tff-QLed" class="led off"></span>
+                  <span id="tff-Q" style="font-weight:700;font-family:var(--font-mono);">0</span>
+                </div>
+                <button id="tff-clock" class="btn btn-primary btn-block mt-2">🔔 Apply Clock Edge</button>
+                <button id="tff-reset" class="btn btn-secondary btn-block mt-2">↻ Reset</button>
+              </div>
+              <div>
+                <h4 style="margin-bottom:0.5rem;">State Log</h4>
+                <div id="tff-log" style="font-family:var(--font-mono);font-size:0.8rem;background:var(--bg-secondary);padding:0.75rem;border-radius:var(--radius);min-height:120px;max-height:200px;overflow-y:auto;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="footer-mount"></div>
+      </div>
+      <div id="bottomnav-mount"></div>
+    </div>
+  </div>
+
+  <div id="scrolltop-mount"></div>
+
+  <script src="js/components.js"></script>
+<script src="js/pwa.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+  (function() {
+    // Tabs
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        const t = tab.dataset.tab;
+        document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
+        document.querySelectorAll('.tab-panel').forEach(x => x.classList.remove('active'));
+        tab.classList.add('active');
+        document.getElementById('panel-' + t).classList.add('active');
+      });
+    });
+
+    function makeFlipFlop(name, fn) {
+      let Q = 0;
+      const logEl = document.getElementById(`${name}-log`);
+      const qEl = document.getElementById(`${name}-Q`);
+      const qLedEl = document.getElementById(`${name}-QLed`);
+      if (name === 'sr') {
+        const qpEl = document.getElementById(`${name}-Qp`);
+        const qpLedEl = document.getElementById(`${name}-QpLed`);
+        const refresh = () => {
+          qEl.textContent = Q;
+          qLedEl.className = `led ${Q ? 'on' : 'off'}`;
+          qpEl.textContent = Q ? 0 : 1;
+          qpLedEl.className = `led ${Q ? 'off' : 'on'}`;
+        };
+        document.getElementById(`${name}-clock`).addEventListener('click', () => {
+          const S = document.getElementById('sr-S').checked ? 1 : 0;
+          const R = document.getElementById('sr-R').checked ? 1 : 0;
+          if (S === 1 && R === 1) {
+            logEl.innerHTML += `<div style="color:var(--warning);">⚠ Invalid: S=R=1 (forbidden)</div>`;
+          } else {
+            const next = fn(Q, S, R);
+            logEl.innerHTML += `<div>CLK↑ | S=${S} R=${R} | Q: ${Q} → ${next}</div>`;
+            Q = next;
+          }
+          refresh();
+          logEl.scrollTop = logEl.scrollHeight;
+        });
+        document.getElementById(`${name}-reset`).addEventListener('click', () => {
+          Q = 0; refresh(); logEl.innerHTML = '<div style="color:var(--text-tertiary);">Reset to Q=0</div>';
+        });
+        refresh();
+        return;
+      }
+      const refresh = () => {
+        qEl.textContent = Q;
+        qLedEl.className = `led ${Q ? 'on' : 'off'}`;
+      };
+      document.getElementById(`${name}-clock`).addEventListener('click', () => {
+        let next;
+        if (name === 'jk') {
+          const J = document.getElementById('jk-J').checked ? 1 : 0;
+          const K = document.getElementById('jk-K').checked ? 1 : 0;
+          next = fn(Q, J, K);
+          logEl.innerHTML += `<div>CLK↑ | J=${J} K=${K} | Q: ${Q} → ${next}</div>`;
+        } else if (name === 'dff') {
+          const D = document.getElementById('dff-D').checked ? 1 : 0;
+          next = D;
+          logEl.innerHTML += `<div>CLK↑ | D=${D} | Q: ${Q} → ${next}</div>`;
+        } else if (name === 'tff') {
+          const T = document.getElementById('tff-T').checked ? 1 : 0;
+          next = Q ^ T;
+          logEl.innerHTML += `<div>CLK↑ | T=${T} | Q: ${Q} → ${next}</div>`;
+        }
+        Q = next;
+        refresh();
+        logEl.scrollTop = logEl.scrollHeight;
+      });
+      document.getElementById(`${name}-reset`).addEventListener('click', () => {
+        Q = 0; refresh(); logEl.innerHTML = '<div style="color:var(--text-tertiary);">Reset to Q=0</div>';
+      });
+      refresh();
+    }
+
+    makeFlipFlop('sr', (Q, S, R) => S ? 1 : R ? 0 : Q);
+    makeFlipFlop('jk', (Q, J, K) => {
+      if (J === 0 && K === 0) return Q;
+      if (J === 0 && K === 1) return 0;
+      if (J === 1 && K === 0) return 1;
+      return Q ? 0 : 1; // toggle
+    });
+    makeFlipFlop('dff', () => 0);
+    makeFlipFlop('tff', () => 0);
+  })();
+  </script>
+</body>
+</html>

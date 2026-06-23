@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Encoder — LogicLab</title>
+  <meta name="description" content="Encoder circuits — 4-to-2 and 8-to-3 priority encoders with truth tables.">
+  <meta name="theme-color" content="#2563EB">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%232563EB'/%3E%3Ctext x='50' y='62' font-size='42' font-weight='800' fill='white' text-anchor='middle' font-family='sans-serif'%3ELL%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="stylesheet" href="css/extra.css">
+</head>
+<body>
+  <div id="sidebar-mount"></div>
+  <div id="topbar-mount"></div>
+  <div id="overlay-mount"></div>
+
+  <div class="app-container">
+    <div class="main-content">
+      <div class="page-content">
+        <div class="page-header">
+          <div class="breadcrumb"><a href="index.html">Home</a> <span>›</span> <span>Encoder</span></div>
+          <h1 class="page-title">📤 Encoder</h1>
+          <p class="page-subtitle">Converts 2<sup>N</sup> input lines into N output lines (binary code for the active input).</p>
+        </div>
+
+        <div class="card mb-3">
+          <h3 style="margin-bottom:0.5rem;">📖 Definition</h3>
+          <p>An <strong>Encoder</strong> is a combinational circuit that converts an active input signal into a coded output (usually binary). For 2<sup>N</sup> inputs, it produces N outputs.</p>
+          <p>Two common types:</p>
+          <ul>
+            <li><strong>Standard Encoder:</strong> Only one input can be active at a time. If multiple are active, output is undefined.</li>
+            <li><strong>Priority Encoder:</strong> Handles multiple simultaneous inputs by giving priority to the highest-order input.</li>
+          </ul>
+        </div>
+
+        <div class="tabs">
+          <div class="tab active" data-tab="enc42">4-to-2 Encoder</div>
+          <div class="tab" data-tab="enc83">8-to-3 Priority Encoder</div>
+        </div>
+
+        <!-- 4-to-2 Encoder -->
+        <div class="tab-panel active" id="panel-enc42">
+          <div class="card mb-3">
+            <h3>4-to-2 Binary Encoder</h3>
+            <p>Encodes 4 input lines into 2-bit binary output. Only one input is assumed active at a time.</p>
+
+            <h4 style="margin-top:1rem;">Boolean Expressions</h4>
+            <div class="grid-2">
+              <div class="result-box"><span class="result-value">Y₁ = D₂ + D₃</span></div>
+              <div class="result-box"><span class="result-value">Y₀ = D₁ + D₃</span></div>
+            </div>
+
+            <h4 style="margin-top:1rem;">Truth Table</h4>
+            <div class="table-wrapper">
+              <table class="table">
+                <thead><tr><th>D₀</th><th>D₁</th><th>D₂</th><th>D₃</th><th>Y₁</th><th>Y₀</th></tr></thead>
+                <tbody>
+                  <tr><td class="tt-on">1</td><td class="tt-off">0</td><td class="tt-off">0</td><td class="tt-off">0</td><td class="tt-off">0</td><td class="tt-off">0</td></tr>
+                  <tr><td class="tt-off">0</td><td class="tt-on">1</td><td class="tt-off">0</td><td class="tt-off">0</td><td class="tt-off">0</td><td class="tt-on">1</td></tr>
+                  <tr><td class="tt-off">0</td><td class="tt-off">0</td><td class="tt-on">1</td><td class="tt-off">0</td><td class="tt-on">1</td><td class="tt-off">0</td></tr>
+                  <tr><td class="tt-off">0</td><td class="tt-off">0</td><td class="tt-off">0</td><td class="tt-on">1</td><td class="tt-on">1</td><td class="tt-on">1</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <p style="font-size:0.85rem;color:var(--text-secondary);margin-top:0.5rem;">⚠️ All inputs = 0 produces Y₁Y₀ = 00, which is ambiguous (same as D₀ active).</p>
+          </div>
+
+          <div class="card">
+            <h3>🎮 Interactive 4-to-2 Encoder</h3>
+            <p style="font-size:0.875rem;">Select one input (or multiple to see undefined behavior):</p>
+            <div class="grid-2 mt-2">
+              <div>
+                <div class="gate-control">
+                  <label>D₀</label>
+                  <label class="toggle-switch"><input type="checkbox" id="enc42-D0" name="enc42"><span class="toggle-slider"></span></label>
+                </div>
+                <div class="gate-control">
+                  <label>D₁</label>
+                  <label class="toggle-switch"><input type="checkbox" id="enc42-D1" name="enc42"><span class="toggle-slider"></span></label>
+                </div>
+                <div class="gate-control">
+                  <label>D₂</label>
+                  <label class="toggle-switch"><input type="checkbox" id="enc42-D2" name="enc42"><span class="toggle-slider"></span></label>
+                </div>
+                <div class="gate-control">
+                  <label>D₃</label>
+                  <label class="toggle-switch"><input type="checkbox" id="enc42-D3" name="enc42"><span class="toggle-slider"></span></label>
+                </div>
+              </div>
+              <div>
+                <h4>Binary Output</h4>
+                <div class="result-box" style="font-size:1.2rem;margin-bottom:0.5rem;">
+                  <span style="color:var(--text-secondary);font-size:0.85rem;">Y₁Y₀ =</span>
+                  <span id="enc42-out" class="result-value">00</span>
+                </div>
+                <div id="enc42-dec" style="font-size:0.85rem;color:var(--text-secondary);">Decimal: 0</div>
+                <div id="enc42-warn" class="alert alert-warning" style="display:none;margin-top:0.5rem;font-size:0.8rem;">Multiple inputs active — undefined behavior!</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 8-to-3 Priority Encoder -->
+        <div class="tab-panel" id="panel-enc83">
+          <div class="card mb-3">
+            <h3>8-to-3 Priority Encoder</h3>
+            <p>Encodes 8 inputs into 3-bit binary. <strong>D₇ has highest priority</strong>; the highest active input determines the output.</p>
+
+            <h4 style="margin-top:1rem;">Boolean Expressions</h4>
+            <div class="result-box" style="margin-bottom:0.4rem;"><span class="result-value">Y₂ = D₄ + D₅ + D₆ + D₇</span></div>
+            <div class="result-box" style="margin-bottom:0.4rem;"><span class="result-value">Y₁ = D₂·D₃' + D₃·D₂'·D₁' + D₆·D₅' + D₇·D₆'</span></div>
+            <div class="result-box"><span class="result-value">Y₀ = D₁·D₃'·D₅'·D₇' + D₃·D₅'·D₇' + D₅·D₇' + D₇</span></div>
+
+            <h4 style="margin-top:1rem;">Truth Table</h4>
+            <div class="table-wrapper">
+              <table class="table">
+                <thead><tr><th>D₇</th><th>D₆</th><th>D₅</th><th>D₄</th><th>D₃</th><th>D₂</th><th>D₁</th><th>D₀</th><th>Y₂</th><th>Y₁</th><th>Y₀</th></tr></thead>
+                <tbody>
+                  <tr><td class="tt-off">0</td><td class="tt-off">0</td><td class="tt-off">0</td><td class="tt-off">0</td><td class="tt-off">0</td><td class="tt-off">0</td><td class="tt-off">0</td><td class="tt-on">1</td><td class="tt-off">0</td><td class="tt-off">0</td><td class="tt-off">0</td></tr>
+                  <tr><td class="tt-off">0</td><td class="tt-off">0</td><td class="tt-off">0</td><td class="tt-off">0</td><td class="tt-off">0</td><td class="tt-off">0</td><td class="tt-on">1</td><td class="tt-off">x</td><td class="tt-off">0</td><td class="tt-off">0</td><td class="tt-on">1</td></tr>
+                  <tr><td class="tt-off">0</td><td class="tt-off">0</td><td class="tt-off">0</td><td class="tt-off">0</td><td class="tt-off">0</td><td class="tt-on">1</td><td class="tt-off">x</td><td class="tt-off">x</td><td class="tt-off">0</td><td class="tt-on">1</td><td class="tt-off">0</td></tr>
+                  <tr><td class="tt-off">0</td><td class="tt-off">0</td><td class="tt-off">0</td><td class="tt-off">0</td><td class="tt-on">1</td><td class="tt-off">x</td><td class="tt-off">x</td><td class="tt-off">x</td><td class="tt-off">0</td><td class="tt-on">1</td><td class="tt-on">1</td></tr>
+                  <tr><td class="tt-off">0</td><td class="tt-off">0</td><td class="tt-off">0</td><td class="tt-on">1</td><td class="tt-off">x</td><td class="tt-off">x</td><td class="tt-off">x</td><td class="tt-off">x</td><td class="tt-on">1</td><td class="tt-off">0</td><td class="tt-off">0</td></tr>
+                  <tr><td class="tt-off">0</td><td class="tt-off">0</td><td class="tt-on">1</td><td class="tt-off">x</td><td class="tt-off">x</td><td class="tt-off">x</td><td class="tt-off">x</td><td class="tt-off">x</td><td class="tt-on">1</td><td class="tt-off">0</td><td class="tt-on">1</td></tr>
+                  <tr><td class="tt-off">0</td><td class="tt-on">1</td><td class="tt-off">x</td><td class="tt-off">x</td><td class="tt-off">x</td><td class="tt-off">x</td><td class="tt-off">x</td><td class="tt-off">x</td><td class="tt-on">1</td><td class="tt-on">1</td><td class="tt-off">0</td></tr>
+                  <tr><td class="tt-on">1</td><td class="tt-off">x</td><td class="tt-off">x</td><td class="tt-off">x</td><td class="tt-off">x</td><td class="tt-off">x</td><td class="tt-off">x</td><td class="tt-off">x</td><td class="tt-on">1</td><td class="tt-on">1</td><td class="tt-on">1</td></tr>
+                </tbody>
+              </table>
+              <p style="font-size:0.8rem;color:var(--text-secondary);margin-top:0.5rem;">x = don't care (lower priority inputs are ignored)</p>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>🎮 Interactive 8-to-3 Priority Encoder</h3>
+            <p style="font-size:0.875rem;">Activate any input(s) — the highest index active input wins.</p>
+            <div class="grid-2 mt-2">
+              <div>
+                <div class="grid-2" style="gap:0.5rem;">
+                  <div class="gate-control"><label>D₀</label><label class="toggle-switch"><input type="checkbox" id="enc83-D0"><span class="toggle-slider"></span></label></div>
+                  <div class="gate-control"><label>D₁</label><label class="toggle-switch"><input type="checkbox" id="enc83-D1"><span class="toggle-slider"></span></label></div>
+                  <div class="gate-control"><label>D₂</label><label class="toggle-switch"><input type="checkbox" id="enc83-D2"><span class="toggle-slider"></span></label></div>
+                  <div class="gate-control"><label>D₃</label><label class="toggle-switch"><input type="checkbox" id="enc83-D3"><span class="toggle-slider"></span></label></div>
+                  <div class="gate-control"><label>D₄</label><label class="toggle-switch"><input type="checkbox" id="enc83-D4"><span class="toggle-slider"></span></label></div>
+                  <div class="gate-control"><label>D₅</label><label class="toggle-switch"><input type="checkbox" id="enc83-D5"><span class="toggle-slider"></span></label></div>
+                  <div class="gate-control"><label>D₆</label><label class="toggle-switch"><input type="checkbox" id="enc83-D6"><span class="toggle-slider"></span></label></div>
+                  <div class="gate-control"><label>D₇</label><label class="toggle-switch"><input type="checkbox" id="enc83-D7"><span class="toggle-slider"></span></label></div>
+                </div>
+              </div>
+              <div>
+                <h4>Output</h4>
+                <div class="result-box" style="font-size:1.2rem;margin-bottom:0.5rem;">
+                  <span style="color:var(--text-secondary);font-size:0.85rem;">Y₂Y₁Y₀ =</span>
+                  <span id="enc83-out" class="result-value">000</span>
+                </div>
+                <div style="font-size:0.85rem;color:var(--text-secondary);">
+                  Decimal: <span id="enc83-dec">0</span><br>
+                  Highest active: <span id="enc83-high" style="color:var(--primary);font-weight:700;">—</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3 style="margin-bottom:0.75rem;">💡 Applications</h3>
+          <ul>
+            <li><strong>Keyboard Encoding:</strong> Each key produces a unique code</li>
+            <li><strong>Interrupt Controllers:</strong> Prioritizing multiple interrupt requests</li>
+            <li><strong>Address Encoding:</strong> Memory chip selection</li>
+            <li><strong>Data Compression:</strong> Reducing N-bit data to log₂(N) bits when only one is active</li>
+            <li><strong>Priority Arbitration:</strong> CPU bus arbitration</li>
+          </ul>
+          <h4 style="margin-top:1rem;">Common ICs</h4>
+          <ul>
+            <li><strong>74148:</strong> 8-to-3 Priority Encoder</li>
+            <li><strong>74147:</strong> 10-to-4 Priority Encoder (BCD)</li>
+            <li><strong>74348:</strong> 8-to-3 Priority Encoder with tri-state outputs</li>
+          </ul>
+        </div>
+
+        <div id="footer-mount"></div>
+      </div>
+      <div id="bottomnav-mount"></div>
+    </div>
+  </div>
+
+  <div id="scrolltop-mount"></div>
+
+  <script src="js/components.js"></script>
+<script src="js/pwa.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+  (function() {
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        const t = tab.dataset.tab;
+        document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
+        document.querySelectorAll('.tab-panel').forEach(x => x.classList.remove('active'));
+        tab.classList.add('active');
+        document.getElementById('panel-' + t).classList.add('active');
+      });
+    });
+
+    // 4-to-2 encoder
+    ['enc42-D0','enc42-D1','enc42-D2','enc42-D3'].forEach(id => {
+      document.getElementById(id).addEventListener('change', update42);
+    });
+    function update42() {
+      const D = [0,1,2,3].map(i => document.getElementById(`enc42-D${i}`).checked ? 1 : 0);
+      const active = D.reduce((a, b, i) => b ? i : a, -1);
+      const warnEl = document.getElementById('enc42-warn');
+      if (D.filter(x => x).length > 1) {
+        warnEl.style.display = 'block';
+      } else {
+        warnEl.style.display = 'none';
+      }
+      const val = active < 0 ? 0 : active;
+      const Y1 = (val >> 1) & 1;
+      const Y0 = val & 1;
+      document.getElementById('enc42-out').textContent = `${Y1}${Y0}`;
+      document.getElementById('enc42-dec').textContent = `Decimal: ${val}`;
+    }
+    update42();
+
+    // 8-to-3 priority encoder
+    ['enc83-D0','enc83-D1','enc83-D2','enc83-D3','enc83-D4','enc83-D5','enc83-D6','enc83-D7'].forEach(id => {
+      document.getElementById(id).addEventListener('change', update83);
+    });
+    function update83() {
+      const D = [0,1,2,3,4,5,6,7].map(i => document.getElementById(`enc83-D${i}`).checked ? 1 : 0);
+      let highest = -1;
+      for (let i = 7; i >= 0; i--) {
+        if (D[i]) { highest = i; break; }
+      }
+      const Y2 = (highest >> 2) & 1;
+      const Y1 = (highest >> 1) & 1;
+      const Y0 = highest & 1;
+      document.getElementById('enc83-out').textContent = `${Y2}${Y1}${Y0}`;
+      document.getElementById('enc83-dec').textContent = highest < 0 ? 0 : highest;
+      document.getElementById('enc83-high').textContent = highest < 0 ? '—' : `D${highest}`;
+    }
+    update83();
+  })();
+  </script>
+</body>
+</html>

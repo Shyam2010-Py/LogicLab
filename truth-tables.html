@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Truth Table Generator — LogicLab</title>
+  <meta name="description" content="Generate and export truth tables for all logic gates.">
+  <meta name="theme-color" content="#2563EB">
+  <link rel="manifest" href="manifest.json">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="LogicLab">
+  <meta name="application-name" content="LogicLab">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="msapplication-TileColor" content="#2563EB">
+  <meta name="msapplication-config" content="none">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%232563EB'/%3E%3Ctext x='50' y='62' font-size='42' font-weight='800' fill='white' text-anchor='middle' font-family='sans-serif'%3ELL%3C/text%3E%3C/svg%3E">
+  <link rel="apple-touch-icon" href="assets/icon-192.png">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="stylesheet" href="css/extra.css">
+</head>
+<body>
+  <div id="sidebar-mount"></div>
+  <div id="topbar-mount"></div>
+  <div id="overlay-mount"></div>
+
+  <div class="app-container">
+    <div class="main-content">
+      <div class="page-content">
+        <div class="page-header">
+          <div class="breadcrumb"><a href="index.html">Home</a> <span>›</span> <span>Truth Tables</span></div>
+          <h1 class="page-title">📋 Truth Table Generator</h1>
+          <p class="page-subtitle">Browse, generate, and export truth tables for all standard logic gates.</p>
+        </div>
+
+        <div class="card mb-3">
+          <div class="flex justify-between items-center mb-2" style="flex-wrap:wrap;gap:0.5rem;">
+            <h3>Select a Gate</h3>
+            <div class="flex gap-1">
+              <button id="exportCSVBtn" class="btn btn-sm btn-outline">⬇️ Export CSV</button>
+              <button id="printBtn" class="btn btn-sm btn-secondary">🖨️ Print</button>
+            </div>
+          </div>
+
+          <div class="pill-list">
+            <li><a href="#" class="active" data-gate="AND">AND</a></li>
+            <li><a href="#" data-gate="OR">OR</a></li>
+            <li><a href="#" data-gate="NOT">NOT</a></li>
+            <li><a href="#" data-gate="NAND">NAND</a></li>
+            <li><a href="#" data-gate="NOR">NOR</a></li>
+            <li><a href="#" data-gate="XOR">XOR</a></li>
+            <li><a href="#" data-gate="XNOR">XNOR</a></li>
+          </div>
+
+          <div id="gateInfo" class="alert mt-3"></div>
+        </div>
+
+        <div class="card mb-3">
+          <h3 style="margin-bottom:0.75rem;" id="truthTableTitle">Truth Table — AND Gate</h3>
+          <div class="table-wrapper" id="truthTableContainer"></div>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <h3 style="margin-bottom:0.75rem;">Boolean Expression</h3>
+            <div id="booleanExpr" class="result-box" style="font-size:1.1rem;">
+              <span class="result-value">Y = A · B</span>
+            </div>
+          </div>
+          <div class="card">
+            <h3 style="margin-bottom:0.75rem;">Gate Symbol Reference</h3>
+            <div style="font-size:0.85rem;color:var(--text-secondary);">
+              <p><strong>● Small circle (bubble):</strong> Indicates inversion (NOT)</p>
+              <p><strong>&amp; symbol:</strong> AND/NAND gate</p>
+              <p><strong>≥1 symbol:</strong> OR/NOR gate</p>
+              <p><strong>=1 symbol:</strong> XOR/XNOR gate</p>
+              <p><strong>Triangle:</strong> Buffer / NOT gate</p>
+            </div>
+          </div>
+        </div>
+
+        <div id="footer-mount"></div>
+      </div>
+      <div id="bottomnav-mount"></div>
+    </div>
+  </div>
+
+  <div id="scrolltop-mount"></div>
+
+  <script src="js/components.js"></script>
+<script src="js/pwa.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+  (function() {
+    'use strict';
+
+    const GATES = {
+      AND:   { expr: 'Y = A · B', desc: 'Output is 1 only when ALL inputs are 1', table: [[0,0,0],[0,1,0],[1,0,0],[1,1,1]], cols: ['A','B','Y'] },
+      OR:    { expr: 'Y = A + B', desc: 'Output is 1 when ANY input is 1', table: [[0,0,0],[0,1,1],[1,0,1],[1,1,1]], cols: ['A','B','Y'] },
+      NOT:   { expr: 'Y = A\u2032', desc: 'Output is the inverse of input', table: [[0,1],[1,0]], cols: ['A','Y'] },
+      NAND:  { expr: 'Y = (A · B)\u2032', desc: 'Output is 0 only when both inputs are 1. Universal gate.', table: [[0,0,1],[0,1,1],[1,0,1],[1,1,0]], cols: ['A','B','Y'] },
+      NOR:   { expr: 'Y = (A + B)\u2032', desc: 'Output is 0 when ANY input is 1. Universal gate.', table: [[0,0,1],[0,1,0],[1,0,0],[1,1,0]], cols: ['A','B','Y'] },
+      XOR:   { expr: 'Y = A ⊕ B', desc: 'Output is 1 when inputs are DIFFERENT', table: [[0,0,0],[0,1,1],[1,0,1],[1,1,0]], cols: ['A','B','Y'] },
+      XNOR:  { expr: 'Y = (A ⊕ B)\u2032', desc: 'Output is 1 when inputs are SAME', table: [[0,0,1],[0,1,0],[1,0,0],[1,1,1]], cols: ['A','B','Y'] }
+    };
+
+    let currentGate = 'AND';
+
+    function render(gateName) {
+      currentGate = gateName;
+      const gate = GATES[gateName];
+
+      // Title
+      document.getElementById('truthTableTitle').textContent = `Truth Table — ${gateName} Gate`;
+
+      // Info
+      document.getElementById('gateInfo').innerHTML = `<strong>${gateName}:</strong> ${gate.desc}`;
+
+      // Boolean expr
+      document.getElementById('booleanExpr').innerHTML = `<span class="result-value">${gate.expr}</span>`;
+
+      // Table
+      const lastIdx = gate.cols.length - 1;
+      let html = '<table class="table"><thead><tr>';
+      gate.cols.forEach((c, i) => {
+        html += `<th style="${i === lastIdx ? 'background:var(--primary);color:white;' : ''}">${c}</th>`;
+      });
+      html += '</tr></thead><tbody>';
+      gate.table.forEach(row => {
+        html += '<tr>';
+        row.forEach((v, i) => {
+          const cls = i === lastIdx ? (v ? 'tt-on' : 'tt-off') : (v ? 'tt-on' : 'tt-off');
+          html += `<td class="${cls}">${v}</td>`;
+        });
+        html += '</tr>';
+      });
+      html += '</tbody></table>';
+      document.getElementById('truthTableContainer').innerHTML = html;
+
+      // Update active pill
+      document.querySelectorAll('[data-gate]').forEach(a => {
+        if (a.dataset.gate === gateName) a.classList.add('active');
+        else a.classList.remove('active');
+      });
+    }
+
+    function exportCSV() {
+      const gate = GATES[currentGate];
+      let csv = gate.cols.join(',') + '\n';
+      gate.table.forEach(row => {
+        csv += row.join(',') + '\n';
+      });
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${currentGate}_truth_table.csv`;
+      a.click();
+      URL.revokeObjectURL(url);
+      window.showToast('CSV downloaded', 'success');
+    }
+
+    function init() {
+      document.querySelectorAll('[data-gate]').forEach(a => {
+        a.addEventListener('click', (e) => {
+          e.preventDefault();
+          render(a.dataset.gate);
+        });
+      });
+      document.getElementById('exportCSVBtn').addEventListener('click', exportCSV);
+      document.getElementById('printBtn').addEventListener('click', () => window.print());
+      render('AND');
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
+  })();
+  </script>
+</body>
+</html>

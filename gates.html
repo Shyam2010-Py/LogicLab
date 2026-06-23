@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Logic Gates Simulator — LogicLab</title>
+  <meta name="description" content="Interactive simulator for AND, OR, NOT, NAND, NOR, XOR, XNOR logic gates.">
+  <meta name="theme-color" content="#2563EB">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%232563EB'/%3E%3Ctext x='50' y='62' font-size='42' font-weight='800' fill='white' text-anchor='middle' font-family='sans-serif'%3ELL%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="stylesheet" href="css/extra.css">
+</head>
+<body>
+  <div id="sidebar-mount"></div>
+  <div id="topbar-mount"></div>
+  <div id="overlay-mount"></div>
+
+  <div class="app-container">
+    <div class="main-content">
+      <div class="page-content">
+        <div class="page-header">
+          <div class="breadcrumb"><a href="index.html">Home</a> <span>›</span> <span>Logic Gates</span></div>
+          <h1 class="page-title">⚡ Logic Gates Simulator</h1>
+          <p class="page-subtitle">Interactive simulation of basic and universal logic gates with real-time output visualization.</p>
+        </div>
+
+        <!-- AND Gate -->
+        <div class="card mb-3">
+          <div class="flex justify-between items-center mb-2" style="flex-wrap:wrap;gap:0.5rem;">
+            <h3>AND Gate</h3>
+            <span class="badge badge-primary">Y = A · B</span>
+          </div>
+          <p style="font-size:0.875rem;">Output is <strong>1 only when ALL inputs are 1</strong>. Used in conjunction (AND) operations and control logic.</p>
+          <div class="grid-2 mt-3">
+            <div>
+              <div class="gate-control">
+                <label>Input A</label>
+                <label class="toggle-switch">
+                  <input type="checkbox" id="inputA-AND">
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+              <div class="gate-control">
+                <label>Input B</label>
+                <label class="toggle-switch">
+                  <input type="checkbox" id="inputB-AND">
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+              <div class="gate-control">
+                <label>Output Y</label>
+                <span id="output-AND" class="led off"></span>
+                <span style="font-weight:700;font-family:var(--font-mono);">0</span>
+              </div>
+            </div>
+            <div class="gate-display" id="svg-AND"></div>
+          </div>
+          <details style="margin-top:1rem;">
+            <summary style="cursor:pointer;font-weight:600;font-size:0.875rem;">View Truth Table</summary>
+            <div class="table-wrapper mt-2">
+              <table class="table">
+                <thead><tr><th>A</th><th>B</th><th>Y = A·B</th></tr></thead>
+                <tbody>
+                  <tr><td class="tt-off">0</td><td class="tt-off">0</td><td class="tt-off">0</td></tr>
+                  <tr><td class="tt-off">0</td><td class="tt-on">1</td><td class="tt-off">0</td></tr>
+                  <tr><td class="tt-on">1</td><td class="tt-off">0</td><td class="tt-off">0</td></tr>
+                  <tr><td class="tt-on">1</td><td class="tt-on">1</td><td class="tt-on">1</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </details>
+        </div>
+
+        <!-- OR Gate -->
+        <div class="card mb-3">
+          <div class="flex justify-between items-center mb-2" style="flex-wrap:wrap;gap:0.5rem;">
+            <h3>OR Gate</h3>
+            <span class="badge badge-primary">Y = A + B</span>
+          </div>
+          <p style="font-size:0.875rem;">Output is <strong>1 when ANY input is 1</strong>. Used in disjunction operations and inclusive logic.</p>
+          <div class="grid-2 mt-3">
+            <div>
+              <div class="gate-control">
+                <label>Input A</label>
+                <label class="toggle-switch">
+                  <input type="checkbox" id="inputA-OR">
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+              <div class="gate-control">
+                <label>Input B</label>
+                <label class="toggle-switch">
+                  <input type="checkbox" id="inputB-OR">
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+              <div class="gate-control">
+                <label>Output Y</label>
+                <span id="output-OR" class="led off"></span>
+                <span style="font-weight:700;font-family:var(--font-mono);">0</span>
+              </div>
+            </div>
+            <div class="gate-display" id="svg-OR"></div>
+          </div>
+          <details style="margin-top:1rem;">
+            <summary style="cursor:pointer;font-weight:600;font-size:0.875rem;">View Truth Table</summary>
+            <div class="table-wrapper mt-2">
+              <table class="table">
+                <thead><tr><th>A</th><th>B</th><th>Y = A+B</th></tr></thead>
+                <tbody>
+                  <tr><td class="tt-off">0</td><td class="tt-off">0</td><td class="tt-off">0</td></tr>
+                  <tr><td class="tt-off">0</td><td class="tt-on">1</td><td class="tt-on">1</td></tr>
+                  <tr><td class="tt-on">1</td><td class="tt-off">0</td><td class="tt-on">1</td></tr>
+                  <tr><td class="tt-on">1</td><td class="tt-on">1</td><td class="tt-on">1</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </details>
+        </div>
+
+        <!-- NOT Gate -->
+        <div class="card mb-3">
+          <div class="flex justify-between items-center mb-2" style="flex-wrap:wrap;gap:0.5rem;">
+            <h3>NOT Gate (Inverter)</h3>
+            <span class="badge badge-primary">Y = A'</span>
+          </div>
+          <p style="font-size:0.875rem;">Output is the <strong>inverse of input</strong>. Also called an inverter. Has only one input.</p>
+          <div class="grid-2 mt-3">
+            <div>
+              <div class="gate-control">
+                <label>Input A</label>
+                <label class="toggle-switch">
+                  <input type="checkbox" id="inputA-NOT">
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+              <div class="gate-control">
+                <label>Output Y</label>
+                <span id="output-NOT" class="led on"></span>
+                <span style="font-weight:700;font-family:var(--font-mono);">1</span>
+              </div>
+            </div>
+            <div class="gate-display" id="svg-NOT"></div>
+          </div>
+          <details style="margin-top:1rem;">
+            <summary style="cursor:pointer;font-weight:600;font-size:0.875rem;">View Truth Table</summary>
+            <div class="table-wrapper mt-2">
+              <table class="table">
+                <thead><tr><th>A</th><th>Y = A'</th></tr></thead>
+                <tbody>
+                  <tr><td class="tt-off">0</td><td class="tt-on">1</td></tr>
+                  <tr><td class="tt-on">1</td><td class="tt-off">0</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </details>
+        </div>
+
+        <!-- NAND Gate -->
+        <div class="card mb-3">
+          <div class="flex justify-between items-center mb-2" style="flex-wrap:wrap;gap:0.5rem;">
+            <h3>NAND Gate</h3>
+            <span class="badge badge-accent">Y = (A·B)'</span>
+          </div>
+          <p style="font-size:0.875rem;">NOT-AND. Output is <strong>0 only when both inputs are 1</strong>. <strong>Universal gate</strong> — any logic function can be built using only NAND gates.</p>
+          <div class="grid-2 mt-3">
+            <div>
+              <div class="gate-control">
+                <label>Input A</label>
+                <label class="toggle-switch">
+                  <input type="checkbox" id="inputA-NAND">
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+              <div class="gate-control">
+                <label>Input B</label>
+                <label class="toggle-switch">
+                  <input type="checkbox" id="inputB-NAND">
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+              <div class="gate-control">
+                <label>Output Y</label>
+                <span id="output-NAND" class="led on"></span>
+                <span style="font-weight:700;font-family:var(--font-mono);">1</span>
+              </div>
+            </div>
+            <div class="gate-display" id="svg-NAND"></div>
+          </div>
+          <details style="margin-top:1rem;">
+            <summary style="cursor:pointer;font-weight:600;font-size:0.875rem;">View Truth Table</summary>
+            <div class="table-wrapper mt-2">
+              <table class="table">
+                <thead><tr><th>A</th><th>B</th><th>Y = (A·B)'</th></tr></thead>
+                <tbody>
+                  <tr><td class="tt-off">0</td><td class="tt-off">0</td><td class="tt-on">1</td></tr>
+                  <tr><td class="tt-off">0</td><td class="tt-on">1</td><td class="tt-on">1</td></tr>
+                  <tr><td class="tt-on">1</td><td class="tt-off">0</td><td class="tt-on">1</td></tr>
+                  <tr><td class="tt-on">1</td><td class="tt-on">1</td><td class="tt-off">0</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </details>
+        </div>
+
+        <!-- NOR Gate -->
+        <div class="card mb-3">
+          <div class="flex justify-between items-center mb-2" style="flex-wrap:wrap;gap:0.5rem;">
+            <h3>NOR Gate</h3>
+            <span class="badge badge-accent">Y = (A+B)'</span>
+          </div>
+          <p style="font-size:0.875rem;">NOT-OR. Output is <strong>0 when any input is 1</strong>. Also a <strong>universal gate</strong> — any function can be implemented with NOR gates alone.</p>
+          <div class="grid-2 mt-3">
+            <div>
+              <div class="gate-control">
+                <label>Input A</label>
+                <label class="toggle-switch">
+                  <input type="checkbox" id="inputA-NOR">
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+              <div class="gate-control">
+                <label>Input B</label>
+                <label class="toggle-switch">
+                  <input type="checkbox" id="inputB-NOR">
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+              <div class="gate-control">
+                <label>Output Y</label>
+                <span id="output-NOR" class="led on"></span>
+                <span style="font-weight:700;font-family:var(--font-mono);">1</span>
+              </div>
+            </div>
+            <div class="gate-display" id="svg-NOR"></div>
+          </div>
+          <details style="margin-top:1rem;">
+            <summary style="cursor:pointer;font-weight:600;font-size:0.875rem;">View Truth Table</summary>
+            <div class="table-wrapper mt-2">
+              <table class="table">
+                <thead><tr><th>A</th><th>B</th><th>Y = (A+B)'</th></tr></thead>
+                <tbody>
+                  <tr><td class="tt-off">0</td><td class="tt-off">0</td><td class="tt-on">1</td></tr>
+                  <tr><td class="tt-off">0</td><td class="tt-on">1</td><td class="tt-off">0</td></tr>
+                  <tr><td class="tt-on">1</td><td class="tt-off">0</td><td class="tt-off">0</td></tr>
+                  <tr><td class="tt-on">1</td><td class="tt-on">1</td><td class="tt-off">0</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </details>
+        </div>
+
+        <!-- XOR Gate -->
+        <div class="card mb-3">
+          <div class="flex justify-between items-center mb-2" style="flex-wrap:wrap;gap:0.5rem;">
+            <h3>XOR Gate (Exclusive OR)</h3>
+            <span class="badge badge-primary">Y = A ⊕ B</span>
+          </div>
+          <p style="font-size:0.875rem;">Output is <strong>1 when inputs are DIFFERENT</strong>. Widely used in arithmetic circuits (adders, subtractors) and parity generators.</p>
+          <div class="grid-2 mt-3">
+            <div>
+              <div class="gate-control">
+                <label>Input A</label>
+                <label class="toggle-switch">
+                  <input type="checkbox" id="inputA-XOR">
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+              <div class="gate-control">
+                <label>Input B</label>
+                <label class="toggle-switch">
+                  <input type="checkbox" id="inputB-XOR">
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+              <div class="gate-control">
+                <label>Output Y</label>
+                <span id="output-XOR" class="led off"></span>
+                <span style="font-weight:700;font-family:var(--font-mono);">0</span>
+              </div>
+            </div>
+            <div class="gate-display" id="svg-XOR"></div>
+          </div>
+          <details style="margin-top:1rem;">
+            <summary style="cursor:pointer;font-weight:600;font-size:0.875rem;">View Truth Table</summary>
+            <div class="table-wrapper mt-2">
+              <table class="table">
+                <thead><tr><th>A</th><th>B</th><th>Y = A⊕B</th></tr></thead>
+                <tbody>
+                  <tr><td class="tt-off">0</td><td class="tt-off">0</td><td class="tt-off">0</td></tr>
+                  <tr><td class="tt-off">0</td><td class="tt-on">1</td><td class="tt-on">1</td></tr>
+                  <tr><td class="tt-on">1</td><td class="tt-off">0</td><td class="tt-on">1</td></tr>
+                  <tr><td class="tt-on">1</td><td class="tt-on">1</td><td class="tt-off">0</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </details>
+        </div>
+
+        <!-- XNOR Gate -->
+        <div class="card mb-3">
+          <div class="flex justify-between items-center mb-2" style="flex-wrap:wrap;gap:0.5rem;">
+            <h3>XNOR Gate (Exclusive NOR)</h3>
+            <span class="badge badge-primary">Y = (A ⊕ B)'</span>
+          </div>
+          <p style="font-size:0.875rem;">Output is <strong>1 when inputs are SAME</strong>. Used in equality comparators and parity checkers.</p>
+          <div class="grid-2 mt-3">
+            <div>
+              <div class="gate-control">
+                <label>Input A</label>
+                <label class="toggle-switch">
+                  <input type="checkbox" id="inputA-XNOR">
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+              <div class="gate-control">
+                <label>Input B</label>
+                <label class="toggle-switch">
+                  <input type="checkbox" id="inputB-XNOR">
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+              <div class="gate-control">
+                <label>Output Y</label>
+                <span id="output-XNOR" class="led on"></span>
+                <span style="font-weight:700;font-family:var(--font-mono);">1</span>
+              </div>
+            </div>
+            <div class="gate-display" id="svg-XNOR"></div>
+          </div>
+          <details style="margin-top:1rem;">
+            <summary style="cursor:pointer;font-weight:600;font-size:0.875rem;">View Truth Table</summary>
+            <div class="table-wrapper mt-2">
+              <table class="table">
+                <thead><tr><th>A</th><th>B</th><th>Y = (A⊕B)'</th></tr></thead>
+                <tbody>
+                  <tr><td class="tt-off">0</td><td class="tt-off">0</td><td class="tt-on">1</td></tr>
+                  <tr><td class="tt-off">0</td><td class="tt-on">1</td><td class="tt-off">0</td></tr>
+                  <tr><td class="tt-on">1</td><td class="tt-off">0</td><td class="tt-off">0</td></tr>
+                  <tr><td class="tt-on">1</td><td class="tt-on">1</td><td class="tt-on">1</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </details>
+        </div>
+
+        <div class="card">
+          <h3 style="margin-bottom:0.75rem;">💡 Key Concepts</h3>
+          <ul>
+            <li><strong>Universal Gates:</strong> NAND and NOR can implement ANY logic function alone — this is the foundation of modern digital ICs.</li>
+            <li><strong>Active Levels:</strong> NAND/NOR outputs are "active low" (true when 0). Engineers use bubbles to indicate inversion.</li>
+            <li><strong>XOR Properties:</strong> A⊕A = 0, A⊕A' = 1, A⊕0 = A, A⊕1 = A'. Useful for controlled inverters and adders.</li>
+            <li><strong>IC Packages:</strong> 7400 (NAND), 7402 (NOR), 7408 (AND), 7432 (OR), 7486 (XOR) — common TTL gates.</li>
+          </ul>
+        </div>
+
+        <div id="footer-mount"></div>
+      </div>
+      <div id="bottomnav-mount"></div>
+    </div>
+  </div>
+
+  <div id="scrolltop-mount"></div>
+
+  <script src="js/components.js"></script>
+<script src="js/pwa.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/gates.js"></script>
+</body>
+</html>

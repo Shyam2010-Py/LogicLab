@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Complement Calculator — LogicLab</title>
+  <meta name="description" content="Calculate 1's and 2's complements of binary numbers.">
+  <meta name="theme-color" content="#2563EB">
+  <link rel="manifest" href="manifest.json">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="LogicLab">
+  <meta name="application-name" content="LogicLab">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="msapplication-TileColor" content="#2563EB">
+  <meta name="msapplication-config" content="none">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%232563EB'/%3E%3Ctext x='50' y='62' font-size='42' font-weight='800' fill='white' text-anchor='middle' font-family='sans-serif'%3ELL%3C/text%3E%3C/svg%3E">
+  <link rel="apple-touch-icon" href="assets/icon-192.png">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="stylesheet" href="css/extra.css">
+</head>
+<body>
+  <div id="sidebar-mount"></div>
+  <div id="topbar-mount"></div>
+  <div id="overlay-mount"></div>
+
+  <div class="app-container">
+    <div class="main-content">
+      <div class="page-content">
+        <div class="page-header">
+          <div class="breadcrumb"><a href="index.html">Home</a> <span>›</span> <span>Complements</span></div>
+          <h1 class="page-title">🔢 Complement Calculator</h1>
+          <p class="page-subtitle">Calculate 1's and 2's complements of binary numbers with step-by-step explanations.</p>
+        </div>
+
+        <div class="card mb-3">
+          <h3 style="margin-bottom:1rem;">Input</h3>
+          <div id="compError" class="alert alert-danger" style="display:none;"></div>
+          <div class="grid-2">
+            <div class="form-group">
+              <label class="form-label">Binary Number</label>
+              <input type="text" id="compInput" class="form-input text-mono" placeholder="e.g., 1011001" value="1011001">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Bit Width (optional)</label>
+              <input type="number" id="compWidth" class="form-input" placeholder="Auto-detect" min="1" max="64">
+            </div>
+          </div>
+          <div class="flex gap-2" style="flex-wrap:wrap;">
+            <button id="compBtn" class="btn btn-primary">🔄 Calculate Complements</button>
+            <button id="compClear" class="btn btn-secondary">🗑️ Clear</button>
+          </div>
+        </div>
+
+        <div class="grid-2 mb-3">
+          <div class="card">
+            <h3 style="margin-bottom:0.5rem;">1's Complement</h3>
+            <p style="font-size:0.875rem;">Invert every bit (0 → 1, 1 → 0).</p>
+            <div class="result-box mt-2">
+              <span id="compOnes" class="result-value">—</span>
+              <button id="copyOnes" class="btn btn-sm btn-outline">📋 Copy</button>
+            </div>
+            <div id="compOnesDec" style="font-size:0.8rem;color:var(--text-secondary);margin-top:0.5rem;"></div>
+          </div>
+          <div class="card">
+            <h3 style="margin-bottom:0.5rem;">2's Complement</h3>
+            <p style="font-size:0.875rem;">1's complement + 1 (used for representing negative numbers).</p>
+            <div class="result-box mt-2">
+              <span id="compTwos" class="result-value">—</span>
+              <button id="copyTwos" class="btn btn-sm btn-outline">📋 Copy</button>
+            </div>
+            <div id="compTwosDec" style="font-size:0.8rem;color:var(--text-secondary);margin-top:0.5rem;"></div>
+          </div>
+        </div>
+
+        <div class="card mb-3">
+          <h3 style="margin-bottom:1rem;">📚 Step-by-Step Explanation</h3>
+          <div id="compSteps"></div>
+        </div>
+
+        <div class="card mb-3">
+          <h3 style="margin-bottom:0.5rem;">⚡ Try Examples</h3>
+          <div class="flex gap-1" style="flex-wrap:wrap;">
+            <button class="btn btn-sm btn-outline" data-comp="1011001">1011001</button>
+            <button class="btn btn-sm btn-outline" data-comp="00001111">00001111</button>
+            <button class="btn btn-sm btn-outline" data-comp="11110000">11110000</button>
+            <button class="btn btn-sm btn-outline" data-comp="1">1</button>
+            <button class="btn btn-sm btn-outline" data-comp="10101010">10101010</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3 style="margin-bottom:0.75rem;">📖 About Complements</h3>
+          <p>Complements simplify subtraction in digital systems. Instead of building dedicated subtractor circuits, computers add the <strong>2's complement</strong> of a number to perform subtraction.</p>
+          <p><strong>1's Complement:</strong> Flip every bit (0↔1). Example: 1's complement of 1010 = 0101.</p>
+          <p><strong>2's Complement:</strong> 1's complement + 1. Used to represent signed numbers in binary.</p>
+          <p><strong>Subtraction using 2's Complement:</strong> A − B = A + (2's complement of B). If result overflows, discard the carry-out.</p>
+          <h4 style="margin-top:1rem;">Examples</h4>
+          <ul>
+            <li>1's comp(0) = 1, 2's comp(0) = 0</li>
+            <li>1's comp(1) = 0, 2's comp(1) = 1</li>
+            <li>1's comp(1010) = 0101, 2's comp(1010) = 0110</li>
+            <li>1's comp(00001111) = 11110000, 2's comp(00001111) = 11110001</li>
+          </ul>
+        </div>
+
+        <div id="footer-mount"></div>
+      </div>
+      <div id="bottomnav-mount"></div>
+    </div>
+  </div>
+
+  <div id="scrolltop-mount"></div>
+
+  <script src="js/components.js"></script>
+<script src="js/pwa.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+  (function() {
+    'use strict';
+
+    function calcOnes(bin) {
+      return bin.split('').map(b => b === '0' ? '1' : '0').join('');
+    }
+
+    function addBinary(a, b) {
+      a = a.split('').reverse();
+      b = b.split('').reverse();
+      const len = Math.max(a.length, b.length);
+      let carry = 0, result = '';
+      for (let i = 0; i < len; i++) {
+        const sum = (parseInt(a[i] || '0', 10) + parseInt(b[i] || '0', 10) + carry);
+        result = (sum % 2) + result;
+        carry = Math.floor(sum / 2);
+      }
+      if (carry) result = '1' + result;
+      return result;
+    }
+
+    function calcTwos(bin) {
+      return addBinary(calcOnes(bin), '1');
+    }
+
+    function toSignedDecimal(bin) {
+      // Interpret as 2's complement signed
+      const n = parseInt(bin, 2);
+      if (bin.length === 0) return 0;
+      const signBit = bin[0];
+      if (signBit === '1') {
+        return n - Math.pow(2, bin.length);
+      }
+      return n;
+    }
+
+    function calc() {
+      let input = document.getElementById('compInput').value.trim();
+      const widthEl = document.getElementById('compWidth');
+      const width = parseInt(widthEl.value, 10);
+      const errEl = document.getElementById('compError');
+
+      if (!input || !/^[01]+$/.test(input)) {
+        errEl.textContent = 'Please enter a valid binary number (0s and 1s only)';
+        errEl.style.display = 'block';
+        return;
+      }
+      errEl.style.display = 'none';
+
+      // Pad to width
+      if (!isNaN(width) && width > 0 && input.length < width) {
+        input = input.padStart(width, '0');
+      }
+
+      const ones = calcOnes(input);
+      const twos = calcTwos(input);
+
+      document.getElementById('compOnes').textContent = ones;
+      document.getElementById('compTwos').textContent = twos;
+
+      document.getElementById('compOnesDec').textContent =
+        `Decimal: ${parseInt(ones, 2)} · Original: ${parseInt(input, 2)}`;
+      document.getElementById('compTwosDec').textContent =
+        `Decimal: ${parseInt(twos, 2)} · Signed: ${toSignedDecimal(twos)}`;
+
+      // Steps
+      const steps = [];
+      steps.push(`<div class="step-box"><span class="step-num">1</span><strong>Original Number:</strong> ${input}</div>`);
+
+      // 1's complement step
+      let onesVisual = '';
+      for (let i = 0; i < input.length; i++) {
+        onesVisual += `<span class="binary-bit ${input[i]==='1'?'one':'zero'}">${input[i]}</span>`;
+      }
+      let onesResult = '';
+      for (let i = 0; i < ones.length; i++) {
+        onesResult += `<span class="binary-bit ${ones[i]==='1'?'one':'zero'}" style="${ones[i] !== input[i] ? 'background:var(--warning);color:white;' : ''}">${ones[i]}</span>`;
+      }
+      steps.push(`<div class="step-box"><span class="step-num">2</span><strong>1's Complement:</strong> Flip each bit (0→1, 1→0):</div>`);
+      steps.push(`<div class="step-box" style="text-align:center;">
+        <div style="display:flex;justify-content:center;gap:0.3rem;margin-bottom:0.5rem;">${onesVisual}</div>
+        <div style="font-size:1.2rem;color:var(--text-tertiary);">↓ invert</div>
+        <div style="display:flex;justify-content:center;gap:0.3rem;margin-top:0.5rem;">${onesResult}</div>
+      </div>`);
+      steps.push(`<div class="step-box"><span class="step-num">3</span><strong>1's Complement Result:</strong> <span style="color:var(--primary);font-weight:700;">${ones}</span></div>`);
+
+      // 2's complement step
+      steps.push(`<div class="step-box"><span class="step-num">4</span><strong>2's Complement:</strong> Add 1 to the 1's complement.</div>`);
+      steps.push(`<div class="step-box" style="font-family:var(--font-mono);text-align:center;">
+        <div style="margin-bottom:0.25rem;">${ones.split('').map(b => `<span class="binary-bit ${b==='1'?'one':'zero'}">${b}</span>`).join('')}</div>
+        <div style="margin-bottom:0.25rem;">+ <span class="binary-bit zero" style="margin-left:1rem;">1</span></div>
+        <div style="border-top:2px solid var(--text-primary);padding-top:0.5rem;">${twos.split('').map(b => `<span class="binary-bit ${b==='1'?'one':'zero'}" style="background:var(--primary-light);color:var(--primary);">${b}</span>`).join('')}</div>
+      </div>`);
+      steps.push(`<div class="step-box"><span class="step-num">5</span><strong>2's Complement Result:</strong> <span style="color:var(--success);font-weight:700;">${twos}</span></div>`);
+
+      document.getElementById('compSteps').innerHTML = steps.join('');
+    }
+
+    function init() {
+      document.getElementById('compBtn').addEventListener('click', calc);
+      document.getElementById('compInput').addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') calc();
+      });
+      document.getElementById('compClear').addEventListener('click', () => {
+        document.getElementById('compInput').value = '';
+        document.getElementById('compWidth').value = '';
+        document.getElementById('compOnes').textContent = '—';
+        document.getElementById('compTwos').textContent = '—';
+        document.getElementById('compSteps').innerHTML = '';
+      });
+      document.getElementById('copyOnes').addEventListener('click', (e) => {
+        const v = document.getElementById('compOnes').textContent;
+        if (v !== '—') window.copyToClipboard(v, e.currentTarget);
+      });
+      document.getElementById('copyTwos').addEventListener('click', (e) => {
+        const v = document.getElementById('compTwos').textContent;
+        if (v !== '—') window.copyToClipboard(v, e.currentTarget);
+      });
+      document.querySelectorAll('[data-comp]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.getElementById('compInput').value = btn.dataset.comp;
+          calc();
+        });
+      });
+      calc();
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
+  })();
+  </script>
+</body>
+</html>

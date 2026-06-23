@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Multiplexer — LogicLab</title>
+  <meta name="description" content="Multiplexer (MUX) circuits — 2:1 and 4:1 with truth tables and applications.">
+  <meta name="theme-color" content="#2563EB">
+  <link rel="manifest" href="manifest.json">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="LogicLab">
+  <meta name="application-name" content="LogicLab">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="msapplication-TileColor" content="#2563EB">
+  <meta name="msapplication-config" content="none">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%232563EB'/%3E%3Ctext x='50' y='62' font-size='42' font-weight='800' fill='white' text-anchor='middle' font-family='sans-serif'%3ELL%3C/text%3E%3C/svg%3E">
+  <link rel="apple-touch-icon" href="assets/icon-192.png">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="stylesheet" href="css/extra.css">
+</head>
+<body>
+  <div id="sidebar-mount"></div>
+  <div id="topbar-mount"></div>
+  <div id="overlay-mount"></div>
+
+  <div class="app-container">
+    <div class="main-content">
+      <div class="page-content">
+        <div class="page-header">
+          <div class="breadcrumb"><a href="index.html">Home</a> <span>›</span> <span>Multiplexer</span></div>
+          <h1 class="page-title">🔀 Multiplexer (MUX)</h1>
+          <p class="page-subtitle">A data selector that routes one of multiple inputs to a single output line.</p>
+        </div>
+
+        <div class="grid-2 mb-3">
+          <div class="card">
+            <h3 style="margin-bottom:0.5rem;">📖 Definition</h3>
+            <p>A <strong>Multiplexer (MUX)</strong> is a combinational circuit that selects one of several input data lines and forwards the selected input to a single output line. The selection is controlled by <strong>select lines</strong>.</p>
+            <p>An N-to-1 MUX has <strong>2<sup>N</sup> data inputs</strong> and <strong>N select lines</strong>.</p>
+          </div>
+          <div class="card">
+            <h3 style="margin-bottom:0.5rem;">⚙️ General Equation</h3>
+            <div class="result-box" style="font-size:0.95rem;">
+              <span class="result-value">Y = Σ(m<sub>i</sub> · D<sub>i</sub>)</span>
+            </div>
+            <p style="font-size:0.85rem;margin-top:0.5rem;">Where m<sub>i</sub> are the minterms from select lines and D<sub>i</sub> are the data inputs.</p>
+          </div>
+        </div>
+
+        <div class="tabs">
+          <div class="tab active" data-tab="mux21">2:1 MUX</div>
+          <div class="tab" data-tab="mux41">4:1 MUX</div>
+        </div>
+
+        <!-- 2:1 MUX -->
+        <div class="tab-panel active" id="panel-mux21">
+          <div class="card mb-3">
+            <h3>2-to-1 Multiplexer</h3>
+            <p>Selects between 2 data inputs (D₀, D₁) using 1 select line (S).</p>
+
+            <h4 style="margin-top:1rem;">Circuit Symbol</h4>
+            <svg viewBox="0 0 240 140" style="width:100%;max-width:280px;height:auto;display:block;margin:1rem auto;">
+              <polygon points="40,20 40,120 180,70" fill="var(--bg-card)" stroke="currentColor" stroke-width="2"/>
+              <line x1="0" y1="40" x2="40" y2="40" stroke="currentColor" stroke-width="2"/>
+              <text x="10" y="32" font-size="13" font-weight="700">D₀</text>
+              <line x1="0" y1="100" x2="40" y2="100" stroke="currentColor" stroke-width="2"/>
+              <text x="10" y="120" font-size="13" font-weight="700">D₁</text>
+              <line x1="0" y1="70" x2="40" y2="70" stroke="currentColor" stroke-width="2" stroke-dasharray="3,2"/>
+              <text x="10" y="65" font-size="11" font-weight="700" fill="var(--accent)">S</text>
+              <line x1="180" y1="70" x2="240" y2="70" stroke="currentColor" stroke-width="2"/>
+              <text x="195" y="62" font-size="13" font-weight="700">Y</text>
+            </svg>
+
+            <h4 style="margin-top:1rem;">Boolean Expression</h4>
+            <div class="result-box"><span class="result-value">Y = S'·D₀ + S·D₁</span></div>
+
+            <h4 style="margin-top:1rem;">Truth Table</h4>
+            <div class="table-wrapper">
+              <table class="table">
+                <thead><tr><th>Select (S)</th><th>Output (Y)</th></tr></thead>
+                <tbody>
+                  <tr><td class="tt-off">0</td><td>D₀</td></tr>
+                  <tr><td class="tt-on">1</td><td>D₁</td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <h4 style="margin-top:1rem;">Internal Circuit</h4>
+            <pre class="text-mono" style="background:var(--bg-secondary);padding:1rem;border-radius:var(--radius);font-size:0.85rem;overflow-x:auto;">
+   D₀ ──────┐
+            ├──[NOT S]─[AND]──┐
+   S' ──────┘                  │
+                               ├──[OR]──── Y
+   D₁ ──────┐                  │
+            ├─────[AND]───────┘
+   S  ──────┘
+            </pre>
+          </div>
+
+          <div class="card">
+            <h3>🎮 Interactive 2:1 MUX Simulator</h3>
+            <div class="grid-2 mt-2">
+              <div>
+                <div class="gate-control">
+                  <label>D₀</label>
+                  <label class="toggle-switch">
+                    <input type="checkbox" id="mux21-D0">
+                    <span class="toggle-slider"></span>
+                  </label>
+                </div>
+                <div class="gate-control">
+                  <label>D₁</label>
+                  <label class="toggle-switch">
+                    <input type="checkbox" id="mux21-D1">
+                    <span class="toggle-slider"></span>
+                  </label>
+                </div>
+                <div class="gate-control">
+                  <label>Select (S)</label>
+                  <label class="toggle-switch">
+                    <input type="checkbox" id="mux21-S">
+                    <span class="toggle-slider"></span>
+                  </label>
+                </div>
+                <div class="gate-control">
+                  <label>Output Y</label>
+                  <span id="mux21-QLed" class="led off"></span>
+                  <span id="mux21-Q" style="font-weight:700;font-family:var(--font-mono);">0</span>
+                </div>
+              </div>
+              <div>
+                <h4>How it works</h4>
+                <p style="font-size:0.875rem;">When <strong>S = 0</strong>: Y = D₀ (top input selected)<br>When <strong>S = 1</strong>: Y = D₁ (bottom input selected)</p>
+                <div style="margin-top:1rem;padding:1rem;background:var(--bg-secondary);border-radius:var(--radius);font-family:var(--font-mono);font-size:0.85rem;">
+                  <div>Selected: <strong id="mux21-sel" style="color:var(--primary);">D₀</strong></div>
+                  <div>Output Y = <strong id="mux21-out" style="color:var(--success);">0</strong></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4:1 MUX -->
+        <div class="tab-panel" id="panel-mux41">
+          <div class="card mb-3">
+            <h3>4-to-1 Multiplexer</h3>
+            <p>Selects one of 4 data inputs (D₀–D₃) using 2 select lines (S₁, S₀).</p>
+
+            <h4 style="margin-top:1rem;">Circuit Symbol</h4>
+            <svg viewBox="0 0 280 180" style="width:100%;max-width:340px;height:auto;display:block;margin:1rem auto;">
+              <polygon points="60,20 60,160 240,90" fill="var(--bg-card)" stroke="currentColor" stroke-width="2"/>
+              <line x1="0" y1="35" x2="60" y2="40" stroke="currentColor" stroke-width="2"/>
+              <text x="20" y="28" font-size="12" font-weight="700">D₀</text>
+              <line x1="0" y1="70" x2="60" y2="65" stroke="currentColor" stroke-width="2"/>
+              <text x="20" y="63" font-size="12" font-weight="700">D₁</text>
+              <line x1="0" y1="110" x2="60" y2="115" stroke="currentColor" stroke-width="2"/>
+              <text x="20" y="108" font-size="12" font-weight="700">D₂</text>
+              <line x1="0" y1="145" x2="60" y2="140" stroke="currentColor" stroke-width="2"/>
+              <text x="20" y="165" font-size="12" font-weight="700">D₃</text>
+              <line x1="0" y1="90" x2="60" y2="90" stroke="currentColor" stroke-width="2" stroke-dasharray="3,2"/>
+              <text x="20" y="80" font-size="11" font-weight="700" fill="var(--accent)">S₀</text>
+              <line x1="0" y1="20" x2="40" y2="20" stroke="currentColor" stroke-width="2" stroke-dasharray="3,2"/>
+              <text x="15" y="15" font-size="11" font-weight="700" fill="var(--accent)">S₁</text>
+              <line x1="240" y1="90" x2="280" y2="90" stroke="currentColor" stroke-width="2"/>
+              <text x="252" y="82" font-size="13" font-weight="700">Y</text>
+            </svg>
+
+            <h4 style="margin-top:1rem;">Boolean Expression</h4>
+            <div class="result-box" style="font-size:0.95rem;">
+              <span class="result-value">Y = S₁'S₀'D₀ + S₁'S₀D₁ + S₁S₀'D₂ + S₁S₀D₃</span>
+            </div>
+
+            <h4 style="margin-top:1rem;">Truth Table</h4>
+            <div class="table-wrapper">
+              <table class="table">
+                <thead><tr><th>S₁</th><th>S₀</th><th>Output (Y)</th></tr></thead>
+                <tbody>
+                  <tr><td class="tt-off">0</td><td class="tt-off">0</td><td>D₀</td></tr>
+                  <tr><td class="tt-off">0</td><td class="tt-on">1</td><td>D₁</td></tr>
+                  <tr><td class="tt-on">1</td><td class="tt-off">0</td><td>D₂</td></tr>
+                  <tr><td class="tt-on">1</td><td class="tt-on">1</td><td>D₃</td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <h4 style="margin-top:1rem;">Common ICs</h4>
+            <ul>
+              <li><strong>74153:</strong> Dual 4-to-1 MUX</li>
+              <li><strong>74151:</strong> 8-to-1 MUX</li>
+              <li><strong>74150:</strong> 16-to-1 MUX</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <h3>🎮 Interactive 4:1 MUX Simulator</h3>
+            <div class="grid-2 mt-2">
+              <div>
+                <div class="gate-control">
+                  <label>D₀</label>
+                  <label class="toggle-switch"><input type="checkbox" id="mux41-D0"><span class="toggle-slider"></span></label>
+                </div>
+                <div class="gate-control">
+                  <label>D₁</label>
+                  <label class="toggle-switch"><input type="checkbox" id="mux41-D1"><span class="toggle-slider"></span></label>
+                </div>
+                <div class="gate-control">
+                  <label>D₂</label>
+                  <label class="toggle-switch"><input type="checkbox" id="mux41-D2"><span class="toggle-slider"></span></label>
+                </div>
+                <div class="gate-control">
+                  <label>D₃</label>
+                  <label class="toggle-switch"><input type="checkbox" id="mux41-D3"><span class="toggle-slider"></span></label>
+                </div>
+                <div class="gate-control">
+                  <label>S₁</label>
+                  <label class="toggle-switch"><input type="checkbox" id="mux41-S1"><span class="toggle-slider"></span></label>
+                </div>
+                <div class="gate-control">
+                  <label>S₀</label>
+                  <label class="toggle-switch"><input type="checkbox" id="mux41-S0"><span class="toggle-slider"></span></label>
+                </div>
+                <div class="gate-control">
+                  <label>Output Y</label>
+                  <span id="mux41-QLed" class="led off"></span>
+                  <span id="mux41-Q" style="font-weight:700;font-family:var(--font-mono);">0</span>
+                </div>
+              </div>
+              <div>
+                <h4>Current State</h4>
+                <div style="padding:1rem;background:var(--bg-secondary);border-radius:var(--radius);font-family:var(--font-mono);font-size:0.85rem;">
+                  <div>Select lines: <strong>S₁=<span id="mux41-s1v">0</span>, S₀=<span id="mux41-s0v">0</span></strong></div>
+                  <div>Selected input: <strong id="mux41-sel" style="color:var(--primary);">D₀</strong></div>
+                  <div>Output Y = <strong id="mux41-out" style="color:var(--success);">0</strong></div>
+                </div>
+                <div class="mt-2">
+                  <h4 style="font-size:0.9rem;">Inputs:</h4>
+                  <div style="font-family:var(--font-mono);font-size:0.85rem;">
+                    D₀=<span id="mux41-d0v">0</span>, D₁=<span id="mux41-d1v">0</span>, D₂=<span id="mux41-d2v">0</span>, D₃=<span id="mux41-d3v">0</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3 style="margin-bottom:0.75rem;">💡 Applications</h3>
+          <ul>
+            <li><strong>Data Routing:</strong> Selecting between multiple data sources</li>
+            <li><strong>Communication Systems:</strong> Time-division multiplexing (TDM)</li>
+            <li><strong>Memory Addressing:</strong> Selecting memory banks</li>
+            <li><strong>Function Implementation:</strong> Any Boolean function can be implemented using MUXes (universal)</li>
+            <li><strong>ALU Design:</strong> Selecting between arithmetic and logic outputs</li>
+            <li><strong>Parallel-to-Serial Conversion:</strong> Sequential selection of parallel bits</li>
+          </ul>
+          <h4 style="margin-top:1rem;">Advantages</h4>
+          <ul>
+            <li>Reduces number of wires needed</li>
+            <li>Cost-effective for selecting data</li>
+            <li>Can implement any Boolean function of n variables using 2<sup>n-1</sup>-to-1 MUX</li>
+          </ul>
+        </div>
+
+        <div id="footer-mount"></div>
+      </div>
+      <div id="bottomnav-mount"></div>
+    </div>
+  </div>
+
+  <div id="scrolltop-mount"></div>
+
+  <script src="js/components.js"></script>
+<script src="js/pwa.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+  (function() {
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        const t = tab.dataset.tab;
+        document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
+        document.querySelectorAll('.tab-panel').forEach(x => x.classList.remove('active'));
+        tab.classList.add('active');
+        document.getElementById('panel-' + t).classList.add('active');
+      });
+    });
+
+    function bind21() {
+      const inputs = ['mux21-D0', 'mux21-D1', 'mux21-S'];
+      inputs.forEach(id => document.getElementById(id).addEventListener('change', update21));
+      function update21() {
+        const D0 = document.getElementById('mux21-D0').checked ? 1 : 0;
+        const D1 = document.getElementById('mux21-D1').checked ? 1 : 0;
+        const S = document.getElementById('mux21-S').checked ? 1 : 0;
+        const Y = S ? D1 : D0;
+        document.getElementById('mux21-Q').textContent = Y;
+        document.getElementById('mux21-QLed').className = `led ${Y ? 'on' : 'off'}`;
+        document.getElementById('mux21-sel').textContent = S ? 'D₁' : 'D₀';
+        document.getElementById('mux21-out').textContent = Y;
+      }
+      update21();
+    }
+
+    function bind41() {
+      const inputs = ['mux41-D0','mux41-D1','mux41-D2','mux41-D3','mux41-S0','mux41-S1'];
+      inputs.forEach(id => document.getElementById(id).addEventListener('change', update41));
+      function update41() {
+        const D = [0,1,2,3].map(i => document.getElementById(`mux41-D${i}`).checked ? 1 : 0);
+        const S0 = document.getElementById('mux41-S0').checked ? 1 : 0;
+        const S1 = document.getElementById('mux41-S1').checked ? 1 : 0;
+        const idx = S1 * 2 + S0;
+        const Y = D[idx];
+        document.getElementById('mux41-Q').textContent = Y;
+        document.getElementById('mux41-QLed').className = `led ${Y ? 'on' : 'off'}`;
+        document.getElementById('mux41-sel').textContent = `D${idx}`;
+        document.getElementById('mux41-out').textContent = Y;
+        document.getElementById('mux41-s1v').textContent = S1;
+        document.getElementById('mux41-s0v').textContent = S0;
+        D.forEach((d, i) => document.getElementById(`mux41-d${i}v`).textContent = d);
+      }
+      update41();
+    }
+
+    bind21();
+    bind41();
+  })();
+  </script>
+</body>
+</html>
