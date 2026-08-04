@@ -47,32 +47,6 @@ LogicLab is a modern, production-ready educational platform designed for **Diplo
 
 ---
 
-## 🚀 Quick Start
-
-### Local Preview
-```bash
-# Clone the repository
-git clone https://github.com/your-username/logiclab.git
-cd logiclab
-
-# Option 1: Open index.html directly in a browser
-open index.html        # macOS
-xdg-open index.html    # Linux
-start index.html       # Windows
-
-# Option 2: Run a local server
-python3 -m http.server 8000
-# Then open http://localhost:8000
-```
-
-### Deploy to GitHub Pages
-1. Fork this repository
-2. Go to **Settings → Pages**
-3. Under "Source", select `main` branch
-4. Click **Save**
-5. Your site will be live at `https://your-username.github.io/logiclab/`
-
----
 
 ## 📁 Project Structure
 
