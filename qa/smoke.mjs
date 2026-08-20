@@ -44,13 +44,53 @@ async function runPage(file, viewport) {
 
     await page.waitForTimeout(100);
 
-    const overflow = await page.evaluate(() => ({
-      scrollWidth: document.documentElement.scrollWidth,
-      clientWidth: document.documentElement.clientWidth,
-      bodyScrollWidth: document.body.scrollWidth
-    }));
-    if (overflow.scrollWidth > overflow.clientWidth + 1 || overflow.bodyScrollWidth > overflow.clientWidth + 1) {
-      errors.push(`horizontal overflow: ${JSON.stringify(overflow)}`);
+    const visual = await page.evaluate(() => {
+      const rect = el => {
+        if (!el) return null;
+        const r = el.getBoundingClientRect();
+        return {left:r.left, top:r.top, right:r.right, bottom:r.bottom, width:r.width, height:r.height};
+      };
+      const header = document.querySelector('.page-header');
+      const breadcrumb = header?.querySelector('.breadcrumb');
+      const title = header?.querySelector('.page-title');
+      const subtitle = header?.querySelector('.page-subtitle');
+      const content = document.querySelector('.page-content');
+      const headerStyle = header ? getComputedStyle(header) : null;
+      const boxes = [...document.querySelectorAll('.card, .feature-card, .stat-card, .gate-display, .circuit-visual')]
+        .slice(0, 40)
+        .map(rect);
+      return {
+        viewportWidth: innerWidth,
+        scrollWidth: document.documentElement.scrollWidth,
+        bodyScrollWidth: document.body.scrollWidth,
+        headerDisplay: headerStyle?.display ?? null,
+        headerPosition: headerStyle?.position ?? null,
+        header: rect(header),
+        breadcrumb: rect(breadcrumb),
+        title: rect(title),
+        subtitle: rect(subtitle),
+        content: rect(content),
+        boxes
+      };
+    });
+
+    if (visual.scrollWidth > visual.viewportWidth + 1 || visual.bodyScrollWidth > visual.viewportWidth + 1) {
+      errors.push(`horizontal overflow: ${JSON.stringify({scrollWidth:visual.scrollWidth,bodyScrollWidth:visual.bodyScrollWidth,viewportWidth:visual.viewportWidth})}`);
+    }
+
+    if (visual.header) {
+      if (visual.headerDisplay !== 'block') errors.push(`page-header display is ${visual.headerDisplay}, expected block`);
+      if (visual.headerPosition !== 'relative') errors.push(`page-header position is ${visual.headerPosition}, expected relative`);
+      if (visual.breadcrumb && visual.title && visual.title.top < visual.breadcrumb.bottom - 1) errors.push('page title overlaps breadcrumb');
+      if (visual.title && visual.subtitle && visual.subtitle.top < visual.title.bottom - 1) errors.push('page subtitle overlaps title');
+      if (visual.header.right > visual.viewportWidth + 1) errors.push(`page-header exceeds viewport: ${JSON.stringify(visual.header)}`);
+    }
+
+    for (const box of visual.boxes) {
+      if (box && box.right > visual.viewportWidth + 1) {
+        errors.push(`content box exceeds viewport: ${JSON.stringify(box)}`);
+        break;
+      }
     }
 
     if (viewport.isMobile) {
@@ -108,6 +148,7 @@ async function runPage(file, viewport) {
       for (const error of errors) console.error(`  - ${error}`);
     } else {
       console.log(`PASS ${file} [${viewport.name}]`);
+      console.log(`  visual: header=${visual.headerDisplay}/${visual.headerPosition}, titleTop=${visual.title?.top?.toFixed(1) ?? 'n/a'}, subtitleTop=${visual.subtitle?.top?.toFixed(1) ?? 'n/a'}, scrollWidth=${visual.scrollWidth}`);
     }
   } catch (error) {
     failures++;
