@@ -1,7 +1,7 @@
 /* ==========================================================================
    LogicLab - Shared Component Injector
    Injects sidebar and bottom navigation into all pages
-   Version: 1.0.0
+   Version: 2.0.0
    ========================================================================== */
 
 (function() {
@@ -27,32 +27,30 @@
     { id: 'changelog', icon: '📜', label: 'Changelog', url: 'changelog.html', section: 'info' }
   ];
 
-  const SECTIONS = {
-    main: 'Main',
-    tools: 'Tools',
-    circuits: 'Circuits',
-    learn: 'Learn',
-    info: 'Info'
-  };
-
+  const SECTIONS = { main: 'Main', tools: 'Tools', circuits: 'Circuits', learn: 'Learn', info: 'Info' };
   const currentPath = (window.location.pathname.split('/').pop() || 'index.html').toLowerCase();
+
+  function loadTheme() {
+    if (document.getElementById('logiclab-theme-css')) return;
+    const link = document.createElement('link');
+    link.id = 'logiclab-theme-css';
+    link.rel = 'stylesheet';
+    link.href = 'css/theme.css?v=2.0.0';
+    document.head.appendChild(link);
+  }
 
   function buildSidebar() {
     let html = `
       <div class="sidebar-header">
         <div class="sidebar-logo">LL</div>
-        <div>
-          <div class="sidebar-title">LogicLab</div>
-          <div class="sidebar-tagline">Digital Electronics</div>
-        </div>
+        <div><div class="sidebar-title">LogicLab</div><div class="sidebar-tagline">Digital Electronics</div></div>
         <button id="sidebarClose" class="menu-toggle" style="margin-left:auto;color:white;background:rgba(255,255,255,0.1);">✕</button>
       </div>
       <div class="sidebar-search">
         <input type="text" id="globalSearch" class="sidebar-search-input" placeholder="🔍 Search topics..." autocomplete="off">
         <div id="searchResults" style="display:none;"></div>
       </div>
-      <nav class="sidebar-nav">
-    `;
+      <nav class="sidebar-nav">`;
 
     let lastSection = '';
     NAV_ITEMS.forEach(item => {
@@ -60,121 +58,60 @@
         html += `<div class="sidebar-nav-section">${SECTIONS[item.section]}</div>`;
         lastSection = item.section;
       }
-      const active = (item.url.toLowerCase() === currentPath) ? 'active' : '';
-      html += `
-        <a href="${item.url}" class="nav-item ${active}" data-nav="${item.url}">
-          <span class="nav-item-icon">${item.icon}</span>
-          <span>${item.label}</span>
-        </a>
-      `;
+      const active = item.url.toLowerCase() === currentPath ? 'active' : '';
+      html += `<a href="${item.url}" class="nav-item ${active}" data-nav="${item.url}"><span class="nav-item-icon">${item.icon}</span><span>${item.label}</span></a>`;
     });
 
-    html += `
-      </nav>
+    html += `</nav>
       <div class="sidebar-footer">
-        <div class="sidebar-footer-row">
-          <span>Theme</span>
-          <button id="themeToggle" class="theme-toggle">
-            <span class="theme-icon">🌙</span>
-            <span class="theme-label">Dark</span>
-          </button>
-        </div>
-        <div>LogicLab v1.0.0</div>
-        <div style="opacity:0.7; margin-top:2px;">Diploma ECE Edition</div>
-      </div>
-    `;
+        <div class="sidebar-footer-row"><span>Theme</span><button id="themeToggle" class="theme-toggle"><span class="theme-icon">🌙</span><span class="theme-label">Dark</span></button></div>
+        <div>LogicLab v2.0.0</div><div style="opacity:0.7;margin-top:2px;">Diploma ECE Edition</div>
+      </div>`;
     return html;
   }
 
   function buildTopBar() {
-    return `
-      <div class="top-bar">
-        <button id="menuToggle" class="menu-toggle">☰</button>
-        <div class="top-bar-logo">
-          <div class="sidebar-logo" style="width:32px;height:32px;font-size:0.9rem;">LL</div>
-          <span>LogicLab</span>
-        </div>
-        <button id="themeToggleMobile" class="theme-toggle" style="background:var(--bg-tertiary);color:var(--text-primary);border-color:var(--border);">
-          <span class="theme-icon">🌙</span>
-        </button>
-      </div>
-    `;
+    return `<div class="top-bar"><button id="menuToggle" class="menu-toggle">☰</button><div class="top-bar-logo"><div class="sidebar-logo" style="width:32px;height:32px;font-size:0.9rem;">LL</div><span>LogicLab</span></div><button id="themeToggleMobile" class="theme-toggle" style="background:var(--bg-tertiary);color:var(--text-primary);border-color:var(--border);"><span class="theme-icon">🌙</span></button></div>`;
   }
 
   function buildBottomNav() {
-    // Show primary nav items on bottom bar
-    const primary = ['index', 'converter', 'gates', 'flipflops', 'quiz', 'formulas', 'notes', 'about'];
+    // Keep only the five most useful destinations on small screens.
+    const primary = ['index', 'converter', 'gates', 'quiz', 'formulas'];
     let html = '<div class="bottom-nav-inner">';
     primary.forEach(id => {
       const item = NAV_ITEMS.find(n => n.id === id);
       if (!item) return;
-      const active = (item.url.toLowerCase() === currentPath) ? 'active' : '';
-      html += `
-        <a href="${item.url}" class="bottom-nav-item ${active}" data-nav="${item.url}">
-          <span class="bottom-nav-item-icon">${item.icon}</span>
-          <span>${item.label}</span>
-        </a>
-      `;
+      const active = item.url.toLowerCase() === currentPath ? 'active' : '';
+      html += `<a href="${item.url}" class="bottom-nav-item ${active}" data-nav="${item.url}"><span class="bottom-nav-item-icon">${item.icon}</span><span>${item.label}</span></a>`;
     });
-    html += '</div>';
-    return html;
-  }
-
-  function buildOverlay() {
-    return '<div id="sidebarOverlay" class="sidebar-overlay"></div>';
-  }
-
-  function buildScrollTop() {
-    return `<button id="scrollTopBtn" class="scroll-top-btn" aria-label="Scroll to top">↑</button>`;
-  }
-
-  function buildFooter() {
-    return `
-      <footer class="site-footer">
-        <div>
-          <strong>LogicLab</strong> <span class="footer-version">v1.0.0</span>
-        </div>
-        <div style="margin-top:0.5rem;">
-          Digital Electronics Learning Platform · Built for Diploma ECE Students
-        </div>
-        <div style="margin-top:0.5rem; font-size:0.75rem; opacity:0.7;">
-          Learn • Simulate • Practice • Master
-        </div>
-      </footer>
-    `;
+    return html + '</div>';
   }
 
   function inject() {
-    // Sidebar
+    loadTheme();
+
     const sidebarMount = document.getElementById('sidebar-mount');
     if (sidebarMount) sidebarMount.outerHTML = `<aside class="sidebar" id="sidebar">${buildSidebar()}</aside>`;
 
-    // Top bar
     const topMount = document.getElementById('topbar-mount');
     if (topMount) topMount.outerHTML = buildTopBar();
 
-    // Bottom nav
     const bottomMount = document.getElementById('bottomnav-mount');
     if (bottomMount) bottomMount.outerHTML = `<nav class="bottom-nav" id="bottomNav">${buildBottomNav()}</nav>`;
 
-    // Overlay
     const overlayMount = document.getElementById('overlay-mount');
-    if (overlayMount) overlayMount.outerHTML = buildOverlay();
+    if (overlayMount) overlayMount.outerHTML = '<div id="sidebarOverlay" class="sidebar-overlay"></div>';
 
-    // Scroll top button
     const scrollMount = document.getElementById('scrolltop-mount');
-    if (scrollMount) scrollMount.outerHTML = buildScrollTop();
+    if (scrollMount) scrollMount.outerHTML = '<button id="scrollTopBtn" class="scroll-top-btn" aria-label="Scroll to top">↑</button>';
 
-    // Footer
     const footerMount = document.getElementById('footer-mount');
-    if (footerMount) footerMount.outerHTML = buildFooter();
+    if (footerMount) footerMount.outerHTML = `<footer class="site-footer"><div><strong>LogicLab</strong> <span class="footer-version">v2.0.0</span></div><div style="margin-top:0.5rem;">Digital Electronics Learning Platform · Built for Diploma ECE Students</div><div style="margin-top:0.5rem;font-size:0.75rem;opacity:0.7;">Learn • Simulate • Practice • Master</div></footer>`;
 
-    // Mobile theme toggle
     const mobileTheme = document.getElementById('themeToggleMobile');
     if (mobileTheme) {
       mobileTheme.addEventListener('click', () => {
         document.getElementById('themeToggle')?.click();
-        // Refresh icon
         setTimeout(() => {
           const icon = mobileTheme.querySelector('.theme-icon');
           const theme = document.documentElement.getAttribute('data-theme');
@@ -184,9 +121,6 @@
     }
   }
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', inject);
-  } else {
-    inject();
-  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', inject);
+  else inject();
 })();
