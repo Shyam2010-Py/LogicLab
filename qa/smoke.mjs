@@ -54,10 +54,20 @@ async function runPage(file, viewport) {
     }
 
     if (viewport.isMobile) {
-      const header = await page.locator('.page-header').count();
-      if (header) {
-        const display = await page.locator('.page-header').first().evaluate(el => getComputedStyle(el).display);
-        if (display !== 'block') errors.push(`mobile page-header display is ${display}, expected block`);
+      const header = page.locator('.page-header').first();
+      if (await header.count()) {
+        const layout = await header.evaluate(el => {
+          const style = getComputedStyle(el);
+          return { display: style.display, flexDirection: style.flexDirection };
+        });
+        // The responsive CSS intentionally keeps the header as flex so its
+        // children can be stacked with flex-direction: column. The previous
+        // assertion incorrectly required display:block and caused false QA failures.
+        const validStackedLayout = layout.display === 'block' ||
+          (layout.display === 'flex' && layout.flexDirection === 'column');
+        if (!validStackedLayout) {
+          errors.push(`mobile page-header is not stacked: ${JSON.stringify(layout)}`);
+        }
       }
     }
 
