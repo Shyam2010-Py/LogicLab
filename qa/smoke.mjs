@@ -39,10 +39,18 @@ async function runPage(file, viewport) {
   });
 
   try {
-    const response = await page.goto(`http://127.0.0.1:8000/${file}`, { waitUntil: 'networkidle', timeout: 15000 });
-    if (!response || response.status() >= 400) throw new Error(`Page load failed: ${response?.status() ?? 'no response'}`);
+    // Do not wait for network-idle: the LogicLab PWA/service-worker and other
+    // background activity can keep the network busy indefinitely. The page
+    // itself is ready after DOMContentLoaded plus a short shell-injection wait.
+    const response = await page.goto(`http://127.0.0.1:8000/${file}`, {
+      waitUntil: 'domcontentloaded',
+      timeout: 10000
+    });
+    if (!response || response.status() >= 400) {
+      throw new Error(`Page load failed: ${response?.status() ?? 'no response'}`);
+    }
 
-    await page.waitForTimeout(100);
+    await page.waitForTimeout(350);
 
     const overflow = await page.evaluate(() => ({
       scrollWidth: document.documentElement.scrollWidth,
@@ -60,13 +68,25 @@ async function runPage(file, viewport) {
           const style = getComputedStyle(el);
           return { display: style.display, flexDirection: style.flexDirection };
         });
-        // The responsive CSS intentionally keeps the header as flex so its
-        // children can be stacked with flex-direction: column. The previous
-        // assertion incorrectly required display:block and caused false QA failures.
         const validStackedLayout = layout.display === 'block' ||
           (layout.display === 'flex' && layout.flexDirection === 'column');
         if (!validStackedLayout) {
           errors.push(`mobile page-header is not stacked: ${JSON.stringify(layout)}`);
+        }
+      }
+    }
+
+    // The shared footer must identify the project owner consistently.
+    const footer = page.locator('.site-footer').first();
+    if (await footer.count()) {
+      const footerText = await footer.innerText();
+      for (const required of [
+        'Ghanashyam Pabbuleti',
+        'Diploma in Electronics & Communication Engineering',
+        'SV Government Polytechnic College, Tirupati'
+      ]) {
+        if (!footerText.includes(required)) {
+          errors.push(`footer missing: ${required}`);
         }
       }
     }
