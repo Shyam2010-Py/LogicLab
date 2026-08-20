@@ -1,27 +1,44 @@
 /* ==========================================================================
    LogicLab - Main JavaScript
    Navigation, Theme, Search, Common Utilities
-   Version: 1.0.0
+   Version: 2.0.0
    ========================================================================== */
 
 (function() {
   'use strict';
 
+  /* --------------------- Theme CSS --------------------- */
+  (function loadThemeCSS() {
+    if (document.querySelector('link[data-logiclab-theme]')) return;
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = 'css/theme.css?v=2.0.0';
+    link.dataset.logiclabTheme = 'true';
+    document.head.appendChild(link);
+  })();
+
   /* --------------------- Theme Management --------------------- */
   const ThemeManager = {
     init() {
-      const saved = localStorage.getItem('logiclab-theme') || 'light';
+      const saved = localStorage.getItem('logiclab-theme') || 'dark';
       this.set(saved, false);
       this.bind();
     },
 
     set(theme, save = true) {
+      theme = theme === 'light' ? 'light' : 'dark';
       document.documentElement.setAttribute('data-theme', theme);
+
       const btn = document.getElementById('themeToggle');
       const icon = btn?.querySelector('.theme-icon');
       const label = btn?.querySelector('.theme-label');
       if (icon) icon.textContent = theme === 'dark' ? '☀️' : '🌙';
       if (label) label.textContent = theme === 'dark' ? 'Light' : 'Dark';
+
+      const mobile = document.getElementById('themeToggleMobile');
+      const mobileIcon = mobile?.querySelector('.theme-icon');
+      if (mobileIcon) mobileIcon.textContent = theme === 'dark' ? '☀️' : '🌙';
+
       if (save) localStorage.setItem('logiclab-theme', theme);
     },
 
@@ -32,6 +49,7 @@
 
     bind() {
       document.getElementById('themeToggle')?.addEventListener('click', () => this.toggle());
+      document.getElementById('themeToggleMobile')?.addEventListener('click', () => this.toggle());
     }
   };
 
@@ -47,12 +65,10 @@
       this.closeBtn?.addEventListener('click', () => this.close());
       this.overlay?.addEventListener('click', () => this.close());
 
-      // Close on escape
       document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') this.close();
       });
 
-      // Close on nav click (mobile)
       this.sidebar?.querySelectorAll('.nav-item').forEach(item => {
         item.addEventListener('click', () => {
           if (window.innerWidth <= 768) this.close();
@@ -63,11 +79,13 @@
     open() {
       this.sidebar?.classList.add('open');
       this.overlay?.classList.add('visible');
+      document.body.classList.add('sidebar-open');
     },
 
     close() {
       this.sidebar?.classList.remove('open');
       this.overlay?.classList.remove('visible');
+      document.body.classList.remove('sidebar-open');
     }
   };
 
@@ -76,19 +94,14 @@
     init() {
       this.btn = document.getElementById('scrollTopBtn');
       if (!this.btn) return;
-      this.btn.addEventListener('click', () => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      });
-      window.addEventListener('scroll', () => this.toggle());
+      this.btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+      window.addEventListener('scroll', () => this.toggle(), { passive: true });
+      this.toggle();
     },
 
     toggle() {
       if (!this.btn) return;
-      if (window.scrollY > 400) {
-        this.btn.classList.add('visible');
-      } else {
-        this.btn.classList.remove('visible');
-      }
+      this.btn.classList.toggle('visible', window.scrollY > 400);
     }
   };
 
@@ -105,7 +118,7 @@
 
     async loadIndex() {
       try {
-        const res = await fetch('search-index.json');
+        const res = await fetch('search-index.json', { cache: 'no-store' });
         if (res.ok) this.index = await res.json();
       } catch (err) {
         this.index = this.buildInlineIndex();
@@ -137,6 +150,7 @@
       const q = query.trim().toLowerCase();
       const resultsEl = document.getElementById('searchResults');
       if (!resultsEl) return;
+
       if (!q) {
         resultsEl.innerHTML = '';
         resultsEl.style.display = 'none';
@@ -144,11 +158,10 @@
       }
 
       const items = (this.index || this.buildInlineIndex()).filter(it =>
-        it.title.toLowerCase().includes(q) ||
-        it.desc.toLowerCase().includes(q)
+        it.title.toLowerCase().includes(q) || it.desc.toLowerCase().includes(q)
       );
 
-      if (items.length === 0) {
+      if (!items.length) {
         resultsEl.innerHTML = '<div class="search-empty">No results found</div>';
         resultsEl.style.display = 'block';
         return;
@@ -164,8 +177,8 @@
     },
 
     highlight(text, q) {
-      const re = new RegExp(`(${q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
-      return text.replace(re, '<mark>$1</mark>');
+      const escaped = q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      return text.replace(new RegExp(`(${escaped})`, 'gi'), '<mark>$1</mark>');
     }
   };
 
@@ -187,45 +200,51 @@
       const container = document.getElementById('binaryBg');
       if (!container) return;
       const digits = '01';
-      const lines = 8;
       let html = '';
-      for (let i = 0; i < lines; i++) {
+      for (let i = 0; i < 8; i++) {
         let line = '';
-        for (let j = 0; j < 60; j++) {
-          line += digits[Math.floor(Math.random() * 2)];
-        }
-        html += `<div class="binary-bg" style="top:${10 + i * 11}%; left:${-5 + Math.random() * 10}%; animation-delay:${Math.random() * 4}s; animation-duration:${5 + Math.random() * 5}s;">${line}</div>`;
+        for (let j = 0; j < 60; j++) line += digits[Math.floor(Math.random() * 2)];
+        html += `<div class="binary-bg" style="top:${10 + i * 11}%;left:${-5 + Math.random() * 10}%;animation-delay:${Math.random() * 4}s;animation-duration:${5 + Math.random() * 5}s;">${line}</div>`;
       }
       container.innerHTML = html;
 
-      // Circuit decoration
       const deco = document.getElementById('circuitDeco');
       if (deco) {
-        deco.innerHTML = '<div class="circuit-deco" style="top:10%; right:5%;"></div>' +
-                        '<div class="circuit-deco" style="bottom:15%; right:18%; width:120px; height:120px; animation-delay:2s;"></div>' +
-                        '<div class="circuit-deco" style="top:40%; right:25%; width:80px; height:80px; animation-delay:4s;"></div>';
+        deco.innerHTML =
+          '<div class="circuit-deco" style="top:10%;right:5%;"></div>' +
+          '<div class="circuit-deco" style="bottom:15%;right:18%;width:120px;height:120px;animation-delay:2s;"></div>' +
+          '<div class="circuit-deco" style="top:40%;right:25%;width:80px;height:80px;animation-delay:4s;"></div>';
       }
     }
   };
 
   /* --------------------- Copy to Clipboard --------------------- */
   window.copyToClipboard = function(text, btn) {
-    navigator.clipboard.writeText(text).then(() => {
-      if (btn) {
-        const orig = btn.innerHTML;
-        btn.innerHTML = '✓ Copied!';
-        btn.style.color = 'var(--success)';
-        setTimeout(() => { btn.innerHTML = orig; btn.style.color = ''; }, 1500);
-      }
-    }).catch(() => {
-      // Fallback
+    const done = () => {
+      if (!btn) return;
+      const original = btn.innerHTML;
+      btn.innerHTML = '✓ Copied!';
+      btn.style.color = 'var(--success)';
+      setTimeout(() => { btn.innerHTML = original; btn.style.color = ''; }, 1500);
+    };
+
+    if (navigator.clipboard?.writeText) {
+      navigator.clipboard.writeText(text).then(done).catch(() => fallback());
+    } else {
+      fallback();
+    }
+
+    function fallback() {
       const ta = document.createElement('textarea');
       ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
       document.body.appendChild(ta);
       ta.select();
-      try { document.execCommand('copy'); } catch (e) {}
-      document.body.removeChild(ta);
-    });
+      try { document.execCommand('copy'); done(); } catch (e) {}
+      ta.remove();
+    }
   };
 
   /* --------------------- Toast Notifications --------------------- */
@@ -240,9 +259,7 @@
     toast.className = `toast toast-${type} show`;
     toast.textContent = message;
     clearTimeout(window._toastTimer);
-    window._toastTimer = setTimeout(() => {
-      toast.classList.remove('show');
-    }, 2400);
+    window._toastTimer = setTimeout(() => toast.classList.remove('show'), 2400);
   };
 
   /* --------------------- Initialization --------------------- */
