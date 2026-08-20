@@ -1,0 +1,33 @@
+name: LogicLab QA
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  browser-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+      - name: Install Playwright
+        run: npm install --no-save playwright@1.55.0
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Start local server
+        run: |
+          python3 -m http.server 8000 >/tmp/logiclab-server.log 2>&1 &
+          echo $! > /tmp/logiclab-server.pid
+      - name: Run browser smoke tests
+        run: node qa/smoke.mjs
+      - name: Upload failure artifacts
+        if: failure()
+        uses: actions/upload-artifact@v5
+        with:
+          name: logiclab-qa-artifacts
+          path: qa/artifacts/
+          if-no-files-found: ignore
