@@ -22,8 +22,8 @@ body.sidebar-open{overflow:hidden}
 .gate-control{width:100%;min-height:58px;display:grid!important;grid-template-columns:minmax(0,1fr) auto;align-items:center!important;gap:.75rem!important;flex-wrap:nowrap!important;margin-bottom:.75rem!important;padding:.75rem .9rem!important}
 .gate-control label:first-child{min-width:0!important;width:auto!important}.gate-control .toggle-switch{justify-self:end;flex-shrink:0}.gate-control .led{margin-left:0!important;justify-self:end}
 .gate-display{width:100%;min-height:180px;padding:.75rem!important;overflow:hidden}.gate-display svg{display:block;width:100%!important;max-width:280px!important;height:auto!important;margin:auto}
-/* Full-adder's carry diagram extends slightly beyond its historical viewBox. */
-svg:has(#fa-sumDot){overflow:visible!important}
+/* Keep inline circuit diagrams visible when their legacy viewBox is slightly undersized. */
+.page-content > svg{overflow:visible!important}
 .form-input,.form-select,.form-textarea{font-size:16px}
 }
 @media(max-width:480px){.hero-title{font-size:1.65rem}.hero-eyebrow{font-size:.65rem}.stats-grid{grid-template-columns:1fr}.stat-card{width:100%}.btn-lg{padding:.72rem 1.15rem;font-size:.88rem}.feature-card{padding:1rem}.page-header .page-title{font-size:1.6rem!important}.page-header .page-subtitle{font-size:.9rem!important}.gate-control{min-height:56px;padding:.7rem .8rem!important}.gate-display{min-height:165px}}
