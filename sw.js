@@ -1,5 +1,5 @@
-/* LogicLab v3 service worker */
-const CACHE_VERSION='logiclab-v3.1.0';const OFFLINE_URL='./offline.html';
+/* LogicLab v3.2 service worker */
+const CACHE_VERSION='logiclab-v3.2.0';const OFFLINE_URL='./offline.html';
 const PRECACHE_URLS=['./','./index.html','./converter.html','./gates.html','./truth-tables.html','./arithmetic.html','./complements.html','./half-adder.html','./full-adder.html','./flipflops.html','./multiplexer.html','./demultiplexer.html','./encoder.html','./decoder.html','./formulas.html','./quiz.html','./notes.html','./about.html','./changelog.html','./offline.html','./manifest.json','./search-index.json','./css/style.css','./css/responsive.css','./css/extra.css','./css/theme.css','./js/main.js','./js/components.js','./js/converter.js','./js/gates.js','./js/arithmetic.js','./js/quiz.js','./js/search.js','./js/pwa.js','./assets/icon-192.png','./assets/icon-512.png'];
 self.addEventListener('install',event=>{event.waitUntil(caches.open(CACHE_VERSION).then(cache=>Promise.allSettled(PRECACHE_URLS.map(url=>cache.add(url).catch(()=>null))).then(()=>self.skipWaiting())))});
 self.addEventListener('activate',event=>{event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE_VERSION).map(k=>caches.delete(k)))).then(()=>self.clients.claim()))});
