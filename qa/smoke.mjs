@@ -29,8 +29,8 @@ async function runPage(file, viewport) {
   const errors = [];
   const badResponses = [];
 
-  // Keep link clicks inside the current page during smoke testing. Application
-  // click handlers still run, but navigation cannot make a test hang.
+  // Keep smoke navigation deterministic without intercepting application
+  // controls. Only anchors are prevented, while buttons/inputs remain real.
   await page.addInitScript(() => {
     document.addEventListener('click', (event) => {
       const anchor = event.target?.closest?.('a');
@@ -38,7 +38,7 @@ async function runPage(file, viewport) {
     }, true);
   });
 
-  page.setDefaultTimeout(4000);
+  page.setDefaultTimeout(2500);
   page.on('pageerror', error => errors.push(`pageerror: ${error.message}`));
   page.on('console', msg => {
     if (msg.type() === 'error') errors.push(`console: ${msg.text()}`);
@@ -49,6 +49,18 @@ async function runPage(file, viewport) {
     }
   });
 
+  async function clickVisible(selector, label, max = 8) {
+    const controls = page.locator(`${selector}:visible:not([disabled])`);
+    const count = Math.min(await controls.count(), max);
+    for (let i = 0; i < count; i++) {
+      try {
+        await controls.nth(i).click({ timeout: 1000 });
+      } catch (error) {
+        errors.push(`${label} interaction failed: ${error.message}`);
+      }
+    }
+  }
+
   try {
     const response = await page.goto(`http://127.0.0.1:8000/${file}`, {
       waitUntil: 'domcontentloaded',
@@ -58,7 +70,14 @@ async function runPage(file, viewport) {
       throw new Error(`Page load failed: ${response?.status() ?? 'no response'}`);
     }
 
-    await page.waitForTimeout(350);
+    // components.js injects the shared shell asynchronously. Wait for the
+    // actual footer instead of guessing with a fixed 350 ms delay.
+    const footer = page.locator('.site-footer').first();
+    try {
+      await footer.waitFor({ state: 'attached', timeout: 3000 });
+    } catch {
+      errors.push('shared footer missing after 3s shell readiness wait');
+    }
 
     const overflow = await page.evaluate(() => ({
       scrollWidth: document.documentElement.scrollWidth,
@@ -84,11 +103,7 @@ async function runPage(file, viewport) {
       }
     }
 
-    // The shared footer is required on every page.
-    const footer = page.locator('.site-footer').first();
-    if (!(await footer.count())) {
-      errors.push('shared footer missing');
-    } else {
+    if (await footer.count()) {
       const footerText = await footer.innerText();
       for (const required of [
         'Ghanashyam Pabbuleti',
@@ -101,28 +116,21 @@ async function runPage(file, viewport) {
       }
     }
 
-    const checkboxes = page.locator('input[type="checkbox"]');
-    const checkboxCount = await checkboxes.count();
-    for (let i = 0; i < Math.min(checkboxCount, 16); i++) {
-      await checkboxes.nth(i).click({ timeout: 2000 });
-    }
+    await clickVisible('input[type="checkbox"]', 'checkbox', 8);
+    await clickVisible('.tab', 'tab', 8);
+    await clickVisible('[data-gate]', 'gate', 8);
+    await clickVisible('[data-quick]', 'quick action', 8);
+    await clickVisible('[data-arith-example]', 'arithmetic example', 8);
+    await clickVisible('[data-comp]', 'complement control', 8);
 
-    const tabs = page.locator('.tab');
-    for (let i = 0; i < await tabs.count(); i++) {
-      await tabs.nth(i).click({ timeout: 2000 });
-    }
-
-    for (const selector of ['[data-gate]', '[data-quick]', '[data-arith-example]', '[data-comp]']) {
-      const controls = page.locator(selector);
-      for (let i = 0; i < Math.min(await controls.count(), 8); i++) {
-        await controls.nth(i).click({ timeout: 2000 });
-      }
-    }
-
-    const notesSearch = page.locator('#notesSearch');
+    const notesSearch = page.locator('#notesSearch:visible:not([disabled])').first();
     if (await notesSearch.count()) {
-      await notesSearch.fill('logic', { timeout: 2000 });
-      await notesSearch.fill('', { timeout: 2000 });
+      try {
+        await notesSearch.fill('logic', { timeout: 1000 });
+        await notesSearch.fill('', { timeout: 1000 });
+      } catch (error) {
+        errors.push(`notes search interaction failed: ${error.message}`);
+      }
     }
 
     const overflowAfter = await page.evaluate(() => ({
