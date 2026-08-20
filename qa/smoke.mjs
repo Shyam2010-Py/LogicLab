@@ -22,12 +22,23 @@ async function runPage(file, viewport) {
   const context = await browser.newContext({
     viewport: { width: viewport.width, height: viewport.height },
     isMobile: viewport.isMobile,
-    deviceScaleFactor: 1
+    deviceScaleFactor: 1,
+    serviceWorkers: 'block'
   });
   const page = await context.newPage();
   const errors = [];
   const badResponses = [];
 
+  // Keep link clicks inside the current page during smoke testing. Application
+  // click handlers still run, but navigation cannot make a test hang.
+  await page.addInitScript(() => {
+    document.addEventListener('click', (event) => {
+      const anchor = event.target?.closest?.('a');
+      if (anchor) event.preventDefault();
+    }, true);
+  });
+
+  page.setDefaultTimeout(4000);
   page.on('pageerror', error => errors.push(`pageerror: ${error.message}`));
   page.on('console', msg => {
     if (msg.type() === 'error') errors.push(`console: ${msg.text()}`);
@@ -39,9 +50,6 @@ async function runPage(file, viewport) {
   });
 
   try {
-    // Do not wait for network-idle: the LogicLab PWA/service-worker and other
-    // background activity can keep the network busy indefinitely. The page
-    // itself is ready after DOMContentLoaded plus a short shell-injection wait.
     const response = await page.goto(`http://127.0.0.1:8000/${file}`, {
       waitUntil: 'domcontentloaded',
       timeout: 10000
@@ -76,9 +84,11 @@ async function runPage(file, viewport) {
       }
     }
 
-    // The shared footer must identify the project owner consistently.
+    // The shared footer is required on every page.
     const footer = page.locator('.site-footer').first();
-    if (await footer.count()) {
+    if (!(await footer.count())) {
+      errors.push('shared footer missing');
+    } else {
       const footerText = await footer.innerText();
       for (const required of [
         'Ghanashyam Pabbuleti',
@@ -91,35 +101,30 @@ async function runPage(file, viewport) {
       }
     }
 
-    // Exercise every checkbox without assuming page-specific IDs.
     const checkboxes = page.locator('input[type="checkbox"]');
     const checkboxCount = await checkboxes.count();
     for (let i = 0; i < Math.min(checkboxCount, 16); i++) {
-      await checkboxes.nth(i).click();
+      await checkboxes.nth(i).click({ timeout: 2000 });
     }
 
-    // Exercise tabs.
     const tabs = page.locator('.tab');
     for (let i = 0; i < await tabs.count(); i++) {
-      await tabs.nth(i).click();
+      await tabs.nth(i).click({ timeout: 2000 });
     }
 
-    // Exercise common interactive examples.
     for (const selector of ['[data-gate]', '[data-quick]', '[data-arith-example]', '[data-comp]']) {
       const controls = page.locator(selector);
       for (let i = 0; i < Math.min(await controls.count(), 8); i++) {
-        await controls.nth(i).click();
+        await controls.nth(i).click({ timeout: 2000 });
       }
     }
 
-    // Exercise notes search when present.
     const notesSearch = page.locator('#notesSearch');
     if (await notesSearch.count()) {
-      await notesSearch.fill('logic');
-      await notesSearch.fill('');
+      await notesSearch.fill('logic', { timeout: 2000 });
+      await notesSearch.fill('', { timeout: 2000 });
     }
 
-    // Re-check layout after interactions.
     const overflowAfter = await page.evaluate(() => ({
       scrollWidth: document.documentElement.scrollWidth,
       clientWidth: document.documentElement.clientWidth,
