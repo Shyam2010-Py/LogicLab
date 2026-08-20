@@ -7,6 +7,7 @@
   <meta name="theme-color" content="#2563EB">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%232563EB'/%3E%3Ctext x='50' y='62' font-size='42' font-weight='800' fill='white' text-anchor='middle' font-family='sans-serif'%3ELL%3C/text%3E%3C/svg%3E">
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/theme.css?v=3.5.2">
   <style>
     .offline-container {
       min-height: 100vh;
@@ -14,9 +15,10 @@
       align-items: center;
       justify-content: center;
       padding: 2rem;
+      box-sizing: border-box;
     }
     .offline-card {
-      max-width: 480px;
+      width: min(480px, 100%);
       text-align: center;
       background: var(--bg-card);
       border: 1px solid var(--border);
@@ -60,6 +62,18 @@
       border-radius: 50%;
       animation: pulse 1.5s infinite;
     }
+    .offline-footer {
+      width: min(640px, 100%);
+      margin: 1.5rem auto 0;
+      padding: 1.25rem 1rem;
+      text-align: center;
+      border-top: 1px solid var(--border);
+      color: var(--text-secondary);
+      box-sizing: border-box;
+    }
+    .offline-footer strong { color: var(--text-primary); }
+    .offline-footer .footer-name { display:block; margin-top:.45rem; font-weight:700; color:var(--text-primary); }
+    .offline-footer .footer-detail { display:block; margin-top:.2rem; font-size:.8rem; }
     @keyframes pulse {
       0%, 100% { opacity: 1; }
       50% { opacity: 0.4; }
@@ -68,33 +82,39 @@
 </head>
 <body>
   <div class="offline-container">
-    <div class="offline-card">
-      <div class="offline-icon">📡</div>
-      <h1 class="offline-title">You're Offline</h1>
-      <div class="offline-status">
-        <span class="status-dot"></span>
-        <span>No Internet Connection</span>
+    <div>
+      <div class="offline-card">
+        <div class="offline-icon">📡</div>
+        <h1 class="offline-title">You're Offline</h1>
+        <div class="offline-status">
+          <span class="status-dot"></span>
+          <span>No Internet Connection</span>
+        </div>
+        <p class="offline-message">
+          It looks like you've lost your internet connection. Don't worry — LogicLab works offline once you've visited a page. Try going back to a previously visited page.
+        </p>
+        <a href="./index.html" class="btn btn-primary btn-lg" style="display:inline-block;text-decoration:none;">
+          🏠 Go to Home
+        </a>
+        <div style="margin-top:1.5rem;font-size:0.8rem;color:var(--text-tertiary);">
+          <a href="./converter.html" style="color:var(--text-tertiary);text-decoration:underline;">Converter</a> ·
+          <a href="./gates.html" style="color:var(--text-tertiary);text-decoration:underline;">Logic Gates</a> ·
+          <a href="./quiz.html" style="color:var(--text-tertiary);text-decoration:underline;">Quiz</a>
+        </div>
       </div>
-      <p class="offline-message">
-        It looks like you've lost your internet connection. Don't worry — LogicLab works offline once you've visited a page. Try going back to a previously visited page.
-      </p>
-      <a href="./index.html" class="btn btn-primary btn-lg" style="display:inline-block;text-decoration:none;">
-        🏠 Go to Home
-      </a>
-      <div style="margin-top:1.5rem;font-size:0.8rem;color:var(--text-tertiary);">
-        <a href="./converter.html" style="color:var(--text-tertiary);text-decoration:underline;">Converter</a> ·
-        <a href="./gates.html" style="color:var(--text-tertiary);text-decoration:underline;">Logic Gates</a> ·
-        <a href="./quiz.html" style="color:var(--text-tertiary);text-decoration:underline;">Quiz</a>
-      </div>
+      <footer class="site-footer offline-footer">
+        <div><strong>⚡ LogicLab</strong> · Digital Electronics Laboratory</div>
+        <span class="footer-name">Ghanashyam Pabbuleti</span>
+        <span class="footer-detail">Diploma in Electronics &amp; Communication Engineering</span>
+        <span class="footer-detail">SV Government Polytechnic College, Tirupati</span>
+        <span class="footer-detail" style="margin-top:.55rem;opacity:.7">© 2026 Ghanashyam Pabbuleti</span>
+      </footer>
     </div>
   </div>
 
-  <script src="js/components.js?v=3.5.2"></script>
   <script>
-    // Auto-reload when back online
-    window.addEventListener('online', () => {
-      window.location.reload();
-    });
+    // Auto-reload when back online.
+    window.addEventListener('online', () => window.location.reload());
   </script>
 </body>
 </html>
