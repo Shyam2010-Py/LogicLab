@@ -1,0 +1,244 @@
+/* LogicLab v2 — Digital Lab Theme
+   Modern dark-first electronics interface with accessible light mode.
+*/
+
+:root {
+  --primary: #38bdf8;
+  --primary-hover: #7dd3fc;
+  --primary-light: rgba(56, 189, 248, 0.14);
+  --secondary: #07111f;
+  --accent: #22d3ee;
+  --accent-hover: #67e8f9;
+  --success: #34d399;
+  --warning: #fbbf24;
+  --danger: #fb7185;
+  --info: #60a5fa;
+
+  --bg-primary: #050b14;
+  --bg-secondary: #0a1422;
+  --bg-tertiary: #101e30;
+  --bg-card: rgba(12, 25, 42, 0.92);
+  --bg-sidebar: #050b14;
+  --bg-sidebar-hover: #10233a;
+  --bg-overlay: rgba(2, 8, 23, 0.72);
+
+  --text-primary: #e6f4ff;
+  --text-secondary: #9db2c7;
+  --text-tertiary: #668099;
+  --text-inverse: #03111c;
+  --text-sidebar: #9fb4c9;
+  --text-sidebar-active: #ffffff;
+
+  --border: rgba(125, 211, 252, 0.15);
+  --border-light: rgba(125, 211, 252, 0.08);
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, .18);
+  --shadow: 0 8px 24px rgba(0, 0, 0, .22);
+  --shadow-md: 0 14px 35px rgba(0, 0, 0, .28);
+  --shadow-lg: 0 22px 55px rgba(0, 0, 0, .34);
+  --shadow-xl: 0 30px 80px rgba(0, 0, 0, .42);
+  --radius-sm: 8px;
+  --radius: 12px;
+  --radius-md: 16px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+}
+
+[data-theme="light"] {
+  --primary: #0284c7;
+  --primary-hover: #0369a1;
+  --primary-light: rgba(2, 132, 199, .10);
+  --secondary: #0f172a;
+  --accent: #0891b2;
+  --accent-hover: #0e7490;
+  --bg-primary: #f3f8fc;
+  --bg-secondary: #eaf2f8;
+  --bg-tertiary: #dde9f2;
+  --bg-card: rgba(255, 255, 255, .96);
+  --bg-sidebar: #07111f;
+  --bg-sidebar-hover: #10233a;
+  --text-primary: #102033;
+  --text-secondary: #52677c;
+  --text-tertiary: #7890a5;
+  --border: rgba(15, 71, 110, .14);
+  --border-light: rgba(15, 71, 110, .08);
+}
+
+html, body {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+body {
+  background-image:
+    linear-gradient(rgba(56,189,248,.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(56,189,248,.025) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+.sidebar {
+  background:
+    radial-gradient(circle at 20% 0%, rgba(34,211,238,.10), transparent 32%),
+    var(--bg-sidebar);
+  border-right: 1px solid rgba(125,211,252,.10);
+}
+
+.sidebar-logo {
+  background: linear-gradient(135deg, #0ea5e9, #06b6d4 55%, #22d3ee);
+  box-shadow: 0 0 24px rgba(34,211,238,.25);
+}
+
+.nav-item.active {
+  background: linear-gradient(135deg, rgba(14,165,233,.92), rgba(6,182,212,.92));
+  box-shadow: 0 8px 25px rgba(14,165,233,.20);
+}
+
+.card, .feature-card, .stat-card {
+  background: var(--bg-card);
+  border-color: var(--border);
+  box-shadow: var(--shadow-sm);
+  backdrop-filter: blur(10px);
+}
+
+.card:hover, .feature-card:hover, .stat-card:hover {
+  border-color: rgba(56,189,248,.30);
+  box-shadow: 0 14px 38px rgba(0,0,0,.24), 0 0 0 1px rgba(56,189,248,.05);
+  transform: translateY(-2px);
+}
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(56,189,248,.16);
+  background:
+    radial-gradient(circle at 75% 25%, rgba(34,211,238,.18), transparent 26%),
+    radial-gradient(circle at 20% 80%, rgba(14,165,233,.16), transparent 30%),
+    linear-gradient(135deg, #071525 0%, #091c31 55%, #06111f 100%);
+  box-shadow: 0 25px 70px rgba(0,0,0,.30), inset 0 1px 0 rgba(255,255,255,.04);
+}
+
+[data-theme="light"] .hero {
+  background:
+    radial-gradient(circle at 80% 20%, rgba(6,182,212,.18), transparent 28%),
+    linear-gradient(135deg, #e8f7ff, #dff3fb 55%, #f4fbff);
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent 49.8%, rgba(56,189,248,.10) 50%, transparent 50.2%);
+  opacity: .45;
+}
+
+.gradient-text {
+  background: linear-gradient(90deg, #7dd3fc, #22d3ee, #67e8f9);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.feature-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.feature-card::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 3px;
+  height: 100%;
+  background: linear-gradient(#38bdf8, #22d3ee);
+  opacity: .55;
+  transition: .2s ease;
+}
+
+.feature-card:hover::before { opacity: 1; }
+
+.feature-icon, .stat-icon {
+  border: 1px solid rgba(56,189,248,.12);
+  background: linear-gradient(135deg, rgba(56,189,248,.12), rgba(34,211,238,.06));
+}
+
+.btn-primary, .btn-accent {
+  background: linear-gradient(135deg, #0ea5e9, #06b6d4);
+  box-shadow: 0 8px 22px rgba(14,165,233,.22);
+}
+
+.btn-primary:hover, .btn-accent:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 28px rgba(14,165,233,.30);
+}
+
+.form-input, .form-select, .form-textarea,
+input, select, textarea {
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  border-color: var(--border);
+}
+
+.gate-display, .circuit-visual, .result-box, .gate-control, .step-box {
+  border-color: var(--border);
+}
+
+.table th {
+  background: var(--bg-tertiary);
+}
+
+.table td { border-color: var(--border-light); }
+
+.theme-toggle {
+  border-color: rgba(125,211,252,.16);
+}
+
+.top-bar, .bottom-nav {
+  background: rgba(7,17,31,.94);
+  backdrop-filter: blur(14px);
+}
+
+[data-theme="light"] .top-bar,
+[data-theme="light"] .bottom-nav {
+  background: rgba(255,255,255,.94);
+}
+
+.binary-bg {
+  color: rgba(103,232,249,.16);
+}
+
+.site-footer {
+  border-top-color: var(--border);
+}
+
+/* Mobile navigation: keep it usable instead of squeezing 8 labels together. */
+@media (max-width: 768px) {
+  .bottom-nav-inner { justify-content: space-evenly; }
+  .bottom-nav-item { max-width: 20%; font-size: .62rem; padding-inline: .2rem; }
+  .bottom-nav-item:nth-child(n+6) { display: none; }
+  .bottom-nav-item-icon { font-size: 1.08rem; }
+  .hero { border-radius: 18px; }
+}
+
+@media (max-width: 480px) {
+  body { background-size: 26px 26px; }
+  .bottom-nav-item { max-width: 20%; }
+  .bottom-nav-item-icon { font-size: 1rem; }
+}
+
+/* Search results stay above other sidebar content. */
+#searchResults {
+  position: relative;
+  z-index: 20;
+  border: 1px solid rgba(125,211,252,.10);
+  border-radius: 10px;
+  background: rgba(5,11,20,.96);
+  padding: .25rem;
+}
+
+[data-theme="light"] #searchResults { background: #0a1726; }
+
+/* Prevent motion-heavy effects for accessibility. */
+@media (prefers-reduced-motion: reduce) {
+  .card:hover, .feature-card:hover, .stat-card:hover { transform: none; }
+}
