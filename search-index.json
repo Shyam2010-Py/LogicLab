@@ -1,0 +1,19 @@
+[
+  {"title":"Number Systems","url":"converter.html","desc":"Binary, Decimal, Octal and Hexadecimal conversions"},
+  {"title":"Logic Gates","url":"gates.html","desc":"AND, OR, NOT, NAND, NOR, XOR and XNOR"},
+  {"title":"Truth Tables","url":"truth-tables.html","desc":"Generate and view truth tables"},
+  {"title":"Binary Arithmetic","url":"arithmetic.html","desc":"Addition, subtraction, multiplication and division"},
+  {"title":"Complements","url":"complements.html","desc":"1's and 2's complement calculations"},
+  {"title":"Half Adder","url":"half-adder.html","desc":"Sum and carry circuit"},
+  {"title":"Full Adder","url":"full-adder.html","desc":"Three-input adder circuit"},
+  {"title":"Flip-Flops","url":"flipflops.html","desc":"SR, JK, D and T flip-flops"},
+  {"title":"Multiplexer","url":"multiplexer.html","desc":"2:1 and 4:1 MUX simulations"},
+  {"title":"Demultiplexer","url":"demultiplexer.html","desc":"1:2 and 1:4 DEMUX simulations"},
+  {"title":"Encoder","url":"encoder.html","desc":"4-to-2 and 8-to-3 priority encoders"},
+  {"title":"Decoder","url":"decoder.html","desc":"2-to-4, 3-to-8 and BCD-to-7-segment decoders"},
+  {"title":"Formula Sheet","url":"formulas.html","desc":"Digital electronics formulas and exam shortcuts"},
+  {"title":"Notes","url":"notes.html","desc":"Concise digital electronics study notes"},
+  {"title":"Quiz","url":"quiz.html","desc":"Digital electronics practice questions"},
+  {"title":"About","url":"about.html","desc":"About the LogicLab platform"},
+  {"title":"Changelog","url":"changelog.html","desc":"LogicLab release history"}
+]
