@@ -6,9 +6,12 @@ img,svg,video,canvas,iframe{max-width:100%}
 @media(max-width:1024px){:root{--sidebar-width:245px}.page-content{padding:1.5rem}.hero-title{font-size:2.5rem}.features-grid{grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}}
 @media(max-width:768px){
 :root{--header-height:56px;--bottom-nav-height:0px}
+html,body{overflow-x:hidden}
+body.sidebar-open{overflow:hidden}
 .sidebar{transform:translateX(-100%);box-shadow:18px 0 45px rgba(0,0,0,.35)}.sidebar.open{transform:translateX(0)}.sidebar-overlay.visible{display:block}.main-content{margin-left:0;padding-bottom:0!important}
 .top-bar{display:flex}.bottom-nav,#bottomnav-mount{display:none!important}.menu-toggle{display:flex}.page-content{padding:.9rem .85rem 2rem}
 .page-header{display:block!important;width:100%!important;margin:0 0 1.25rem!important;padding:0 0 1.1rem!important;border-bottom:1px solid var(--border)!important}
+.page-header::before{display:block!important;width:3px!important;height:32px!important;margin:0 0 .75rem!important}
 .page-header .breadcrumb{display:flex!important;align-items:center!important;flex-wrap:wrap!important;width:100%!important;margin:0 0 .7rem!important;gap:.35rem!important;font-size:.75rem!important;line-height:1.3!important;position:static!important}
 .page-header .page-title{display:block!important;width:100%!important;margin:0 0 .55rem!important;font-size:1.75rem!important;line-height:1.15!important;position:static!important}
 .page-header .page-subtitle{display:block!important;width:100%!important;margin:0!important;font-size:.94rem!important;line-height:1.55!important;position:static!important}
@@ -19,6 +22,8 @@ img,svg,video,canvas,iframe{max-width:100%}
 .gate-control{width:100%;min-height:58px;display:grid!important;grid-template-columns:minmax(0,1fr) auto;align-items:center!important;gap:.75rem!important;flex-wrap:nowrap!important;margin-bottom:.75rem!important;padding:.75rem .9rem!important}
 .gate-control label:first-child{min-width:0!important;width:auto!important}.gate-control .toggle-switch{justify-self:end;flex-shrink:0}.gate-control .led{margin-left:0!important;justify-self:end}
 .gate-display{width:100%;min-height:180px;padding:.75rem!important;overflow:hidden}.gate-display svg{display:block;width:100%!important;max-width:280px!important;height:auto!important;margin:auto}
+/* Full-adder's carry diagram extends slightly beyond its historical viewBox. */
+svg:has(#fa-sumDot){overflow:visible!important}
 .form-input,.form-select,.form-textarea{font-size:16px}
 }
 @media(max-width:480px){.hero-title{font-size:1.65rem}.hero-eyebrow{font-size:.65rem}.stats-grid{grid-template-columns:1fr}.stat-card{width:100%}.btn-lg{padding:.72rem 1.15rem;font-size:.88rem}.feature-card{padding:1rem}.page-header .page-title{font-size:1.6rem!important}.page-header .page-subtitle{font-size:.9rem!important}.gate-control{min-height:56px;padding:.7rem .8rem!important}.gate-display{min-height:165px}}
