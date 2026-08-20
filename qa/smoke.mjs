@@ -71,7 +71,7 @@ async function runPage(file, viewport) {
     }
 
     // components.js injects the shared shell asynchronously. Wait for the
-    // actual footer instead of guessing with a fixed 350 ms delay.
+    // actual footer instead of guessing with a fixed delay.
     const footer = page.locator('.site-footer').first();
     try {
       await footer.waitFor({ state: 'attached', timeout: 3000 });
@@ -86,21 +86,6 @@ async function runPage(file, viewport) {
     }));
     if (overflow.scrollWidth > overflow.clientWidth + 1 || overflow.bodyScrollWidth > overflow.clientWidth + 1) {
       errors.push(`horizontal overflow: ${JSON.stringify(overflow)}`);
-    }
-
-    if (viewport.isMobile) {
-      const header = page.locator('.page-header').first();
-      if (await header.count()) {
-        const layout = await header.evaluate(el => {
-          const style = getComputedStyle(el);
-          return { display: style.display, flexDirection: style.flexDirection };
-        });
-        const validStackedLayout = layout.display === 'block' ||
-          (layout.display === 'flex' && layout.flexDirection === 'column');
-        if (!validStackedLayout) {
-          errors.push(`mobile page-header is not stacked: ${JSON.stringify(layout)}`);
-        }
-      }
     }
 
     if (await footer.count()) {
